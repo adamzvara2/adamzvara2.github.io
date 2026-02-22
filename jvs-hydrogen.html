@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JVS Hydrogen | Futuristic Hydrogen Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #040816;
+    --bg-2: #08122a;
+    --surface: rgba(11, 22, 47, 0.7);
+    --surface-strong: #0d1b39;
+    --line: rgba(91, 141, 255, 0.28);
+    --text: #e9f2ff;
+    --muted: #9db4da;
+    --blue: #6d8cff;
+    --blue-2: #4fc3ff;
+    --aqua: #29e2d0;
+    --shadow: 0 24px 56px rgba(3, 7, 20, 0.55);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(1200px 680px at 5% -10%, rgba(109, 140, 255, 0.22), transparent 60%),
+      radial-gradient(920px 620px at 102% 5%, rgba(41, 226, 208, 0.18), transparent 60%),
+      linear-gradient(180deg, var(--bg), var(--bg-2));
+    overflow-x: hidden;
+  }
+
+  .ambient {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .ambient::before,
+  .ambient::after {
+    content: '';
+    position: absolute;
+    width: 45vw;
+    height: 45vw;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.26;
+    animation: drift 16s ease-in-out infinite;
+  }
+
+  .ambient::before {
+    background: #62a8ff;
+    left: -12vw;
+    top: -8vw;
+  }
+
+  .ambient::after {
+    background: #3fe6d8;
+    right: -14vw;
+    top: 14vh;
+    animation-delay: -6s;
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+    50% { transform: translateY(18px) translateX(14px) scale(1.06); }
+  }
+
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(109, 140, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(109, 140, 255, 0.1) 1px, transparent 1px);
+    background-size: 38px 38px;
+    mask-image: radial-gradient(circle at 50% 18%, black 22%, transparent 85%);
+    opacity: 0.34;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { width: min(1160px, calc(100% - 2.2rem)); margin: 0 auto; position: relative; z-index: 2; }
+
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(5, 11, 28, 0.78);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-inner {
+    height: 74px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .brand { display: inline-flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+  .brand img { height: 30px; width: auto; display: block; }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.93rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--blue); }
+
+  .nav-cta {
+    border: 1px solid rgba(63, 102, 214, 0.35);
+    background: linear-gradient(135deg, rgba(63, 102, 214, 0.1), rgba(79, 157, 248, 0.08));
+    color: var(--blue) !important;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+  }
+
+  .menu-btn {
+    border: 1px solid var(--line);
+    background: var(--surface-strong);
+    color: var(--text);
+    border-radius: 12px;
+    padding: 0.42rem 0.65rem;
+    display: none;
+    font-weight: 700;
+  }
+
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    padding: 4rem 0 3rem;
+    position: relative;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    color: var(--blue);
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 1.65rem;
+    height: 1px;
+    background: rgba(63, 102, 214, 0.7);
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.15rem, 5.4vw, 4.2rem);
+    line-height: 1.05;
+    max-width: 12ch;
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.03em;
+  }
+
+  h1 .accent {
+    background: linear-gradient(120deg, var(--blue), var(--aqua));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 60ch;
+    line-height: 1.75;
+  }
+
+  .hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.82rem 1.2rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn:hover { transform: translateY(-2px); }
+
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(135deg, #3f66d6, #4f9df8);
+    box-shadow: 0 12px 28px rgba(63, 102, 214, 0.3);
+  }
+
+  .btn-ghost {
+    color: var(--blue);
+    border: 1px solid rgba(63, 102, 214, 0.35);
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .hero-panel {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    border-radius: 26px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hero-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, rgba(79, 157, 248, 0.14), rgba(63, 102, 214, 0.05), rgba(60, 217, 230, 0.12));
+    pointer-events: none;
+  }
+
+  .hero-panel-top {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dots { display: flex; gap: 0.3rem; }
+  .dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(63, 102, 214, 0.24); }
+
+  .hero-panel-top small {
+    font-size: 0.74rem;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    font-weight: 700;
+  }
+
+  .hero-molecule {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 1rem;
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-molecule::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 20%, rgba(79, 195, 255, 0.2) 50%, transparent 80%);
+    transform: translateY(-100%);
+    animation: scanline 4.4s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+
+  .hero-molecule svg { width: 100%; max-width: 360px; height: auto; }
+
+  .hero-badges {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
+    padding: 0 1rem 1rem;
+  }
+
+  .hero-badges span {
+    font-size: 0.72rem;
+    text-align: center;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 999px;
+    padding: 0.38rem 0.45rem;
+    color: #c8d8f7;
+    font-weight: 700;
+  }
+
+  .section { padding: 5.4rem 0; position: relative; z-index: 2; }
+
+  .head {
+    margin-bottom: 1.7rem;
+    max-width: 64ch;
+  }
+
+  .head h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.7rem, 4vw, 2.7rem);
+    margin-bottom: 0.9rem;
+    letter-spacing: -0.02em;
+  }
+
+  .head p {
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 1.1rem;
+    align-items: stretch;
+  }
+
+  .glass {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .about-card { padding: 1.4rem; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .stats div {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 0.9rem;
+  }
+
+  .stats strong {
+    display: block;
+    font-size: 1.3rem;
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--blue);
+  }
+
+  .stats span {
+    font-size: 0.77rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+
+  .about-logo {
+    display: grid;
+    place-items: center;
+    padding: 1.6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-logo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(79, 195, 255, 0.24), transparent 60%);
+  }
+
+  .about-logo img {
+    width: min(100%, 360px);
+    height: auto;
+    filter: drop-shadow(0 20px 24px rgba(63, 102, 214, 0.22));
+    animation: floatLogo 6s ease-in-out infinite;
+    position: relative;
+  }
+
+  @keyframes floatLogo {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .card {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 18px;
+    padding: 1.1rem;
+    transition: transform 0.24s ease, box-shadow 0.24s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 30px rgba(63, 102, 214, 0.18);
+  }
+
+  .card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.55rem;
+    color: #d8e7ff;
+  }
+
+  .card p { color: var(--muted); line-height: 1.68; font-size: 0.94rem; }
+
+  .expo-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .expo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+  }
+
+  .expo-item {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+
+  .expo-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+    transition: transform 0.35s ease;
+  }
+
+  .expo-item:hover img { transform: scale(1.06); }
+
+  .expo-copy { padding: 1.35rem; }
+
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .step {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .step::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(140deg, rgba(79, 157, 248, 0.14), transparent 55%);
+    pointer-events: none;
+  }
+
+  .step b {
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(130deg, #3f66d6, #4f9df8);
+    color: #fff;
+    font-size: 0.84rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .step h3 { margin-bottom: 0.5rem; font-size: 1rem; color: #d8e8ff; }
+  .step p { color: var(--muted); line-height: 1.65; font-size: 0.9rem; }
+
+  .contact {
+    border: 1px solid var(--line);
+    background: linear-gradient(140deg, rgba(16, 31, 66, 0.85), rgba(11, 25, 54, 0.9));
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 1.6rem;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 1rem;
+  }
+
+  .contact p { color: var(--muted); line-height: 1.7; }
+
+  .contact-box {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: rgba(8, 20, 45, 0.85);
+    padding: 1rem;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .contact-box a {
+    text-decoration: none;
+    color: #c8deff;
+    font-weight: 700;
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    background: rgba(5, 12, 29, 0.65);
+    backdrop-filter: blur(7px);
+    position: relative;
+    z-index: 3;
+  }
+
+  .footer-inner {
+    min-height: 76px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .footer-inner img { height: 24px; width: auto; }
+  .footer-inner p { color: #8fa8d4; font-size: 0.86rem; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+
+  .reveal.on {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 980px) {
+    .menu-btn { display: inline-flex; }
+
+    .nav-links {
+      position: absolute;
+      top: 74px;
+      left: 0;
+      right: 0;
+      background: rgba(7, 15, 36, 0.96);
+      border-bottom: 1px solid var(--line);
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0.95rem 1.1rem 1.15rem;
+      gap: 0.65rem;
+    }
+
+    .nav-links.open { display: flex; }
+
+    .hero { min-height: auto; padding-top: 2.8rem; }
+
+    .hero-grid,
+    .about-layout,
+    .cards,
+    .expo-wrap,
+    .timeline,
+    .contact {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-badges { grid-template-columns: 1fr; }
+    .section { padding: 4.1rem 0; }
+    .footer-inner { flex-direction: column; justify-content: center; padding: 0.8rem 0; }
+  }
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<div class="grid-overlay"></div>
+
+<nav class="site-nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <img src="assets/logo-jvs-hydrogen.svg" alt="JVS Hydrogen logo">
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">Menu</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#expo">World Expo</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <p class="eyebrow">Hydrogen Technology</p>
+        <h1>We build <span class="accent">next-gen H₂ infrastructure</span> for the energy transition.</h1>
+        <p class="hero-sub">JVSHydrogen designs, delivers, and optimizes hydrogen systems for industry, mobility, and energy operators. We focus on safe deployment, scalable architecture, and measurable performance.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Start a Project</a>
+          <a href="#services" class="btn btn-ghost">View Services</a>
+        </div>
+      </div>
+
+      <div class="hero-panel reveal">
+        <div class="hero-panel-top">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <small>NEO ENERGY GRID</small>
+        </div>
+        <div class="hero-molecule">
+          <svg viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Animated energy core">
+            <defs>
+              <radialGradient id="energyCore" cx="50%" cy="50%" r="58%">
+                <stop offset="0%" stop-color="#7FD8FF"/>
+                <stop offset="70%" stop-color="#6D8CFF"/>
+                <stop offset="100%" stop-color="#1A2E66"/>
+              </radialGradient>
+              <linearGradient id="beam" x1="60" y1="210" x2="360" y2="210" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#29E2D0" stop-opacity="0"/>
+                <stop offset="50%" stop-color="#4FC3FF"/>
+                <stop offset="100%" stop-color="#29E2D0" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+
+            <rect x="24" y="24" width="372" height="372" rx="18" stroke="#345397" stroke-opacity="0.45"/>
+            <path d="M24 117H396M24 210H396M24 303H396" stroke="#244683" stroke-opacity="0.45"/>
+            <path d="M117 24V396M210 24V396M303 24V396" stroke="#244683" stroke-opacity="0.45"/>
+
+            <line x1="60" y1="210" x2="360" y2="210" stroke="url(#beam)" stroke-width="8">
+              <animate attributeName="stroke-opacity" values="0.35;1;0.35" dur="2.2s" repeatCount="indefinite"/>
+            </line>
+
+            <g>
+              <circle cx="210" cy="210" r="62" fill="url(#energyCore)" fill-opacity="0.95">
+                <animate attributeName="r" values="58;66;58" dur="2.6s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="210" cy="210" r="98" stroke="#4FC3FF" stroke-opacity="0.7" stroke-width="2" stroke-dasharray="7 10">
+                <animateTransform attributeName="transform" type="rotate" from="0 210 210" to="360 210 210" dur="16s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="210" cy="210" r="128" stroke="#6D8CFF" stroke-opacity="0.5" stroke-width="1.4" stroke-dasharray="3 11">
+                <animateTransform attributeName="transform" type="rotate" from="360 210 210" to="0 210 210" dur="14s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+
+            <path id="trackA" d="M210,38 A172,172 0 1,1 209.99,38" fill="none"/>
+            <path id="trackB" d="M210,82 A128,128 0 1,1 209.99,82" fill="none"/>
+            <path id="trackHex" d="M210 120L287 165L287 255L210 300L133 255L133 165Z" fill="none"/>
+
+            <circle r="5" fill="#29E2D0">
+              <animateMotion dur="6.5s" repeatCount="indefinite">
+                <mpath href="#trackA"/>
+              </animateMotion>
+            </circle>
+            <circle r="4" fill="#6D8CFF">
+              <animateMotion dur="8.8s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+                <mpath href="#trackB"/>
+              </animateMotion>
+            </circle>
+            <circle r="4.5" fill="#4FC3FF">
+              <animateMotion dur="5.2s" repeatCount="indefinite">
+                <mpath href="#trackHex"/>
+              </animateMotion>
+            </circle>
+
+            <text x="210" y="107" text-anchor="middle" font-size="20" fill="#CFE0FF" font-family="Space Grotesk, sans-serif" font-weight="700">HYDROGEN FLOW</text>
+            <text x="210" y="330" text-anchor="middle" font-size="14" fill="#87A4D9" font-family="Manrope, sans-serif" letter-spacing="2">LIVE SIGNAL</text>
+          </svg>
+        </div>
+        <div class="hero-badges">
+          <span>Green H₂ Production</span>
+          <span>Engineering & Safety</span>
+          <span>Infrastructure Delivery</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="eyebrow">About JVSHydrogen</p>
+        <h2>A technology partner for hydrogen infrastructure</h2>
+        <p>We combine engineering, safety, and execution into one delivery model. The result is hydrogen infrastructure that is technically strong, operationally reliable, and ready for real-world scale.</p>
+      </div>
+
+      <div class="about-layout">
+        <article class="about-card glass reveal">
+          <p>From feasibility studies and system architecture to commissioning and optimization, we help clients deploy H₂ technologies faster with lower technical and operational risk.</p>
+          <div class="stats">
+            <div><strong>700 bar</strong><span>Pressure systems</span></div>
+            <div><strong>EU</strong><span>Project footprint</span></div>
+            <div><strong>H₂</strong><span>Core specialization</span></div>
+          </div>
+        </article>
+
+        <aside class="about-logo glass reveal">
+          <img src="assets/logo-jvs-hydrogen.svg" alt="JVS Hydrogen">
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="eyebrow">Services</p>
+        <h2>Simple offer, advanced technical depth</h2>
+      </div>
+
+      <div class="cards">
+        <article class="card reveal"><h3>H₂ Design & Engineering</h3><p>Complete technical design for hydrogen stations and integrated infrastructure systems.</p></article>
+        <article class="card reveal"><h3>Safety & Compliance</h3><p>ATEX zoning, risk assessments, and standards alignment for reliable and compliant operations.</p></article>
+        <article class="card reveal"><h3>Project Development</h3><p>From feasibility to commissioning, focused on delivery speed, quality, and long-term uptime.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="expo">
+    <div class="wrap expo-wrap">
+      <div class="expo-grid">
+        <div class="expo-item reveal"><img src="assets/expo/IMG_8931.HEIC.png" alt="JVSHydrogen at World Hydrogen Expo" loading="lazy"></div>
+        <div class="expo-item reveal"><img src="assets/expo/IMG_8932.HEIC.png" alt="JVSHydrogen team at the expo" loading="lazy"></div>
+        <div class="expo-item reveal"><img src="assets/expo/IMG_8936.HEIC.png" alt="Hydrogen technology exhibition stand" loading="lazy"></div>
+        <div class="expo-item reveal"><img src="assets/expo/IMG_8950.HEIC.png" alt="Networking at the Hydrogen Expo" loading="lazy"></div>
+      </div>
+
+      <article class="expo-copy glass reveal">
+        <p class="eyebrow">World Hydrogen Expo</p>
+        <h2>Innovation, partnerships, and deployment insight</h2>
+        <p>At Hydrogen Technology World Expo, we gained practical insight into new systems, safety standards, and real deployment patterns. The event strengthened our network and accelerated our roadmap for future projects.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="eyebrow">Process</p>
+        <h2>From concept to operation</h2>
+      </div>
+
+      <div class="timeline">
+        <article class="step reveal"><b>01</b><h3>Analysis</h3><p>We define capacity targets, technical constraints, and business priorities.</p></article>
+        <article class="step reveal"><b>02</b><h3>Architecture</h3><p>We build the system design, safety framework, and implementation plan.</p></article>
+        <article class="step reveal"><b>03</b><h3>Execution</h3><p>We coordinate delivery, commissioning, and post-launch technical support.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="wrap contact reveal">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2>Let’s design your H₂ project</h2>
+        <p>Tell us what you are planning, and we will prepare a clear technical next-step proposal for your team.</p>
+      </div>
+      <div class="contact-box">
+        <a href="mailto:info@jvshydrogen.eu">info@jvshydrogen.eu</a>
+        <p>Janšákova 33, 841 07 Bratislava</p>
+        <a class="btn btn-primary" href="mailto:info@jvshydrogen.eu">Send Message</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <img src="assets/logo-jvs-hydrogen.svg" alt="JVS Hydrogen">
+    <p>© <span id="year"></span> JVS Hydrogen s.r.o. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  const navAnchors = Array.from(document.querySelectorAll('.nav-links a'));
+  const sections = Array.from(document.querySelectorAll('main section[id]'));
+
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
+
+    navAnchors.forEach((a) => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  const revealEls = Array.from(document.querySelectorAll('.reveal'));
+  const revealObs = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('on');
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach((el) => revealObs.observe(el));
+
+  const activeObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.getAttribute('id');
+      navAnchors.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
+    });
+  }, { threshold: 0.55 });
+  sections.forEach((s) => activeObs.observe(s));
+
+  const year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

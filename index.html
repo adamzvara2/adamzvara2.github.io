@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JVS Hydrogen — Core Architecture of Tomorrow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Syne:wght@400..800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════════
+   TOKENS + THEME
+═══════════════════════════════════════════════════════ */
+:root {
+  --bg:       #f4f1ec;
+  --bg2:      #ede9e0;
+  --surface:  #ffffff;
+  --ink:      #0a1628;
+  --ink2:     #2d4a6b;
+  --ink3:     #6a8aaa;
+  --accent:   #1a6fa8;
+  --accent2:  #0d4a73;
+  --highlight:#e8f3fb;
+  --border:   rgba(26,111,168,0.15);
+  --glow:     rgba(26,111,168,0.2);
+  --white:    #ffffff;
+
+  --ease-out-expo: cubic-bezier(0.16,1,0.3,1);
+  --ease-spring:   cubic-bezier(0.34,1.56,0.64,1);
+}
+[data-theme="dark"] {
+  --bg:       #060d18;
+  --bg2:      #0b1525;
+  --surface:  #111e30;
+  --ink:      #e8f0f8;
+  --ink2:     #8ab0d0;
+  --ink3:     #4a7090;
+  --accent:   #4da8e8;
+  --accent2:  #6ab8f0;
+  --highlight:#0d2a42;
+  --border:   rgba(77,168,232,0.18);
+  --glow:     rgba(77,168,232,0.25);
+  --white:    #0b1525;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Syne', sans-serif;
+  overflow-x: hidden;
+  transition: background 0.5s, color 0.5s;
+  cursor: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CUSTOM CURSOR (Magnetic)
+═══════════════════════════════════════════════════════ */
+#cursor-dot {
+  position: fixed; top:0; left:0; z-index:9999;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+}
+#cursor-ring {
+  position: fixed; top:0; left:0; z-index:9998;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  opacity: 0.5;
+  transition: width 0.3s var(--ease-out-expo), height 0.3s var(--ease-out-expo), opacity 0.3s, border-radius 0.3s;
+}
+body.cursor-hover #cursor-dot { width: 12px; height: 12px; }
+body.cursor-hover #cursor-ring { width: 60px; height: 60px; opacity: 0.25; }
+body.cursor-text  #cursor-ring { width: 80px; height: 80px; border-radius: 4px; opacity: 0.15; }
+
+/* ═══════════════════════════════════════════════════════
+   NOISE TEXTURE OVERLAY
+═══════════════════════════════════════════════════════ */
+body::after {
+  content: ''; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9990; opacity: 0.4;
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════ */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:500;
+  padding: 0 clamp(20px,5vw,64px);
+  height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(244,241,236,0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.5s, border-color 0.5s;
+}
+[data-theme="dark"] nav { background: rgba(6,13,24,0.85); }
+
+.logo {
+  display: inline-flex; align-items: center; text-decoration: none;
+}
+.logo img {
+  height: 30px; width: auto; display: block;
+}
+[data-theme="dark"] .logo img { filter: brightness(1.08) saturate(1.02); }
+.logo-h { color: var(--accent); font-style: italic; }
+.logo-dot {
+  width: 6px; height: 6px; background: var(--accent);
+  border-radius: 50%; display: inline-block;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%,100%{ transform:scale(1); opacity:1; }
+  50%{ transform:scale(1.6); opacity:0.5; }
+}
+
+.nav-center {
+  display: flex; gap: 32px; list-style: none;
+  position: absolute; left:50%; transform:translateX(-50%);
+}
+.nav-center a {
+  font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
+  color: var(--ink2); text-decoration: none;
+  position: relative; padding-bottom: 2px;
+  transition: color 0.2s;
+}
+.nav-center a::after {
+  content: ''; position: absolute; bottom: -2px; left:0;
+  width: 0; height: 1.5px; background: var(--accent);
+  transition: width 0.3s var(--ease-out-expo);
+}
+.nav-center a:hover { color: var(--accent); }
+.nav-center a:hover::after { width: 100%; }
+
+.nav-right { display: flex; align-items: center; gap: 16px; }
+
+/* Theme toggle */
+.theme-toggle {
+  width: 44px; height: 24px;
+  background: var(--border);
+  border: 1.5px solid var(--border);
+  border-radius: 12px; cursor: none;
+  position: relative; transition: background 0.3s;
+  outline: none;
+}
+.theme-toggle::after {
+  content: ''; position: absolute;
+  top: 2px; left: 2px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent);
+  transition: transform 0.3s var(--ease-spring);
+}
+[data-theme="dark"] .theme-toggle::after { transform: translateX(20px); }
+
+.nav-cta {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.5px;
+  padding: 10px 24px; border-radius: 100px;
+  background: var(--ink); color: var(--bg);
+  text-decoration: none; transition: all 0.25s;
+  border: 1.5px solid transparent;
+}
+.nav-cta:hover {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/* ═══════════════════════════════════════════════════════
+   HERO — Kinetic Typography + Organic Layout
+═══════════════════════════════════════════════════════ */
+#hero {
+  min-height: 100svh;
+  padding: clamp(100px,12vh,140px) clamp(20px,5vw,80px) 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Organic blob background */
+.hero-blob {
+  position: absolute;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  filter: blur(60px);
+  opacity: 0.15;
+  pointer-events: none;
+  animation: morphBlob 12s ease-in-out infinite alternate;
+}
+.blob-1 {
+  width: 600px; height: 500px;
+  top: -100px; right: -100px;
+  background: var(--accent);
+  animation-delay: 0s;
+}
+.blob-2 {
+  width: 400px; height: 400px;
+  bottom: -80px; left: 30%;
+  background: var(--accent2);
+  animation-delay: -4s;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+}
+@keyframes morphBlob {
+  0%  { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translate(0,0) scale(1); }
+  33% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; transform: translate(20px,-20px) scale(1.03); }
+  66% { border-radius: 50% 40% 60% 50% / 30% 70% 40% 60%; transform: translate(-15px,10px) scale(0.97); }
+  100%{ border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translate(0,0) scale(1); }
+}
+
+.hero-left { position: relative; z-index: 2; }
+
+/* Kinetic typography marquee label */
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 3px;
+  color: var(--accent); text-transform: uppercase;
+  margin-bottom: 28px;
+  opacity: 0; animation: riseIn 0.8s 0.2s var(--ease-out-expo) forwards;
+}
+.eyebrow-line {
+  flex: 0 0 32px; height: 1px; background: var(--accent);
+  transform-origin: left;
+  animation: lineGrow 0.8s 0.4s var(--ease-out-expo) both;
+}
+@keyframes lineGrow { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+
+/* The main hero headline — word-by-word reveal */
+.hero-headline {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(44px, 6.5vw, 96px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -2px;
+  color: var(--ink);
+  margin-bottom: 32px;
+}
+.hero-headline .word {
+  display: inline-block;
+  overflow: hidden;
+  margin-right: 0.18em;
+  padding-bottom: 0.22em;
+  margin-bottom: -0.22em;
+}
+.hero-headline .word-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: wordSlide 0.8s var(--ease-out-expo) forwards;
+}
+.hero-headline .accent-word { color: var(--accent); font-style: italic; }
+.hero-headline .light-word { font-weight: 200; }
+
+/* Kinetic morphing word */
+.morph-container {
+  display: inline-block;
+  position: relative;
+  color: var(--accent);
+  font-style: italic;
+  min-width: 3em;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+.morph-word {
+  display: inline-block;
+  transition: opacity 0.3s, transform 0.4s var(--ease-out-expo), filter 0.4s;
+}
+.morph-word.leaving {
+  opacity: 0; transform: translateY(-30px); filter: blur(8px);
+  position: absolute; top:0; left:0;
+}
+.morph-word.entering {
+  animation: morphEnter 0.5s var(--ease-out-expo) forwards;
+}
+@keyframes morphEnter {
+  from { opacity:0; transform:translateY(30px); filter:blur(8px); }
+  to   { opacity:1; transform:translateY(0);    filter:blur(0); }
+}
+@keyframes wordSlide {
+  to { transform: translateY(0); }
+}
+@keyframes riseIn {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.hero-sub {
+  font-size: clamp(15px,1.4vw,18px);
+  line-height: 1.78;
+  color: var(--ink2);
+  max-width: 460px;
+  margin-bottom: 44px;
+  font-weight: 400;
+  opacity: 0;
+  animation: riseIn 0.8s 0.7s var(--ease-out-expo) forwards;
+}
+
+/* Pill data tags */
+.hero-tags {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 40px;
+  opacity: 0; animation: riseIn 0.8s 0.85s var(--ease-out-expo) forwards;
+}
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 1px;
+  padding: 6px 14px; border-radius: 100px;
+  border: 1px solid var(--border);
+  color: var(--ink2);
+  background: var(--surface);
+  transition: all 0.2s;
+}
+.tag:hover { background: var(--highlight); border-color: var(--accent); color: var(--accent); }
+
+.hero-actions {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  opacity: 0; animation: riseIn 0.8s 1s var(--ease-out-expo) forwards;
+}
+.btn {
+  font-size: 14px; font-weight: 700; letter-spacing: 0.2px;
+  padding: 15px 32px; border-radius: 100px;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.28s var(--ease-out-expo);
+  position: relative; overflow: hidden;
+}
+.btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent);
+  transform: translateX(-101%);
+  transition: transform 0.35s var(--ease-out-expo);
+  border-radius: inherit;
+  z-index: 0;
+}
+.btn > * { position: relative; z-index: 1; }
+.btn-primary { background: var(--ink); color: var(--bg); }
+.btn-primary:hover { color: white; }
+.btn-primary:hover::before { transform: translateX(0); }
+.btn-ghost {
+  background: transparent; color: var(--ink);
+  border: 1.5px solid var(--border);
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Arrow icon */
+.btn-arrow { font-size: 16px; transition: transform 0.25s; }
+.btn:hover .btn-arrow { transform: translateX(4px); }
+
+/* Hero right — 3D canvas */
+.hero-right {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+}
+#hero-canvas {
+  width: 100%; max-width: 560px; aspect-ratio: 1;
+  border-radius: 24px;
+  opacity: 0; animation: riseIn 1.2s 0.5s var(--ease-out-expo) forwards;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SCROLLING MARQUEE STRIP
+═══════════════════════════════════════════════════════ */
+.marquee-strip {
+  overflow: hidden; padding: 18px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  position: relative; z-index: 1;
+}
+.marquee-track {
+  display: flex; gap: 60px; width: max-content;
+  animation: marqueeScroll 22s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+@keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.marquee-item {
+  font-family: 'Fraunces', serif;
+  font-size: 15px; font-weight: 600; font-style: italic;
+  color: var(--ink3); white-space: nowrap; letter-spacing: 0.3px;
+  display: flex; align-items: center; gap: 16px;
+}
+.marquee-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION GLOBALS
+═══════════════════════════════════════════════════════ */
+.section { padding: clamp(80px,10vh,120px) clamp(20px,5vw,80px); }
+.section-alt { background: var(--bg2); }
+
+.section-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 3px;
+  color: var(--accent); text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 18px;
+}
+.section-eyebrow::before { content:''; width:20px; height:1px; background:var(--accent); }
+
+h2.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(32px,4vw,58px);
+  font-weight: 800; line-height: 1.12;
+  letter-spacing: -1.5px; color: var(--ink);
+  margin-bottom: 24px;
+}
+h2.section-title em { font-style: italic; color: var(--accent); }
+h2.section-title .thin { font-weight: 200; }
+
+.body-text {
+  font-size: 16px; line-height: 1.82; color: var(--ink2);
+  font-weight: 400; max-width: 560px;
+}
+
+/* Scroll-driven word reveal */
+.word-reveal .word {
+  display: inline-block; overflow: hidden; margin-right: 0.22em;
+  padding-bottom: 0.20em;
+  margin-bottom: -0.20em;
+}
+.word-reveal .word-inner {
+  display: inline-block;
+  transform: translateY(100%);
+  transition: transform 0.6s var(--ease-out-expo);
+}
+.word-reveal.visible .word-inner { transform: translateY(0); }
+.word-reveal .word:nth-child(1) .word-inner { transition-delay: 0.0s; }
+.word-reveal .word:nth-child(2) .word-inner { transition-delay: 0.05s; }
+.word-reveal .word:nth-child(3) .word-inner { transition-delay: 0.1s; }
+.word-reveal .word:nth-child(4) .word-inner { transition-delay: 0.15s; }
+.word-reveal .word:nth-child(5) .word-inner { transition-delay: 0.2s; }
+.word-reveal .word:nth-child(6) .word-inner { transition-delay: 0.25s; }
+.word-reveal .word:nth-child(7) .word-inner { transition-delay: 0.3s; }
+.word-reveal .word:nth-child(8) .word-inner { transition-delay: 0.35s; }
+.word-reveal .word:nth-child(9) .word-inner { transition-delay: 0.4s; }
+.word-reveal .word:nth-child(10) .word-inner { transition-delay: 0.45s; }
+.word-reveal .word:nth-child(n+11) .word-inner { transition-delay: 0.5s; }
+
+/* Standard reveal */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.72s ease, transform 0.72s var(--ease-out-expo);
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+.d1{transition-delay:0.1s} .d2{transition-delay:0.2s} .d3{transition-delay:0.3s} .d4{transition-delay:0.4s} .d5{transition-delay:0.5s}
+
+/* ═══════════════════════════════════════════════════════
+   ABOUT — Asymmetric layout
+═══════════════════════════════════════════════════════ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(40px,6vw,100px);
+  align-items: center;
+}
+.about-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; margin-top: 44px;
+}
+.stat-block {
+  background: var(--surface); padding: 24px 20px;
+  text-align: center; transition: background 0.25s;
+}
+.stat-block:hover { background: var(--highlight); }
+.stat-n {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(28px,3vw,40px); font-weight: 700;
+  color: var(--accent); display: block; letter-spacing: -1px;
+}
+.stat-l {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--ink3); letter-spacing: 1.5px;
+  text-transform: uppercase; margin-top: 4px;
+}
+
+/* About visual panel — capabilities dashboard */
+.about-canvas-wrap {
+  position: relative; border-radius: 24px; overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 80px var(--glow);
+  background:
+    radial-gradient(420px 220px at 85% 10%, var(--glow), transparent 70%),
+    linear-gradient(160deg, var(--surface), color-mix(in srgb, var(--surface) 88%, var(--highlight) 12%));
+  padding: 18px;
+}
+.about-canvas-wrap::before, .about-canvas-wrap::after {
+  content:''; position:absolute; width:18px; height:18px;
+  border-color: var(--accent); border-style:solid; opacity:0.5; z-index:2;
+}
+.about-canvas-wrap::before { top:10px; left:10px; border-width:1.5px 0 0 1.5px; }
+.about-canvas-wrap::after  { bottom:10px; right:10px; border-width:0 1.5px 1.5px 0; }
+
+.cap-board {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  padding: 16px;
+  overflow: hidden;
+}
+.cap-board::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(26,111,168,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,111,168,0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+[data-theme="dark"] .cap-board::before {
+  background-image:
+    linear-gradient(rgba(77,168,232,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77,168,232,0.07) 1px, transparent 1px);
+}
+.cap-head {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.cap-head img {
+  height: 26px; width: auto; display: block;
+}
+[data-theme="dark"] .cap-head img { filter: brightness(1.08) saturate(1.02); }
+.cap-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 1.6px; text-transform: uppercase;
+  color: var(--ink3);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+}
+.cap-grid {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.cap-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  padding: 12px;
+  min-height: 110px;
+}
+.cap-card.wide { grid-column: span 2; min-height: auto; }
+.cap-kicker {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.cap-kicker::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+  animation: capPulse 2.2s ease-in-out infinite;
+}
+@keyframes capPulse {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.55; }
+}
+.cap-card p {
+  font-size: 13px; line-height: 1.55; color: var(--ink2);
+}
+.cap-list {
+  list-style: none; display: grid; gap: 7px;
+}
+.cap-list li {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--ink2);
+}
+.cap-list li::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+.cap-pipeline {
+  display: grid; gap: 10px;
+}
+.cap-pipeline-track {
+  position: relative;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px; align-items: center;
+}
+.cap-pipeline-track::before {
+  content: '';
+  position: absolute;
+  left: 6px; right: 6px; top: 50%; transform: translateY(-50%);
+  height: 1px;
+  background: linear-gradient(to right, var(--accent), color-mix(in srgb, var(--accent) 35%, transparent));
+  opacity: 0.35;
+}
+.cap-node {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  padding: 10px 8px;
+  text-align: center;
+}
+.cap-node strong {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+.cap-node span {
+  display: block; font-size: 11px; color: var(--ink2); line-height: 1.3;
+}
+.cap-footnote {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--ink3);
+  padding-top: 8px; border-top: 1px dashed var(--border);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SERVICES — 3D tilt cards
+═══════════════════════════════════════════════════════ */
+.services-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px; margin-top: 52px;
+}
+.svc-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 36px 30px;
+  position: relative; overflow: hidden;
+  transition: box-shadow 0.4s, border-color 0.3s;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.svc-card::before {
+  content:''; position:absolute; inset:0; border-radius:inherit;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), var(--highlight) 0%, transparent 70%);
+  opacity:0; transition:opacity 0.4s;
+}
+.svc-card:hover::before { opacity:1; }
+.svc-card:hover { box-shadow: 0 20px 60px var(--glow); border-color: var(--accent); }
+
+/* Accent line that grows on hover */
+.svc-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0;
+  height:2px; background: linear-gradient(to right, var(--accent), var(--accent2));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.svc-card:hover::after { transform: scaleX(1); }
+
+.svc-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--accent); letter-spacing: 2px;
+  margin-bottom: 16px; display: block;
+}
+.svc-icon-wrap {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--highlight); display: flex; align-items: center;
+  justify-content: center; font-size: 24px; margin-bottom: 20px;
+  transition: transform 0.3s var(--ease-spring), background 0.3s;
+}
+.svc-card:hover .svc-icon-wrap { transform: scale(1.1) rotate(-3deg); background: var(--accent); }
+.svc-name {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 700; color: var(--ink);
+  margin-bottom: 12px; letter-spacing: -0.3px;
+}
+.svc-desc { font-size: 14px; line-height: 1.75; color: var(--ink2); font-weight: 400; }
+
+/* ═══════════════════════════════════════════════════════
+   PROJECTS — Asymmetric cards with scan line
+═══════════════════════════════════════════════════════ */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px; margin-top: 52px;
+}
+.proj-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s;
+}
+.proj-card:hover { transform: translateY(-6px); box-shadow: 0 24px 70px var(--glow); }
+.proj-card.featured { grid-row: span 2; }
+
+.proj-thumb {
+  height: 200px; display:flex; align-items:center; justify-content:center;
+  font-size: 64px;
+  background: linear-gradient(135deg, var(--highlight), var(--bg2));
+  position: relative; overflow: hidden;
+}
+.proj-card.featured .proj-thumb { height: 280px; }
+
+/* Scan line animation */
+.proj-thumb::after {
+  content:''; position:absolute; left:0; right:0; height:1.5px;
+  background: linear-gradient(to right, transparent, var(--accent), transparent);
+  opacity:0.6; top:-10px;
+  animation: scanLine 3.5s linear infinite;
+}
+@keyframes scanLine { 100%{ top: calc(100% + 10px); } }
+
+.proj-body { padding: 24px 26px; }
+.proj-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--accent); letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.proj-name {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 700; color: var(--ink);
+  margin-bottom: 10px; letter-spacing: -0.3px;
+}
+.proj-desc { font-size: 13px; color: var(--ink2); line-height: 1.72; }
+
+/* ═══════════════════════════════════════════════════════
+   EXPO — Diagonal layout
+═══════════════════════════════════════════════════════ */
+#expo { position: relative; overflow: hidden; }
+#expo::before {
+  content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+  background: linear-gradient(160deg, var(--bg2) 55%, var(--highlight) 100%);
+  z-index:0;
+}
+.expo-inner { position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,6vw,100px); align-items:center; }
+.expo-imgs { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.expo-box {
+  aspect-ratio:1; border-radius:16px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:44px;
+  border:1px solid var(--border);
+  background: var(--surface);
+  position:relative; overflow:hidden;
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s;
+}
+.expo-box::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(135deg, rgba(26,111,168,0.06), transparent);
+  opacity:0; transition:opacity 0.3s;
+}
+.expo-box:hover { transform:scale(1.05) rotate(-1deg); box-shadow: 0 16px 40px var(--glow); }
+.expo-box:hover::before { opacity:1; }
+.expo-photo {
+  width: 100%; height: 100%; display: block; object-fit: cover;
+}
+.expo-box:nth-child(2) { transform: translateY(20px); }
+.expo-box:nth-child(2):hover { transform: translateY(14px) scale(1.05) rotate(1deg); }
+
+/* ═══════════════════════════════════════════════════════
+   ACADEMY — Dark section with animated bars
+═══════════════════════════════════════════════════════ */
+#academy {
+  background: var(--ink);
+  color: var(--bg);
+  position: relative; overflow: hidden;
+}
+[data-theme="dark"] #academy { background: #000a16; }
+
+/* Animated grid overlay */
+#academy::before {
+  content:''; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(26,111,168,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,111,168,0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
+  pointer-events:none;
+}
+
+#academy .section-eyebrow { color: #6ab4e8; }
+#academy .section-eyebrow::before { background: #6ab4e8; }
+#academy h2.section-title { color: #f0f4f8; }
+#academy h2.section-title em { color: #6ab4e8; }
+#academy .body-text { color: rgba(200,220,240,0.6); }
+
+.academy-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,6vw,100px); align-items:center; }
+
+.acad-features { margin-top:32px; display:flex; flex-direction:column; gap:10px; }
+.af-row {
+  display:flex; gap:14px; align-items:flex-start;
+  padding:18px 20px; border-radius:12px;
+  border:1px solid rgba(255,255,255,0.07);
+  background:rgba(255,255,255,0.02);
+  transition:all 0.3s;
+}
+.af-row:hover { background:rgba(26,111,168,0.15); border-color:rgba(106,180,232,0.3); transform:translateX(6px); }
+.af-icon { font-size:20px; flex-shrink:0; margin-top:2px; }
+.af-title { font-weight:700; color:rgba(240,244,248,0.95); font-size:14px; margin-bottom:3px; letter-spacing:0.2px; }
+.af-desc { font-size:13px; color:rgba(200,220,240,0.45); line-height:1.6; }
+
+/* Data panel */
+.dp {
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px; padding:40px 36px;
+  position:relative; overflow:hidden;
+}
+.dp::before {
+  content:''; position:absolute;
+  top:-100px; right:-80px;
+  width:280px; height:280px;
+  background: radial-gradient(circle, rgba(26,111,168,0.2), transparent 65%);
+  border-radius:50%;
+}
+.dp-corners > * { position:absolute; width:14px; height:14px; border-color:rgba(106,180,232,0.35); border-style:solid; }
+.dp-corners .tl { top:10px; left:10px; border-width:1px 0 0 1px; }
+.dp-corners .tr { top:10px; right:10px; border-width:1px 1px 0 0; }
+.dp-corners .bl { bottom:10px; left:10px; border-width:0 0 1px 1px; }
+.dp-corners .br { bottom:10px; right:10px; border-width:0 1px 1px 0; }
+
+.dp-label {
+  font-family:'JetBrains Mono',monospace; font-size:9px;
+  letter-spacing:3px; color:rgba(200,220,240,0.3); text-transform:uppercase; margin-bottom:24px;
+}
+.dp-formula {
+  font-family:'Fraunces',serif; font-size:80px; font-weight:800;
+  color:#f0f4f8; line-height:1; margin-bottom:4px; letter-spacing:-2px;
+}
+.dp-formula sub { font-size:0.44em; color:#6ab4e8; }
+.dp-formula-label { font-size:11px; color:rgba(200,220,240,0.3); letter-spacing:2px; text-transform:uppercase; margin-bottom:32px; }
+
+.dp-metrics { display:flex; flex-direction:column; gap:14px; border-top:1px solid rgba(255,255,255,0.07); padding-top:28px; }
+.dp-row { display:flex; align-items:center; gap:12px; }
+.dp-key {
+  font-family:'JetBrains Mono',monospace; font-size:10px;
+  color:rgba(200,220,240,0.35); letter-spacing:1px; width:70px; flex-shrink:0;
+}
+.dp-track { flex:1; height:2px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
+.dp-fill {
+  height:100%; border-radius:2px;
+  background: linear-gradient(to right, #1a6fa8, #6ab4e8);
+  transform-origin:left; transform:scaleX(0);
+  transition: transform 1.4s var(--ease-out-expo);
+}
+.dp-fill.animate { transform: scaleX(1); }
+.dp-val {
+  font-family:'JetBrains Mono',monospace; font-size:11px;
+  color:#6ab4e8; width:70px; text-align:right; flex-shrink:0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ACADEMY — Article Hub (scalable library)
+═══════════════════════════════════════════════════════ */
+#academy {
+  background:
+    radial-gradient(900px 420px at 85% 8%, rgba(106,180,232,0.08), transparent 70%),
+    radial-gradient(700px 380px at 10% 90%, rgba(26,111,168,0.08), transparent 72%),
+    var(--ink);
+  color: #eef4fb;
+  position: relative;
+  overflow: hidden;
+}
+#academy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(106,180,232,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(106,180,232,0.04) 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+#academy .section-eyebrow,
+#academy .section-eyebrow::before { color: #74c9ff; background: #74c9ff; }
+#academy h2.section-title { color: #f2f7fc; }
+#academy h2.section-title em { color: #74c9ff; }
+#academy .body-text { color: rgba(226, 238, 252, 0.72); max-width: 72ch; }
+.academy-hub { position: relative; z-index: 1; }
+.academy-header { max-width: 900px; margin-bottom: 34px; }
+.academy-layout { display: grid; grid-template-columns: 0.95fr 1.35fr; gap: 18px; align-items: start; }
+.academy-sidebar, .academy-library { border: 1px solid rgba(106,180,232,0.16); background: rgba(255,255,255,0.03); border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.18); backdrop-filter: blur(10px); }
+.academy-sidebar { padding: 18px; position: sticky; top: 94px; }
+.academy-sidebar h3, .academy-library-title { font-family: 'Fraunces', serif; font-size: 22px; letter-spacing: -0.5px; margin-bottom: 12px; color: #f2f7fc; }
+.academy-sidebar p { color: rgba(226,238,252,0.68); font-size: 14px; line-height: 1.7; }
+.learning-path { display: grid; gap: 10px; margin-top: 16px; }
+.path-item { border: 1px solid rgba(106,180,232,0.12); background: rgba(255,255,255,0.02); border-radius: 14px; padding: 12px; }
+.path-item strong { display: block; color: #edf5ff; font-size: 13px; margin-bottom: 3px; }
+.path-item span { display: block; color: rgba(214, 230, 248, 0.6); font-size: 12px; line-height: 1.45; }
+.path-tag { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1.4px; color: #8dd7ff; margin-bottom: 8px; }
+.path-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 4px rgba(141, 215, 255, 0.12); }
+.academy-cta { margin-top: 16px; display: grid; gap: 8px; }
+.academy-cta .mini-note { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(167, 197, 226, 0.6); }
+.academy-library { padding: 18px; }
+.academy-library-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 14px; border-bottom: 1px solid rgba(106,180,232,0.12); padding-bottom: 12px; }
+.academy-library-head p { color: rgba(220,234,250,0.62); font-size: 13px; line-height: 1.5; }
+.article-list { display: grid; gap: 12px; }
+.article-item { border: 1px solid rgba(106,180,232,0.14); border-radius: 16px; background: rgba(255,255,255,0.02); overflow: hidden; }
+.article-item[open] { background: rgba(255,255,255,0.035); border-color: rgba(106,180,232,0.24); box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 10px 32px rgba(0,0,0,0.18); }
+.article-item summary { list-style: none; cursor: pointer; padding: 14px 16px; }
+.article-item summary::-webkit-details-marker { display: none; }
+.article-summary-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.article-index { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1.2px; color: #7fcfff; text-transform: uppercase; }
+.article-chevron { color: #9ccff8; transition: transform 0.25s var(--ease-out-expo); }
+.article-item[open] .article-chevron { transform: rotate(90deg); }
+.article-title { margin-top: 6px; font-family: 'Fraunces', serif; color: #f4f8ff; font-size: clamp(20px, 2vw, 28px); line-height: 1.16; letter-spacing: -0.3px; }
+.article-meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+.meta-pill { border: 1px solid rgba(106,180,232,0.16); background: rgba(255,255,255,0.02); border-radius: 999px; padding: 5px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #b7d7f3; }
+.meta-pill.level-beginner { color: #9ef1d0; border-color: rgba(90, 226, 177, 0.24); }
+.meta-pill.level-intermediate { color: #ffd38d; border-color: rgba(255, 191, 102, 0.22); }
+.meta-pill.level-advanced { color: #ffadad; border-color: rgba(255, 136, 136, 0.24); }
+.article-body { padding: 0 16px 16px; border-top: 1px solid rgba(106,180,232,0.1); }
+.article-body-inner { padding-top: 14px; max-width: 78ch; }
+.article-body h4 { font-family: 'Fraunces', serif; font-size: 20px; color: #eef5ff; margin: 18px 0 8px; line-height: 1.2; }
+.article-body p { color: rgba(228, 238, 250, 0.76); font-size: 14px; line-height: 1.78; margin-bottom: 12px; font-family: 'Syne', sans-serif; }
+.article-body ul { margin: 8px 0 14px 18px; color: rgba(228, 238, 250, 0.76); }
+.article-body li { margin-bottom: 7px; line-height: 1.7; font-size: 14px; }
+.article-body strong { color: #f7fbff; }
+.article-callout { margin: 14px 0; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(116, 201, 255, 0.16); background: linear-gradient(135deg, rgba(116, 201, 255, 0.06), rgba(106, 180, 232, 0.02)); color: rgba(234, 244, 255, 0.86); font-size: 14px; line-height: 1.7; }
+.article-footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(106,180,232,0.16); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(176, 206, 234, 0.62); }
+.article-coming { padding: 14px 16px; }
+.article-coming p { color: rgba(214,230,248,0.66); font-size: 13px; line-height: 1.6; }
+@media (max-width: 1100px) { .academy-layout { grid-template-columns: 1fr; } .academy-sidebar { position: static; top: auto; } }
+
+/* ═══════════════════════════════════════════════════════
+   CONTACT — with animated border
+═══════════════════════════════════════════════════════ */
+.contact-wrap { max-width:680px; margin:0 auto; text-align:center; }
+.contact-card {
+  background: var(--surface);
+  border-radius:24px; padding:56px 48px;
+  position:relative; overflow:hidden;
+  box-shadow: 0 8px 40px var(--glow);
+}
+/* Animated gradient border */
+.contact-card::before {
+  content:''; position:absolute; inset:-2px; border-radius:26px; z-index:-1;
+  background: conic-gradient(from var(--border-angle, 0deg), var(--accent), transparent, transparent, var(--accent));
+  animation: rotateBorder 4s linear infinite;
+}
+@property --border-angle { syntax:'<angle>'; initial-value:0deg; inherits:false; }
+@keyframes rotateBorder { to { --border-angle: 360deg; } }
+.contact-card::after {
+  content:''; position:absolute; inset:1px; border-radius:23px;
+  background: var(--surface); z-index:-1;
+}
+
+.contact-email {
+  font-family:'Fraunces',serif; font-size:clamp(20px,3vw,30px);
+  font-weight:700; color:var(--accent); display:block;
+  margin-bottom:10px; text-decoration:none; letter-spacing:-0.5px;
+  transition:opacity 0.2s;
+}
+.contact-email:hover { opacity:0.7; }
+.contact-loc { font-size:13px; color:var(--ink3); margin-bottom:32px; letter-spacing:0.2px; }
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════ */
+footer {
+  background: var(--ink); color: var(--bg);
+  padding: 32px clamp(20px,5vw,80px);
+  display:flex; justify-content:space-between; align-items:center;
+}
+[data-theme="dark"] footer { background:#000812; }
+.footer-logo {
+  display: inline-flex; align-items: center;
+}
+.footer-logo img {
+  height: 24px; width: auto; display: block;
+  filter: brightness(0) invert(1);
+}
+[data-theme="dark"] .footer-logo img { filter: brightness(0) invert(1); }
+.footer-right { text-align:right; }
+.footer-copy { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(200,220,240,0.25); letter-spacing:1px; }
+
+/* ═══════════════════════════════════════════════════════
+   ACCESSIBILITY
+═══════════════════════════════════════════════════════ */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Skip to content */
+.skip-link {
+  position:absolute; top:-40px; left:20px;
+  background:var(--accent); color:#fff;
+  padding:8px 16px; border-radius:0 0 8px 8px;
+  font-size:14px; font-weight:600; z-index:9999;
+  transition:top 0.2s;
+}
+.skip-link:focus { top:0; }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width:960px) {
+  #hero { grid-template-columns:1fr; }
+  .hero-right { display:none; }
+  .about-grid, .expo-inner, .academy-grid { grid-template-columns:1fr; }
+  .cap-head { flex-wrap: wrap; align-items: flex-start; }
+  .cap-grid { grid-template-columns: 1fr; }
+  .cap-card.wide { grid-column: span 1; }
+  .cap-pipeline-track { grid-template-columns: 1fr 1fr; }
+  .projects-grid { grid-template-columns:1fr; }
+  .proj-card.featured { grid-row:span 1; }
+  .nav-center { display:none; }
+  footer { flex-direction:column; gap:12px; text-align:center; }
+  .footer-right { text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Magnetic cursor -->
+<div id="cursor-dot" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav role="navigation" aria-label="Main navigation">
+  <a class="logo" href="#main" aria-label="JVS Hydrogen Home">
+    <img src="assets/logo-jvs-hydrogen.svg" alt="JVS Hydrogen logo">
+  </a>
+  <ul class="nav-center" role="list">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#academy">Academy</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<main id="main">
+<section id="hero" aria-label="Hero">
+  <div class="hero-blob blob-1" aria-hidden="true"></div>
+  <div class="hero-blob blob-2" aria-hidden="true"></div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow" aria-hidden="true">
+      <span class="eyebrow-line"></span>
+      Hydrogen Infrastructure · Europe
+    </div>
+
+    <h1 class="hero-headline" aria-label="Hydrogen is the core architecture of tomorrow">
+      <span class="word"><span class="word-inner" style="animation-delay:0.3s">Hydrogen</span></span>
+      <span class="word light-word"><span class="word-inner" style="animation-delay:0.38s">is</span></span>
+      <span class="word light-word"><span class="word-inner" style="animation-delay:0.46s">the</span></span>
+      <br>
+      <span class="word accent-word"><span class="word-inner" style="animation-delay:0.54s">
+        <span class="morph-container" aria-label="core" id="morphTarget">
+          <span class="morph-word" id="morphWord">core</span>
+        </span>
+      </span></span>
+      <span class="word"><span class="word-inner" style="animation-delay:0.62s">architecture</span></span>
+      <br>
+      <span class="word light-word"><span class="word-inner" style="animation-delay:0.70s">of</span></span>
+      <span class="word"><span class="word-inner" style="animation-delay:0.78s">tomorrow.</span></span>
+    </h1>
+
+    <p class="hero-sub">
+      JVS Consulting specializes in hydrogen refueling stations and infrastructure — delivering safe, compliant, and efficient solutions across Europe.
+    </p>
+
+    <div class="hero-tags" role="list" aria-label="Expertise areas">
+      <span class="tag" role="listitem">700 bar HRS</span>
+      <span class="tag" role="listitem">ATEX Safety</span>
+      <span class="tag" role="listitem">EU Compliance</span>
+      <span class="tag" role="listitem">Fleet H₂</span>
+      <span class="tag" role="listitem">Electrolysis</span>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#about" class="btn btn-primary">
+        <span>Discover More</span><span class="btn-arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="#contact" class="btn btn-ghost">
+        <span>Get in Touch</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right" aria-hidden="true">
+    <canvas id="hero-canvas"></canvas>
+  </div>
+</section>
+</main>
+
+<!-- ═══ MARQUEE ═══ -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot"></span> Hydrogen Refueling Stations</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> ATEX Zone Engineering</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> 700 Bar Technology</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> EU Infrastructure</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Safety Compliance</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Fleet Mobility</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Electrolyzer Integration</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Hydrogen Refueling Stations</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> ATEX Zone Engineering</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> 700 Bar Technology</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> EU Infrastructure</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Safety Compliance</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Fleet Mobility</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Electrolyzer Integration</span>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about" class="section" aria-labelledby="about-heading">
+  <div class="about-grid">
+    <div>
+      <p class="section-eyebrow reveal">About JVS Hydrogen</p>
+      <h2 class="section-title word-reveal" id="about-heading">
+        <span class="word"><span class="word-inner">Engineering</span></span>
+        <span class="word"><span class="word-inner">partner</span></span>
+        <span class="word"><span class="word-inner">for</span></span>
+        <em><span class="word"><span class="word-inner">hydrogen</span></span>
+        <span class="word"><span class="word-inner">infrastructure</span></span></em>
+      </h2>
+      <p class="body-text reveal d2">
+        JVS Hydrogen s.r.o. was established in 2023 as a new-energy subsidiary of JVS Consulting s.r.o., an international consulting company with a long track record in the gas and oil industries. Based in Bratislava, we focus on practical hydrogen engineering and implementation support for the European market.
+      </p>
+      <p class="body-text reveal d3" style="margin-top:14px">
+        We operate mainly in Germany, the Czech Republic, and Slovakia, working long-term with gas, oil, and operating companies. Our hydrogen activities grew from real project cooperation, including work with Chinese partners on hydrogen production and distribution solutions for freight transport applications.
+      </p>
+      <div class="about-stats reveal d4">
+        <div class="stat-block">
+          <span class="stat-n" id="s1">0</span>
+          <span class="stat-l">Hydrogen unit founded</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-n">DE · CZ · SK</span>
+          <span class="stat-l">Core markets</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-n">EU</span>
+          <span class="stat-l">Project delivery focus</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-canvas-wrap reveal d2">
+      <div class="cap-board" role="img" aria-label="JVS Hydrogen capabilities dashboard">
+        <div class="cap-head">
+          <img src="assets/logo-jvs-hydrogen.svg" alt="JVS Hydrogen logo">
+          <div class="cap-badge">Hydrogen business unit · Since 2023</div>
+        </div>
+
+        <div class="cap-grid">
+          <div class="cap-card">
+            <div class="cap-kicker">European footprint</div>
+            <ul class="cap-list">
+              <li>Bratislava HQ (Slovakia)</li>
+              <li>Germany project activity</li>
+              <li>Czech Republic project activity</li>
+              <li>Long-term operator cooperation</li>
+            </ul>
+          </div>
+
+          <div class="cap-card">
+            <div class="cap-kicker">Execution profile</div>
+            <p>From feasibility and engineering support to safety studies, technical calculations, and EPC delivery for selected hydrogen projects.</p>
+          </div>
+
+          <div class="cap-card wide">
+            <div class="cap-kicker">Hydrogen value chain coverage</div>
+            <div class="cap-pipeline">
+              <div class="cap-pipeline-track">
+                <div class="cap-node"><strong>01</strong><span>Production<br>Electrolysis</span></div>
+                <div class="cap-node"><strong>02</strong><span>Purification +<br>Compression</span></div>
+                <div class="cap-node"><strong>03</strong><span>Storage +<br>Refueling</span></div>
+                <div class="cap-node"><strong>04</strong><span>Pipeline retrofit +<br>Grid injection</span></div>
+              </div>
+              <div class="cap-footnote">Engineering · Safety studies · Materials · EPC support · Pipeline hydrogen conversion</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services" class="section section-alt" aria-labelledby="services-heading">
+  <p class="section-eyebrow reveal">What We Do</p>
+  <h2 class="section-title word-reveal" id="services-heading">
+    <span class="word"><span class="word-inner">Our</span></span>
+    <em><span class="word"><span class="word-inner">services</span></span></em>
+    <span class="word thin"><span class="word-inner">&amp;</span></span>
+    <span class="word"><span class="word-inner">engineering</span></span>
+    <span class="word"><span class="word-inner">scope</span></span>
+  </h2>
+  <div class="services-layout">
+    <article class="svc-card reveal d1">
+      <span class="svc-num">01</span>
+      <div class="svc-icon-wrap" aria-hidden="true">🧩</div>
+      <h3 class="svc-name">General Engineering & Consulting Support</h3>
+      <p class="svc-desc">General engineering activities and consulting support for hydrogen projects, with practical coordination between design, operations, and implementation requirements.</p>
+    </article>
+    <article class="svc-card reveal d2">
+      <span class="svc-num">02</span>
+      <div class="svc-icon-wrap" aria-hidden="true">📐</div>
+      <h3 class="svc-name">Feasibility Studies & Cost Estimation</h3>
+      <p class="svc-desc">Feasibility studies and cost estimation for hydrogen production and distribution facilities, including early-stage concept definition and project decision support.</p>
+    </article>
+    <article class="svc-card reveal d3">
+      <span class="svc-num">03</span>
+      <div class="svc-icon-wrap" aria-hidden="true">🛡️</div>
+      <h3 class="svc-name">Safety Studies (HAZOP / HAZID / SIL)</h3>
+      <p class="svc-desc">Management and technical support for HAZOP, HAZID, SIL, and other safety-relevant studies required for compliant and defensible project execution.</p>
+    </article>
+    <article class="svc-card reveal d1">
+      <span class="svc-num">04</span>
+      <div class="svc-icon-wrap" aria-hidden="true">🧪</div>
+      <h3 class="svc-name">Materials Expertise & FFS Calculations</h3>
+      <p class="svc-desc">Material selection and evaluation, hydrogen embrittlement considerations, stress and vibration analysis, and fitness-for-service assessments in line with API 579-1 / ASME FFS-1.</p>
+    </article>
+    <article class="svc-card reveal d2">
+      <span class="svc-num">05</span>
+      <div class="svc-icon-wrap" aria-hidden="true">🏗️</div>
+      <h3 class="svc-name">Hydrogen Stations Engineering & Small-Scale EPC</h3>
+      <p class="svc-desc">Hydrogen-focused EPC for small-scale turnkey projects, engineering at all levels for modular/container HRS, and hydrogen production stations with electrolysis, purification, compression, and high-pressure storage.</p>
+    </article>
+    <article class="svc-card reveal d3">
+      <span class="svc-num">06</span>
+      <div class="svc-icon-wrap" aria-hidden="true">🔁</div>
+      <h3 class="svc-name">Pipeline Conversion & Hydrogen Injection</h3>
+      <p class="svc-desc">Engineering for modification of existing high-pressure gas pipeline systems for 100% hydrogen transport, hydrogen injection into natural gas grids, and evaluation of transmission-capacity impacts.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects" class="section" aria-labelledby="projects-heading">
+  <p class="section-eyebrow reveal">Portfolio</p>
+  <h2 class="section-title word-reveal" id="projects-heading">
+    <span class="word"><span class="word-inner">What</span></span>
+    <span class="word thin"><span class="word-inner">we've</span></span>
+    <em><span class="word"><span class="word-inner">worked</span></span>
+    <span class="word"><span class="word-inner">on</span></span></em>
+  </h2>
+  <div class="projects-grid">
+    <article class="proj-card featured reveal d1">
+      <div class="proj-thumb" aria-hidden="true">🚌</div>
+      <div class="proj-body">
+        <p class="proj-tag">Public Transport</p>
+        <h3 class="proj-name">H₂ Bus Fleet Infrastructure</h3>
+        <p class="proj-desc">Technical design and compliance support for a high-capacity hydrogen refueling hub serving municipal bus operators across Central Europe.</p>
+      </div>
+    </article>
+    <article class="proj-card reveal d2">
+      <div class="proj-thumb" aria-hidden="true">⛽</div>
+      <div class="proj-body">
+        <p class="proj-tag">Refueling Station</p>
+        <h3 class="proj-name">High-Pressure HRS 700 bar</h3>
+        <p class="proj-desc">Engineering and safety review for a 700-bar public hydrogen station.</p>
+      </div>
+    </article>
+    <article class="proj-card reveal d3">
+      <div class="proj-thumb" aria-hidden="true">🏭</div>
+      <div class="proj-body">
+        <p class="proj-tag">Industrial</p>
+        <h3 class="proj-name">Electrolyzer Integration</h3>
+        <p class="proj-desc">Feasibility study for on-site green hydrogen production.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ EXPO ═══ -->
+<section id="expo" class="section" aria-labelledby="expo-heading">
+  <div class="expo-inner">
+    <div class="expo-imgs" aria-label="Expo gallery images">
+      <div class="expo-box reveal d1"><img class="expo-photo" src="assets/expo/IMG_8931.HEIC.png" alt="JVSHydrogen team at Hydrogen Technology World Expo" loading="lazy"></div>
+      <div class="expo-box reveal d2"><img class="expo-photo" src="assets/expo/IMG_8932.HEIC.png" alt="JVSHydrogen at the Expo event" loading="lazy"></div>
+      <div class="expo-box reveal d3"><img class="expo-photo" src="assets/expo/IMG_8936.HEIC.png" alt="Hydrogen Technology World Expo showcase" loading="lazy"></div>
+      <div class="expo-box reveal d4"><img class="expo-photo" src="assets/expo/IMG_8950.HEIC.png" alt="Networking and meetings at the hydrogen expo" loading="lazy"></div>
+    </div>
+    <div>
+      <p class="section-eyebrow reveal">Hamburg 2025</p>
+      <h2 class="section-title word-reveal" id="expo-heading">
+        <span class="word"><span class="word-inner">Hydrogen</span></span>
+        <span class="word"><span class="word-inner">Technology</span></span>
+        <br>
+        <em><span class="word"><span class="word-inner">World</span></span>
+        <span class="word"><span class="word-inner">Expo</span></span></em>
+      </h2>
+      <p class="body-text reveal d2">In 2025, the JVS team participated in one of Europe's key hydrogen events in Hamburg. The expo provided valuable insights into the latest refueling systems, safety standards, and large-scale deployment strategies.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ACADEMY ═══ -->
+<section id="academy" class="section" aria-labelledby="academy-heading">
+  <div class="academy-hub">
+    <div class="academy-header">
+      <p class="section-eyebrow reveal">Hydrogen Academy</p>
+      <h2 class="section-title word-reveal" id="academy-heading">
+        <span class="word"><span class="word-inner">From</span></span>
+        <span class="word thin"><span class="word-inner">fundamentals</span></span>
+        <span class="word"><span class="word-inner">to</span></span>
+        <em><span class="word"><span class="word-inner">real-world</span></span>
+        <span class="word"><span class="word-inner">engineering</span></span></em>
+      </h2>
+      <p class="body-text reveal d1">This Academy is structured as a learning progression: beginner articles first, then application-specific topics, and later deep dives into hydrogen infrastructure, safety, and system design. New articles can be added continuously without changing the section layout.</p>
+    </div>
+
+    <div class="academy-layout">
+      <aside class="academy-sidebar reveal d2" aria-label="Academy learning path">
+        <div class="path-tag">Learning Path</div>
+        <h3>How the Academy is organized</h3>
+        <p>Articles are grouped by difficulty so readers can build understanding step by step, from basic definitions to design tradeoffs and implementation decisions.</p>
+
+        <div class="learning-path">
+          <div class="path-item">
+            <strong>Level 1 — Foundations</strong>
+            <span>Core concepts, terminology, hydrogen properties, and practical definitions without hype.</span>
+          </div>
+          <div class="path-item">
+            <strong>Level 2 — Applications</strong>
+            <span>Use-cases, station architectures, mobility workflows, and industrial deployment scenarios.</span>
+          </div>
+          <div class="path-item">
+            <strong>Level 3 — Engineering Deep Dives</strong>
+            <span>Safety, compression, storage, standards, performance, cost, and system integration decisions.</span>
+          </div>
+        </div>
+
+        <div class="academy-cta">
+          <a href="#contact" class="btn btn-primary"><span>Suggest a Topic</span><span class="btn-arrow" aria-hidden="true">→</span></a>
+          <span class="mini-note">Next articles can be added as new cards in this library.</span>
+        </div>
+      </aside>
+
+      <div class="academy-library reveal d3" aria-label="Academy article library">
+        <div class="academy-library-head">
+          <div>
+            <div class="academy-library-title">Article Library</div>
+            <p>Start with the first article below. Future entries can be added as beginner, intermediate, or advanced modules.</p>
+          </div>
+        </div>
+
+        <div class="article-list">
+          <details class="article-item" open>
+            <summary>
+              <div class="article-summary-top">
+                <span class="article-index">Article 01</span>
+                <span class="article-chevron" aria-hidden="true">▶</span>
+              </div>
+              <h3 class="article-title">What Hydrogen Is (and Isn’t): A Practical Definition</h3>
+              <div class="article-meta">
+                <span class="meta-pill level-beginner">Beginner</span>
+                <span class="meta-pill">Foundation</span>
+                <span class="meta-pill">8–10 min read</span>
+              </div>
+            </summary>
+            <div class="article-body">
+              <div class="article-body-inner">
+                <p>Hydrogen is often discussed as a major part of the energy transition, but it is also frequently described in ways that are either too simplified or overly optimistic. A practical definition helps investors, municipalities, and engineers evaluate projects with realistic expectations.</p>
+
+                <div class="article-callout"><strong>Practical context:</strong> In energy and industrial applications, “hydrogen” almost always means <strong>molecular hydrogen (H₂)</strong> — a colorless gas made of two hydrogen atoms. In practice, you handle H₂ in pipelines, vessels, compressors, and dispensers, not isolated hydrogen atoms.</div>
+
+                <h4>Why this matters</h4>
+                <p>Understanding what hydrogen is (and is not) directly impacts project feasibility, infrastructure decisions, and the credibility of sustainability claims. A clear definition helps determine where hydrogen creates real value and where direct electrification may be the better route.</p>
+                <ul>
+                  <li><strong>Project feasibility:</strong> identifying where hydrogen solves a real operational problem.</li>
+                  <li><strong>Infrastructure choices:</strong> production, storage, compression, delivery, and safety architecture.</li>
+                  <li><strong>Sustainability claims:</strong> understanding what “green” hydrogen actually depends on.</li>
+                </ul>
+
+                <h4>The core definition</h4>
+                <p>The most important point is that hydrogen is <strong>not a primary energy source</strong>. It is mainly an <strong>energy carrier</strong>, which means it stores and transports energy that originally comes from somewhere else.</p>
+                <p>If hydrogen is produced by electrolysis, the primary input is electricity. If it is produced from natural gas, the primary input is the chemical energy in the gas (plus additional energy for processing, and in some cases capture and compression steps).</p>
+                <p>A useful analogy is electricity: it is also an energy carrier. Hydrogen is similar, except it stores energy in chemical form and can be transported, stored, and used later.</p>
+
+                <h4>What makes hydrogen attractive</h4>
+                <p>Hydrogen can carry a lot of energy per unit mass. Using the lower heating value (LHV), hydrogen contains about <strong>120 MJ/kg</strong>, and using the higher heating value (HHV), about <strong>142 MJ/kg</strong>. This high mass-based energy content makes hydrogen relevant in applications where weight matters or where energy must be stored and moved in molecular form.</p>
+                <p>It is also versatile in end use: hydrogen can be used as a <strong>feedstock</strong> (chemicals, refining), as a <strong>fuel</strong> (combustion or fuel cells), and as an <strong>energy buffer</strong> for harder-to-electrify sectors.</p>
+
+                <h4>What makes hydrogen challenging (and why infrastructure matters)</h4>
+                <p>Hydrogen is extremely light, so its <strong>volumetric energy density is low</strong> under normal conditions. To store useful quantities, hydrogen usually needs to be compressed (e.g. hundreds of bar), liquefied (LH₂), or converted into another carrier such as ammonia or LOHC.</p>
+                <p>This single fact drives much of real-world hydrogen complexity: more equipment, higher CAPEX, additional energy losses, and larger footprints than many people initially expect.</p>
+                <p>Safety is another key engineering topic. Hydrogen has a wide flammability range in air and a low ignition energy compared with many fuels, which means systems must be deliberately engineered for leak prevention and controlled response. In practice that includes ventilation, leak detection, hazardous area classification, ignition source control, material compatibility, and emergency shutdown logic.</p>
+
+                <h4>Hydrogen is not one thing: the pathway matters</h4>
+                <p>When someone says “hydrogen is clean,” the correct response is: <strong>it depends on how it is produced and delivered</strong>. Emissions and energy use vary based on production route, electricity carbon intensity, upstream methane emissions (for fossil-based pathways), compression or liquefaction energy, and transport logistics.</p>
+                <p>A more precise statement is: hydrogen can <strong>enable</strong> low-carbon energy services <strong>if</strong> the full pathway is designed and operated accordingly.</p>
+
+                <h4>Common misconceptions (practical corrections)</h4>
+                <ul>
+                  <li><strong>“Hydrogen is an energy source”</strong> → In most energy-system contexts, it is primarily an energy carrier.</li>
+                  <li><strong>“Hydrogen always beats batteries”</strong> → Batteries often win when direct electrification is feasible and efficiency matters most.</li>
+                  <li><strong>“Hydrogen is too dangerous to use”</strong> → Hydrogen has different hazard characteristics, but it can be handled safely with proper engineering and operational discipline.</li>
+                  <li><strong>“Hydrogen is automatically clean”</strong> → Climate impact depends on the full production and delivery chain.</li>
+                </ul>
+
+                <h4>Practical conclusion</h4>
+                <p>Hydrogen is a flexible energy carrier and industrial molecule with strong value in specific applications, but it also comes with real engineering constraints driven by storage, safety, and the energy cost of production and delivery. When projects are designed around those facts, hydrogen solutions can be technically solid and credible.</p>
+
+                <div class="article-footer-note">Academy Track: Foundations · Topic 01 · Suitable for investors, municipalities, and engineers starting with hydrogen strategy</div>
+              </div>
+            </div>
+          </details>
+          <details class="article-item">
+            <summary>
+              <div class="article-summary-top">
+                <span class="article-index">Article 02</span>
+                <span class="article-chevron" aria-hidden="true">▶</span>
+              </div>
+              <h3 class="article-title">Why Hydrogen Matters in Europe: Decarbonisation Roles Without Exaggeration</h3>
+              <div class="article-meta">
+                <span class="meta-pill level-beginner">Beginner</span>
+                <span class="meta-pill">Strategy</span>
+                <span class="meta-pill">EU Context</span>
+              </div>
+            </summary>
+            <div class="article-body">
+              <div class="article-body-inner">
+                <p>Hydrogen is not a solution for every problem and it does not replace electrification. In Europe, hydrogen matters because it can reduce emissions in <strong>specific sectors</strong> where other options are difficult, expensive, or slow to scale.</p>
+
+                <div class="article-callout"><strong>Practical framing:</strong> Hydrogen is most valuable when it solves a defined decarbonisation problem better than the alternatives — not when it is treated as a universal replacement for electricity.</div>
+
+                <h4>Why Europe focuses on hydrogen (practical reasons)</h4>
+                <ul>
+                  <li><strong>Difficult-to-electrify sectors:</strong> industrial feedstocks, some high-temperature heat processes, selected heavy-duty transport use-cases, and long-duration/seasonal storage concepts.</li>
+                  <li><strong>Energy security and resilience:</strong> hydrogen is part of EU thinking on reducing fossil import dependence and strengthening system flexibility.</li>
+                  <li><strong>Deployment policy and targets:</strong> EU plans and regulations already shape real investment pathways, including production and infrastructure targets.</li>
+                </ul>
+                <p>Hydrogen is not always the best option, but in some areas it may be one of the few scalable options available within EU decarbonisation timelines.</p>
+
+                <h4>Where hydrogen fits best in Europe</h4>
+                <p><strong>Role A — Replacing fossil-derived hydrogen in industry (strong case):</strong> Hydrogen is already used in refining, ammonia, and other industrial processes. Replacing fossil-derived hydrogen with renewable or low-carbon hydrogen can deliver direct, measurable emissions reductions when the production pathway is clearly defined.</p>
+                <p><strong>Role B — Industrial decarbonisation beyond feedstock (selective case):</strong> Hydrogen can support some high-temperature heat applications and processes where a molecule is needed for chemical reasons (for example as a reducing agent). Where direct electrification is technically feasible and affordable, it often remains the first choice.</p>
+                <p><strong>Role C — Heavy-duty mobility and corridor refuelling (specific case):</strong> Hydrogen can make sense when vehicles operate long hours, require fast refuelling, and follow predictable routes. This is especially relevant for corridor-based deployment strategies.</p>
+                <p><strong>Role D — Long-duration storage and system balancing (limited but important):</strong> Hydrogen can support renewable-heavy grids through longer-duration flexibility and Power-to-X pathways, even though round-trip efficiency is usually lower than direct electrification or batteries.</p>
+
+                <h4>Where hydrogen is usually not the best option</h4>
+                <p>Hydrogen is often not the preferred solution for space heating in many EU regions, most passenger cars, or short-distance low-utilisation applications where charging infrastructure and charging time are manageable. In those cases, direct electrification often wins on efficiency, simplicity, and delivered energy cost.</p>
+
+                <h4>EU credibility rules: definitions and certification matter</h4>
+                <p>In Europe, claims about “renewable hydrogen” increasingly depend on compliance with EU definitions and certification pathways (including RFNBO-related requirements). For project developers, this means electricity sourcing strategy and documentation can be just as important as electrolyser technology selection.</p>
+
+                <h4>Practical summary</h4>
+                <p>Hydrogen matters in Europe because it can reduce emissions where industry needs a molecule, support selected difficult-to-electrify use-cases, and contribute to flexibility in a more renewable power system. It is most credible and valuable when applied to the right problems with clear technical and regulatory framing.</p>
+
+                <div class="article-footer-note">Academy Track: Foundations / Strategy · Topic 02 · Focus on realistic EU decarbonisation roles</div>
+              </div>
+            </div>
+          </details>
+          <details class="article-item">
+            <summary>
+              <div class="article-summary-top">
+                <span class="article-index">Article 03</span>
+                <span class="article-chevron" aria-hidden="true">▶</span>
+              </div>
+              <h3 class="article-title">Material Selection for Hydrogen Service at Ambient Temperature</h3>
+              <div class="article-meta">
+                <span class="meta-pill level-intermediate">Intermediate</span>
+                <span class="meta-pill">Materials</span>
+                <span class="meta-pill">Engineering</span>
+              </div>
+            </summary>
+            <div class="article-body">
+              <div class="article-body-inner">
+                <p>In hydrogen projects, it is easy to focus on pressure, flow rate, and purity. In practice, long-term reliability is often decided by <strong>material selection</strong> — especially for pressure-containing parts, valves, fittings, and welded joints.</p>
+
+                <div class="article-callout"><strong>Key engineering point:</strong> At ambient temperature, the main concern is often not classic corrosion, but <strong>hydrogen-assisted damage</strong> — mechanisms where hydrogen entering a metal reduces ductility/toughness and supports crack initiation or growth.</div>
+
+                <h4>The core concept: hydrogen can weaken metals without visible corrosion</h4>
+                <p>Many problematic mechanisms start with <strong>atomic hydrogen</strong>, not molecular hydrogen (H₂). Atomic hydrogen can be absorbed by steels and diffuse through the metal. This means hydrogen service risk depends not only on pressure, but also on moisture, contaminants, surface condition, and operating behavior.</p>
+                <p>A system can appear clean and dry externally while still creating conditions that increase hydrogen entry into stressed metal — and therefore long-term cracking risk.</p>
+
+                <h4>What increases risk in practice</h4>
+                <p>Hydrogen-assisted damage becomes more likely when three factors combine: <strong>hydrogen entry</strong>, <strong>tensile stress</strong> (applied or residual), and a <strong>susceptible material structure</strong>.</p>
+                <ul>
+                  <li><strong>Environment:</strong> moisture and contaminants can support surface reactions that increase hydrogen entry.</li>
+                  <li><strong>Stress state:</strong> residual welding stresses, forming stresses, and stress concentrators (threads, sharp transitions) often become crack initiation sites.</li>
+                  <li><strong>Material condition:</strong> microstructure, inclusions, hardness gradients, and fabrication quality strongly influence susceptibility.</li>
+                </ul>
+
+                <h4>Steel cleanliness and microstructure matter</h4>
+                <p>In steels, microstructural features and non-metallic inclusions can act as crack initiation points. That is why material selection cannot be reduced to “pick a yield strength.” For some components, procurement requirements related to material quality and through-thickness performance may be just as important as strength and impact toughness.</p>
+
+                <h4>Welds and heat-affected zones: common weak points</h4>
+                <p>Weld regions require special attention because welding modifies microstructure, creates hardness gradients, and introduces residual stress. Even if the base material is acceptable, the weld and heat-affected zone can become the weak link in hydrogen service.</p>
+                <p>In practice, material compatibility and welding practice must be treated as a single engineering decision: procedure qualification, heat input control, filler selection, and fabrication consistency can be as important as the nominal material grade.</p>
+
+                <h4>What good selection looks like (project method)</h4>
+                <p>A practical method is to divide the system into risk zones. High-pressure sections, cyclic sections, threaded/notched geometries, small-bore components, and welded transitions should be treated as high-attention areas.</p>
+                <p>Many projects use <strong>austenitic stainless steels</strong> for critical piping, instrumentation, and high-integrity small-bore components. Carbon steels can also be used in defined conditions when code requirements, strength levels, fabrication quality, and inspection practices are appropriately controlled.</p>
+
+                <h4>Common mistakes to avoid</h4>
+                <ul>
+                  <li>Choosing materials based on corrosion resistance alone while ignoring hydrogen-assisted cracking mechanisms.</li>
+                  <li>Assuming base material performance automatically guarantees weld/joint performance.</li>
+                  <li>Specifying higher strength “for safety” without considering increased susceptibility in many steels.</li>
+                  <li>Using a weak inspection strategy for welded and cyclically loaded areas.</li>
+                </ul>
+
+                <h4>Practical checklist for design and procurement notes</h4>
+                <p>Define the operating envelope first: pressure range, cycle frequency, minimum/maximum metal temperature, hydrogen purity, expected contaminants, and joining methods. Then identify high-risk zones and set fabrication and inspection rules that match those risks.</p>
+                <p>Material selection becomes much more reliable when it is tied to service conditions, weld quality control, and the loading history of the component — not only to a material grade on paper.</p>
+
+                <div class="article-footer-note">Academy Track: Engineering Fundamentals · Topic 03 · Materials selection, welds, and hydrogen service reliability</div>
+              </div>
+            </div>
+          </details>
+
+          <details class="article-item">
+            <summary>
+              <div class="article-summary-top">
+                <span class="article-index">Article 04</span>
+                <span class="article-chevron" aria-hidden="true">▶</span>
+              </div>
+              <h3 class="article-title">Hydrogen Safety Design in Practice: Detection, Ventilation, and Hazard Zoning</h3>
+              <div class="article-meta">
+                <span class="meta-pill level-advanced">Advanced</span>
+                <span class="meta-pill">Planned</span>
+              </div>
+            </summary>
+            <div class="article-coming">
+              <p>Advanced engineering article planned for later in the Academy series with a focus on practical design logic, not hype or fear-based framing.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" class="section section-alt" aria-labelledby="contact-heading">
+  <div class="contact-wrap">
+    <p class="section-eyebrow reveal" style="justify-content:center">Get in Touch</p>
+    <h2 class="section-title word-reveal" id="contact-heading" style="margin-bottom:16px">
+      <span class="word"><span class="word-inner">Let's</span></span>
+      <span class="word thin"><span class="word-inner">build</span></span>
+      <span class="word"><span class="word-inner">the</span></span>
+      <em><span class="word"><span class="word-inner">hydrogen</span></span>
+      <span class="word"><span class="word-inner">future</span></span></em>
+      <span class="word thin"><span class="word-inner">together</span></span>
+    </h2>
+    <p class="body-text reveal d1" style="max-width:100%;margin:0 auto 36px;text-align:center">Whether you're planning a new HRS, need technical validation, or want to understand hydrogen infrastructure — we're here to help.</p>
+    <div class="contact-card reveal d2">
+      <a href="mailto:engineering@jvsconsulting.eu" class="contact-email">engineering@jvsconsulting.eu</a>
+      <p class="contact-loc">📍 Janšákova 33, Bratislava, 841 07</p>
+      <p class="contact-loc" style="margin-top:-18px; margin-bottom:32px;">📞 <a href="tel:+421903808677" style="color:inherit; text-decoration:none;">+421 903 808 677</a></p>
+      <a href="mailto:engineering@jvsconsulting.eu" class="btn btn-primary">
+        <span>Send a Message</span><span class="btn-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer role="contentinfo">
+  <div class="footer-logo">
+    <img src="assets/logo-jvs-hydrogen.svg" alt="JVS Hydrogen logo">
+  </div>
+  <div class="footer-right">
+    <p class="footer-copy">© 2025 JVS Hydrogen s.r.o. · All rights reserved</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ── Theme toggle ── */
+const html = document.documentElement;
+const toggleBtn = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('jvs-theme') ||
+  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+html.dataset.theme = savedTheme;
+toggleBtn.addEventListener('click', () => {
+  const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  html.dataset.theme = next;
+  localStorage.setItem('jvs-theme', next);
+});
+
+/* ── Magnetic cursor ── */
+const dot  = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+(function animCursor() {
+  dot.style.left  = mx + 'px';
+  dot.style.top   = my + 'px';
+  rx += (mx - rx) * 0.13;
+  ry += (my - ry) * 0.13;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animCursor);
+})();
+
+document.querySelectorAll('a, button, .svc-card, .proj-card, .tag').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+document.querySelectorAll('h1, h2, p').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-text'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-text'));
+});
+
+/* ── Kinetic morphing word ── */
+const morphWords = ['core', 'clean', 'future', 'smart', 'living'];
+let morphIdx = 0;
+const morphEl = document.getElementById('morphWord');
+setInterval(() => {
+  if (!morphEl) return;
+  morphEl.classList.add('leaving');
+  setTimeout(() => {
+    morphIdx = (morphIdx + 1) % morphWords.length;
+    morphEl.textContent = morphWords[morphIdx];
+    morphEl.classList.remove('leaving');
+    morphEl.classList.add('entering');
+    setTimeout(() => morphEl.classList.remove('entering'), 500);
+  }, 350);
+}, 2400);
+
+/* ── 3D tilt on service cards ── */
+document.querySelectorAll('.svc-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width  - 0.5) * 12;
+    const y = ((e.clientY - r.top)  / r.height - 0.5) * -12;
+    card.style.transform = `perspective(800px) rotateX(${y}deg) rotateY(${x}deg) scale(1.02)`;
+    card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+    card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+/* ── Hero canvas — flow network ── */
+(function() {
+  const c = document.getElementById('hero-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+
+  function resize() {
+    c.width  = c.offsetWidth  * devicePixelRatio;
+    c.height = c.offsetHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    initNet();
+  }
+
+  const W = () => c.offsetWidth, H = () => c.offsetHeight;
+  let nodes = [], edges = [], particles = [];
+
+  function initNet() {
+    nodes = []; edges = []; particles = [];
+    const cols = 7, rows = 6;
+    const sx = W() / (cols+1), sy = H() / (rows+1);
+    for (let r = 1; r <= rows; r++) {
+      for (let col = 1; col <= cols; col++) {
+        nodes.push({
+          x: col*sx + (Math.random()-0.5)*sx*0.6,
+          y: r*sy   + (Math.random()-0.5)*sy*0.6,
+          pr: Math.random()*2.5+1.5,
+          phase: Math.random()*Math.PI*2
+        });
+      }
+    }
+    for (let i=0; i<nodes.length; i++) {
+      for (let j=i+1; j<nodes.length; j++) {
+        const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if (d < sx*1.8) edges.push({a:i,b:j});
+      }
+    }
+    for (let k=0; k<32; k++) spawnP();
+  }
+
+  function spawnP() {
+    if (!edges.length) return;
+    const e = edges[Math.floor(Math.random()*edges.length)];
+    particles.push({
+      e, t: Math.random(),
+      spd: (Math.random()*0.003+0.001) * (Math.random()<0.5?1:-1),
+      sz: Math.random()*2+1,
+      op: Math.random()*0.7+0.25,
+      trail:[]
+    });
+  }
+
+  function getColor(alpha) {
+    return html.dataset.theme === 'dark'
+      ? `rgba(77,168,232,${alpha})`
+      : `rgba(26,111,168,${alpha})`;
+  }
+
+  let t0 = 0;
+  function draw(ts) {
+    t0 = ts;
+    ctx.clearRect(0, 0, W(), H());
+
+    // edges
+    edges.forEach(e => {
+      const a=nodes[e.a], b=nodes[e.b];
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+      ctx.strokeStyle = getColor(0.07);
+      ctx.lineWidth = 1; ctx.stroke();
+    });
+
+    // nodes
+    nodes.forEach(n => {
+      n.phase += 0.015;
+      const pulse = Math.sin(n.phase)*0.5+1;
+      const g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.pr*4*pulse);
+      g.addColorStop(0, getColor(0.25)); g.addColorStop(1, getColor(0));
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.pr*4*pulse,0,Math.PI*2);
+      ctx.fillStyle=g; ctx.fill();
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.pr,0,Math.PI*2);
+      ctx.fillStyle=getColor(0.6); ctx.fill();
+    });
+
+    // particles
+    particles.forEach(p => {
+      p.t += p.spd;
+      if (p.t>1||p.t<0) {
+        const endIdx = p.spd>0?p.e.b:p.e.a;
+        const conn = edges.filter(e=>(e.a===endIdx||e.b===endIdx)&&e!==p.e);
+        if (conn.length) { p.e=conn[Math.floor(Math.random()*conn.length)]; p.t=p.spd>0?0:1; }
+        else { p.spd*=-1; }
+      }
+      const a=nodes[p.e.a], b=nodes[p.e.b];
+      const x=a.x+(b.x-a.x)*p.t, y=a.y+(b.y-a.y)*p.t;
+      p.trail.push({x,y}); if(p.trail.length>14) p.trail.shift();
+
+      for (let i=1;i<p.trail.length;i++) {
+        ctx.beginPath();
+        ctx.moveTo(p.trail[i-1].x,p.trail[i-1].y);
+        ctx.lineTo(p.trail[i].x,p.trail[i].y);
+        ctx.strokeStyle=getColor((i/p.trail.length)*p.op*0.45);
+        ctx.lineWidth=p.sz*0.6; ctx.stroke();
+      }
+      const pg=ctx.createRadialGradient(x,y,0,x,y,p.sz*3);
+      pg.addColorStop(0,getColor(p.op)); pg.addColorStop(1,getColor(0));
+      ctx.beginPath(); ctx.arc(x,y,p.sz*3,0,Math.PI*2);
+      ctx.fillStyle=pg; ctx.fill();
+      ctx.beginPath(); ctx.arc(x,y,p.sz*0.6,0,Math.PI*2);
+      ctx.fillStyle=getColor(p.op); ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('load', () => { resize(); requestAnimationFrame(draw); });
+  window.addEventListener('resize', () => { ctx.setTransform(1,0,0,1,0,0); resize(); });
+})();
+
+/* ── About flow canvas — hex grid + rising particles ── */
+(function() {
+  const c = document.getElementById('flow-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+
+  function resize() {
+    c.width  = c.parentElement.clientWidth  * devicePixelRatio;
+    c.height = c.parentElement.clientWidth * 0.75 * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    init();
+  }
+  const W=()=>c.width/devicePixelRatio, H=()=>c.height/devicePixelRatio;
+  let fps=[];
+
+  function drawHex() {
+    const s=38;
+    ctx.strokeStyle=html.dataset.theme==='dark'?'rgba(77,168,232,0.06)':'rgba(26,111,168,0.055)';
+    ctx.lineWidth=0.8;
+    for(let row=-1; row*s*1.5<H()+s; row++) {
+      for(let col=-1; col*s*1.732<W()+s; col++) {
+        const ox=(row%2)*s*0.866;
+        const cx=col*s*1.732+ox, cy=row*s*1.5;
+        ctx.beginPath();
+        for(let i=0;i<6;i++){
+          const a=(Math.PI/3)*i-Math.PI/6;
+          const px=cx+s*0.82*Math.cos(a), py=cy+s*0.82*Math.sin(a);
+          i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+        }
+        ctx.closePath(); ctx.stroke();
+      }
+    }
+  }
+
+  function makeFP() {
+    return {
+      x:Math.random()*W(), y:H()+10,
+      vx:(Math.random()-0.35)*0.7,
+      vy:-(Math.random()*0.45+0.12),
+      life:0, max:Math.random()*0.7+0.35,
+      sz:Math.random()*2.8+0.8,
+      hue:Math.random()*20+195
+    };
+  }
+  function resetFP(p){ Object.assign(p, makeFP()); p.y=H()+10; }
+
+  function init() { fps=Array.from({length:70},makeFP).map(p=>{p.y=Math.random()*H();p.life=Math.random()*p.max;return p;}); }
+
+  function draw() {
+    ctx.clearRect(0,0,W(),H());
+    drawHex();
+
+    // Flow lines
+    const now=Date.now()*0.012;
+    for(let i=0;i<5;i++){
+      const y=(H()/5)*i+(now%(H()/5));
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W(),y);
+      ctx.strokeStyle=html.dataset.theme==='dark'?`rgba(77,168,232,0.04)`:`rgba(26,111,168,0.035)`;
+      ctx.lineWidth=0.5; ctx.stroke();
+    }
+
+    fps.forEach(p=>{
+      p.life+=0.007;
+      p.x+=p.vx+Math.sin(p.y*0.022+p.life*2)*0.35;
+      p.y+=p.vy;
+      if(p.y<-10||p.life>p.max) resetFP(p);
+      const alpha=Math.sin((p.life/p.max)*Math.PI)*0.55;
+      const grd=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.sz*2.5);
+      grd.addColorStop(0,`hsla(${p.hue},65%,52%,${alpha})`);
+      grd.addColorStop(1,`hsla(${p.hue},65%,52%,0)`);
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.sz*2.5,0,Math.PI*2);
+      ctx.fillStyle=grd; ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.sz*0.5,0,Math.PI*2);
+      ctx.fillStyle=`hsla(${p.hue},70%,55%,${alpha*1.5})`; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('load',()=>{resize();draw();});
+  window.addEventListener('resize',()=>{ctx.setTransform(1,0,0,1,0,0);setTimeout(resize,100);});
+})();
+
+/* ── Scroll reveal + word reveal ── */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // Trigger dp-fill bars
+      e.target.querySelectorAll && e.target.querySelectorAll('.dp-fill').forEach((bar, i) => {
+        setTimeout(() => {
+          bar.style.transform = `scaleX(${bar.dataset.w||1})`;
+        }, 200 + i*120);
+      });
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal, .word-reveal').forEach(el => revealObs.observe(el));
+
+// Also trigger dp bars when parent reveal fires
+const dpEl = document.querySelector('.dp');
+if (dpEl) {
+  const dpObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.dp-fill').forEach((bar, i) => {
+          setTimeout(() => {
+            bar.style.transform = `scaleX(${bar.dataset.w||1})`;
+          }, 400 + i*130);
+        });
+        dpObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  dpObs.observe(dpEl);
+}
+
+/* ── Counter animation for stat ── */
+const s1El = document.getElementById('s1');
+if (s1El) {
+  const cObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const start = performance.now();
+      function upd(now) {
+        const p = Math.min((now-start)/1600, 1);
+        const ease = 1-Math.pow(1-p,3);
+        s1El.textContent = Math.round(ease*2023);
+        if (p<1) requestAnimationFrame(upd);
+      }
+      requestAnimationFrame(upd);
+      cObs.unobserve(e.target);
+    });
+  }, {threshold:0.5});
+  cObs.observe(s1El);
+}
+
+/* ── Passive scroll performance ── */
+document.addEventListener('scroll', () => {}, {passive: true});
+</script>
+</body>
+</html>

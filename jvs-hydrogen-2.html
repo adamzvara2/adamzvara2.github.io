@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JVS Hydrogen — Hydrogen Infrastructure Consulting</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #ffffff;
+    --off-white: #f5f8fc;
+    --light-blue: #e8f3fb;
+    --blue: #1a6fa8;
+    --blue-mid: #2589cc;
+    --blue-light: #6ab4e8;
+    --blue-pale: #b8d9f0;
+    --text-dark: #0d2235;
+    --text-mid: #3a5a78;
+    --text-light: #7a9ab5;
+    --border: #d8e8f4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--white);
+    color: var(--text-dark);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ===================== GLOBAL BG CANVAS ===================== */
+  #bg-canvas {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ===================== NAV ===================== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    height: 68px; padding: 0 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text-dark); letter-spacing: 0.3px; }
+  .logo span { color: var(--blue); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-size: 13px; font-weight: 500; color: var(--text-mid);
+    text-decoration: none; letter-spacing: 0.3px; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--blue); }
+  .nav-cta {
+    background: var(--blue) !important; color: #fff !important;
+    padding: 9px 22px; border-radius: 6px; transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ===================== HERO ===================== */
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 10vw 80px; z-index: 1; overflow: hidden;
+  }
+
+  /* Flow network canvas inside hero */
+  #hero-canvas {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+
+  .hero-content { max-width: 580px; position: relative; z-index: 2; }
+
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--blue);
+    letter-spacing: 2.5px; text-transform: uppercase;
+    margin-bottom: 26px;
+    animation: fadeUp 0.9s 0.1s both;
+  }
+  .hero-label::before { content: ''; width: 28px; height: 1.5px; background: var(--blue); border-radius: 2px; }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 4.5vw, 62px);
+    line-height: 1.1; color: var(--text-dark);
+    margin-bottom: 26px;
+    animation: fadeUp 0.9s 0.2s both;
+  }
+  h1 em { font-style: italic; color: var(--blue); }
+
+  .hero-sub {
+    font-size: 17px; line-height: 1.8; color: var(--text-mid);
+    font-weight: 300; max-width: 460px; margin-bottom: 42px;
+    animation: fadeUp 0.9s 0.3s both;
+  }
+
+  /* Animated data readout */
+  .hero-data {
+    display: flex; gap: 32px; margin-bottom: 40px;
+    animation: fadeUp 0.9s 0.35s both;
+  }
+  .data-chip {
+    border-left: 2px solid var(--blue-light);
+    padding-left: 12px;
+  }
+  .data-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px; color: var(--blue); display: block;
+    font-weight: 400;
+  }
+  .data-lbl { font-size: 11px; color: var(--text-light); letter-spacing: 1px; text-transform: uppercase; }
+
+  .hero-actions { display: flex; gap: 14px; animation: fadeUp 0.9s 0.4s both; }
+  .btn {
+    display: inline-block; font-size: 14px; font-weight: 500;
+    padding: 13px 28px; border-radius: 7px; text-decoration: none;
+    transition: all 0.22s; letter-spacing: 0.1px;
+  }
+  .btn-primary {
+    background: var(--blue); color: #fff;
+    box-shadow: 0 4px 20px rgba(26,111,168,0.28);
+  }
+  .btn-primary:hover { background: #155d91; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,111,168,0.36); }
+  .btn-outline { background: transparent; color: var(--blue); border: 1.5px solid var(--blue-light); }
+  .btn-outline:hover { background: var(--light-blue); border-color: var(--blue); transform: translateY(-2px); }
+
+  .scroll-hint {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 7px;
+    color: var(--text-light); font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase; z-index: 2;
+    animation: fadeUp 0.9s 0.8s both;
+  }
+  .scroll-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue-light); animation: sdrop 1.8s ease-in-out infinite; }
+  @keyframes sdrop { 0%,100%{transform:translateY(0);opacity:1} 50%{transform:translateY(8px);opacity:0.3} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ===================== SECTIONS ===================== */
+  section { position: relative; z-index: 1; }
+  .section-inner { padding: 100px 10vw; }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 400; color: var(--blue);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .section-label::before { content:''; width:20px; height:1.5px; background:var(--blue); border-radius:2px; }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 3vw, 44px);
+    line-height: 1.18; color: var(--text-dark); margin-bottom: 20px;
+  }
+  h2 em { font-style: italic; color: var(--blue); }
+  .body-text { font-size: 16px; line-height: 1.82; color: var(--text-mid); font-weight: 300; max-width: 540px; }
+
+  /* Glowing divider line */
+  .glow-line {
+    width: 100%; height: 1px;
+    background: linear-gradient(to right, transparent, var(--blue-light), transparent);
+    margin: 0;
+  }
+
+  /* ===================== ABOUT ===================== */
+  #about { background: var(--off-white); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+
+  /* Flow visualizer panel */
+  .flow-panel {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 14px; overflow: hidden;
+    background: var(--white);
+    box-shadow: 0 4px 30px rgba(26,111,168,0.08);
+  }
+  .flow-panel canvas { display: block; width: 100%; aspect-ratio: 4/3; }
+  .flow-panel-label {
+    position: absolute; bottom: 16px; left: 20px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--text-light); letter-spacing: 2px; text-transform: uppercase;
+  }
+  /* Corner accents */
+  .flow-panel::before, .flow-panel::after {
+    content: ''; position: absolute; width: 16px; height: 16px;
+    border-color: var(--blue-light); border-style: solid; opacity: 0.6;
+  }
+  .flow-panel::before { top: 8px; left: 8px; border-width: 1.5px 0 0 1.5px; }
+  .flow-panel::after  { bottom: 8px; right: 8px; border-width: 0 1.5px 1.5px 0; }
+
+  .about-stats { display: flex; margin-top: 44px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 26px 0; }
+  .stat { flex: 1; text-align: center; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+  .stat-n { font-family: 'DM Serif Display', serif; font-size: 34px; color: var(--blue); display: block; }
+  .stat-l { font-size: 11px; color: var(--text-light); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
+
+  /* ===================== SERVICES ===================== */
+  #services { background: var(--white); }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+    margin-top: 52px;
+  }
+  .service-card {
+    background: var(--white); padding: 36px 28px;
+    transition: background 0.28s;
+    position: relative; overflow: hidden;
+  }
+  .service-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(to right, var(--blue-light), var(--blue));
+    transform: scaleX(0); transform-origin: left; transition: transform 0.35s;
+  }
+  .service-card:hover { background: var(--light-blue); }
+  .service-card:hover::after { transform: scaleX(1); }
+  .svc-icon { width: 44px; height: 44px; background: var(--light-blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 18px; transition: background 0.28s; }
+  .service-card:hover .svc-icon { background: rgba(26,111,168,0.14); }
+  .svc-name { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--text-dark); margin-bottom: 10px; line-height: 1.3; }
+  .svc-desc { font-size: 14px; line-height: 1.75; color: var(--text-mid); font-weight: 300; }
+
+  /* ===================== PROJECTS ===================== */
+  #projects { background: var(--off-white); }
+  .projects-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; margin-top: 52px; }
+  .project-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; transition: box-shadow 0.3s, transform 0.3s;
+  }
+  .project-card:hover { box-shadow: 0 14px 40px rgba(26,111,168,0.13); transform: translateY(-5px); }
+  .project-thumb { height: 170px; display: flex; align-items: center; justify-content: center; font-size: 56px; background: linear-gradient(135deg, var(--light-blue), #d0eaf8); position: relative; overflow: hidden; }
+  /* Animated scan line on thumb */
+  .project-thumb::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 1px;
+    background: linear-gradient(to right, transparent, var(--blue-light), transparent);
+    animation: scan 3s linear infinite; opacity: 0.7;
+  }
+  @keyframes scan { 0%{top:-2px} 100%{top:100%} }
+  .project-body { padding: 22px 26px; }
+  .project-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--blue); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+  .project-name { font-family: 'DM Serif Display', serif; font-size: 19px; color: var(--text-dark); margin-bottom: 8px; }
+  .project-desc { font-size: 13px; color: var(--text-mid); font-weight: 300; line-height: 1.72; }
+
+  /* ===================== EXPO ===================== */
+  #expo { background: var(--white); }
+  .expo-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .expo-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .expo-box {
+    aspect-ratio: 1; background: linear-gradient(135deg, var(--light-blue), #d4ecf7);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 44px; border: 1px solid var(--border);
+    transition: transform 0.28s, box-shadow 0.28s;
+    position: relative; overflow: hidden;
+  }
+  .expo-box::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(26,111,168,0.04), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .expo-box:hover { transform: scale(1.04); box-shadow: 0 10px 32px rgba(26,111,168,0.12); }
+  .expo-box:hover::before { opacity: 1; }
+
+  /* ===================== ACADEMY ===================== */
+  #academy { background: var(--text-dark); }
+  #academy .section-label { color: var(--blue-light); }
+  #academy .section-label::before { background: var(--blue-light); }
+  #academy h2 { color: #fff; }
+  #academy .body-text { color: rgba(255,255,255,0.55); }
+
+  .academy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .acad-features { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+  .af {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 18px 20px; border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px; background: rgba(255,255,255,0.03);
+    transition: background 0.28s, border-color 0.28s;
+  }
+  .af:hover { background: rgba(26,111,168,0.15); border-color: rgba(106,180,232,0.3); }
+  .af-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .af-title { font-weight: 500; color: #fff; font-size: 14px; margin-bottom: 3px; }
+  .af-desc { font-size: 13px; color: rgba(255,255,255,0.42); font-weight: 300; line-height: 1.6; }
+
+  /* Animated pressure gauge / data panel */
+  .data-panel {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 16px; padding: 40px 36px; position: relative; overflow: hidden;
+  }
+  .data-panel::before {
+    content: ''; position: absolute; top: -80px; right: -80px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(26,111,168,0.18), transparent 70%);
+    border-radius: 50%;
+  }
+  /* Corner accents */
+  .dp-corner { position: absolute; width: 14px; height: 14px; border-color: rgba(106,180,232,0.4); border-style: solid; }
+  .dp-c1 { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+  .dp-c2 { top: 10px; right: 10px; border-width: 1px 1px 0 0; }
+  .dp-c3 { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; }
+  .dp-c4 { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+
+  .dp-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 28px; }
+  .dp-big { font-family: 'DM Serif Display', serif; font-size: 76px; color: #fff; line-height: 1; }
+  .dp-big sub { font-size: 0.45em; color: var(--blue-light); }
+  .dp-sub { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 36px; }
+
+  /* Animated bar metrics */
+  .dp-metrics { display: flex; flex-direction: column; gap: 14px; margin-top: 32px; border-top: 1px solid rgba(255,255,255,0.07); padding-top: 28px; }
+  .dp-metric-row { display: flex; align-items: center; gap: 12px; }
+  .dp-metric-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.35); width: 80px; flex-shrink: 0; letter-spacing: 1px; }
+  .dp-bar-track { flex: 1; height: 3px; background: rgba(255,255,255,0.07); border-radius: 3px; overflow: hidden; }
+  .dp-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--blue), var(--blue-light)); transform-origin: left; animation: barIn 1.6s ease both; }
+  @keyframes barIn { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+  .dp-metric-val { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--blue-light); width: 60px; text-align: right; }
+
+  /* ===================== CONTACT ===================== */
+  #contact { background: var(--off-white); }
+  .contact-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+  .contact-inner h2 { margin-bottom: 16px; }
+  .contact-inner .body-text { max-width: 100%; margin: 0 auto 36px; }
+  .contact-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 14px; padding: 44px 36px;
+    box-shadow: 0 4px 24px rgba(26,111,168,0.07);
+    position: relative; overflow: hidden;
+  }
+  /* Animated top edge */
+  .contact-card::before {
+    content: ''; position: absolute; top: 0; left: -100%; right: -100%;
+    height: 2px; background: linear-gradient(to right, transparent, var(--blue-light), var(--blue), var(--blue-light), transparent);
+    animation: slideEdge 4s linear infinite;
+  }
+  @keyframes slideEdge { 0%{transform:translateX(-50%)} 100%{transform:translateX(50%)} }
+  .contact-email { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--blue); display: block; margin-bottom: 10px; text-decoration: none; transition: opacity 0.2s; }
+  .contact-email:hover { opacity: 0.72; }
+  .contact-loc { font-size: 13px; color: var(--text-light); margin-bottom: 28px; }
+
+  /* ===================== FOOTER ===================== */
+  footer {
+    z-index: 1; position: relative; background: var(--text-dark);
+    padding: 30px 60px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo { font-family: 'DM Serif Display', serif; font-size: 19px; color: #fff; }
+  .footer-logo span { color: var(--blue-light); }
+  .footer-copy { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.25); }
+
+  /* ===================== REVEAL ===================== */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.72s ease, transform 0.72s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; }
+
+  /* ============ 2026 TREND LAYER ============ */
+  #scroll-progress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 999;
+    background: linear-gradient(90deg, #3cf3ff, #7d5bff, #3cf3ff);
+    box-shadow: 0 0 22px rgba(60, 243, 255, 0.65);
+  }
+
+  #theme-toggle {
+    margin-left: auto; margin-right: 14px;
+    border: 1px solid rgba(124, 165, 255, 0.45);
+    background: rgba(9, 18, 44, 0.8); color: #d8e7ff;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 7px 12px; border-radius: 999px; cursor: pointer;
+    transition: transform 0.2s, background 0.25s;
+  }
+  #theme-toggle:hover { transform: translateY(-1px); background: rgba(16, 33, 72, 0.95); }
+
+  body.trend-neo {
+    --white: #070d1d;
+    --off-white: #09152e;
+    --light-blue: rgba(80, 142, 255, 0.12);
+    --blue: #5bb8ff;
+    --blue-mid: #6f7cff;
+    --blue-light: #74d7ff;
+    --blue-pale: #1f3467;
+    --text-dark: #ebf3ff;
+    --text-mid: #a3b8da;
+    --text-light: #718ab5;
+    --border: rgba(117, 164, 255, 0.24);
+  }
+  body.trend-neo nav { background: rgba(6, 11, 28, 0.78); border-bottom-color: var(--border); }
+  body.trend-neo .logo { color: #f1f6ff; }
+  body.trend-neo #hero {
+    background:
+      radial-gradient(600px 240px at 70% 30%, rgba(98, 173, 255, 0.2), transparent 70%),
+      radial-gradient(500px 260px at 82% 60%, rgba(111, 124, 255, 0.15), transparent 72%);
+  }
+  body.trend-neo .hero-sub, body.trend-neo .body-text, body.trend-neo .svc-desc, body.trend-neo .project-desc, body.trend-neo .af-desc, body.trend-neo .contact-loc { color: var(--text-mid); }
+  body.trend-neo .flow-panel, body.trend-neo .service-card, body.trend-neo .project-card, body.trend-neo .expo-box, body.trend-neo .contact-card, body.trend-neo .dp-bar-track { background: rgba(9, 20, 44, 0.7); }
+  body.trend-neo .service-card, body.trend-neo .project-card, body.trend-neo .expo-box, body.trend-neo .flow-panel, body.trend-neo .contact-card { backdrop-filter: blur(10px); }
+  body.trend-neo .btn-primary { background: linear-gradient(135deg, #4ea9ff, #6f7cff); box-shadow: 0 8px 30px rgba(82, 163, 255, 0.35); }
+
+  body.trend-neo .services-grid {
+    display: grid; gap: 10px; background: transparent; border: none;
+    grid-template-columns: repeat(6, 1fr);
+  }
+  body.trend-neo .service-card { border: 1px solid var(--border); border-radius: 12px; }
+  body.trend-neo .service-card:nth-child(1) { grid-column: span 3; }
+  body.trend-neo .service-card:nth-child(2) { grid-column: span 3; }
+  body.trend-neo .service-card:nth-child(3) { grid-column: span 2; }
+  body.trend-neo .service-card:nth-child(4) { grid-column: span 2; }
+  body.trend-neo .service-card:nth-child(5) { grid-column: span 2; }
+  body.trend-neo .service-card:nth-child(6) { grid-column: span 6; }
+
+  .ai-prompt { margin-top: 26px; max-width: 650px; }
+  .ai-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--blue-light); display: block; margin-bottom: 8px;
+  }
+  .ai-prompt p { color: var(--text-mid); line-height: 1.8; font-size: 13px; }
+  .prompt-chip {
+    font: inherit; font-size: 12px; margin: 6px 6px 0 0;
+    border: 1px solid var(--border); border-radius: 999px;
+    color: var(--blue); background: rgba(26,111,168,0.08);
+    padding: 6px 10px; cursor: pointer; transition: all 0.2s;
+  }
+  .prompt-chip:hover { background: rgba(106,180,232,0.18); transform: translateY(-1px); }
+
+  #ai-strip { background: var(--off-white); }
+  .ai-strip-inner {
+    border: 1px solid var(--border); border-radius: 14px;
+    background: linear-gradient(120deg, rgba(16, 35, 75, 0.8), rgba(8, 23, 52, 0.7));
+    color: #d8e6ff;
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 26px;
+    padding: 28px 30px;
+  }
+  .ai-strip-left h2 { color: #f4f8ff; font-size: clamp(24px, 2.6vw, 36px); margin-bottom: 0; }
+  .ai-strip-right { display: grid; gap: 10px; }
+  .ai-strip-right div { border: 1px solid rgba(127, 197, 255, 0.25); border-radius: 10px; padding: 12px; background: rgba(255,255,255,0.02); }
+  .ai-strip-right strong { display: block; font-size: 13px; margin-bottom: 3px; color: #dbedff; }
+  .ai-strip-right span { font-size: 12px; color: #9db9e2; }
+
+  body.trend-neo .project-card { transform-style: preserve-3d; transition: transform 0.2s ease, box-shadow 0.25s ease; }
+
+  body.trend-light {
+    --white: #ffffff;
+    --off-white: #f5f8fc;
+    --light-blue: #e8f3fb;
+    --blue: #1a6fa8;
+    --blue-mid: #2589cc;
+    --blue-light: #6ab4e8;
+    --blue-pale: #b8d9f0;
+    --text-dark: #0d2235;
+    --text-mid: #3a5a78;
+    --text-light: #7a9ab5;
+    --border: #d8e8f4;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    #theme-toggle { margin-left: 10px; margin-right: 0; }
+    .nav-links { display: none; }
+    .ai-strip-inner { grid-template-columns: 1fr; padding: 20px; }
+    body.trend-neo .services-grid { grid-template-columns: 1fr; }
+    body.trend-neo .service-card:nth-child(n) { grid-column: span 1; }
+    .section-inner { padding: 64px 6vw; }
+    .about-grid, .expo-inner, .academy-grid { grid-template-columns: 1fr; }
+    .services-grid, .projects-grid { grid-template-columns: 1fr; }
+    footer { padding: 24px 20px; flex-direction: column; gap: 10px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div id="scroll-progress"></div>
+
+<!-- Global bubble canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">JVS <span>Hydrogen</span></div>
+  <button id="theme-toggle" aria-label="Toggle visual mode">Neo</button>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#academy">Academy</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+
+  <div class="hero-content">
+    <div class="hero-label">Hydrogen Infrastructure</div>
+    <h1>Hydrogen is the <em id="hero-rotating-word">core architecture</em> of tomorrow.</h1>
+    <p class="hero-sub">JVS Consulting specializes in hydrogen refueling stations and infrastructure, providing technical expertise that ensures safe, compliant, and efficient project delivery.</p>
+
+    <!-- Live-counting data chips -->
+    <div class="hero-data">
+      <div class="data-chip">
+        <span class="data-val" id="count-pressure">0</span>
+        <span class="data-lbl">Bar max pressure</span>
+      </div>
+      <div class="data-chip">
+        <span class="data-val" id="count-temp">0</span>
+        <span class="data-lbl">°C pre-cool</span>
+      </div>
+      <div class="data-chip">
+        <span class="data-val" id="count-energy">0</span>
+        <span class="data-lbl">kWh/kg density</span>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#about" class="btn btn-primary">Who We Are</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+
+    <div class="ai-prompt reveal d2">
+      <span class="ai-label">AI Planner</span>
+      <p>Try prompts:
+        <button class="prompt-chip">Plan a 700 bar station</button>
+        <button class="prompt-chip">Estimate CAPEX ranges</button>
+        <button class="prompt-chip">Check ATEX compliance path</button>
+      </p>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-dot"></div>
+    Scroll
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- AI TREND STRIP -->
+<section id="ai-strip">
+  <div class="section-inner ai-strip-inner reveal">
+    <div class="ai-strip-left">
+      <div class="section-label">AI-First Workflow</div>
+      <h2>Human expertise powered by AI-speed decision support.</h2>
+    </div>
+    <div class="ai-strip-right">
+      <div><strong>Scenario Modeling</strong><span>Test station sizing assumptions quickly</span></div>
+      <div><strong>Compliance Paths</strong><span>Map regulatory checks per project phase</span></div>
+      <div><strong>Delivery Signals</strong><span>Track project risks before commissioning</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div>
+        <div class="section-label reveal">About JVS</div>
+        <h2 class="reveal d1">Technical expertise in <em>H₂ infrastructure</em></h2>
+        <p class="body-text reveal d2">JVS Consulting provides specialized engineering and consulting services for hydrogen refueling stations across Europe. Our team ensures safe, compliant, and technically superior project delivery — from feasibility studies through to full commissioning.</p>
+        <div class="about-stats reveal d3">
+          <div class="stat"><span class="stat-n">700</span><span class="stat-l">Bar expertise</span></div>
+          <div class="stat"><span class="stat-n">EU</span><span class="stat-l">Market focus</span></div>
+          <div class="stat"><span class="stat-n">H₂</span><span class="stat-l">Specialists</span></div>
+        </div>
+      </div>
+
+      <!-- Flow visualizer panel -->
+      <div class="flow-panel reveal d2">
+        <canvas id="flow-canvas"></canvas>
+        <div class="flow-panel-label">H₂ flow simulation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-label reveal">What We Do</div>
+    <h2 class="reveal d1">Our <em>services</em></h2>
+    <div class="services-grid">
+      <div class="service-card reveal d1"><div class="svc-icon">⚙️</div><div class="svc-name">HRS Design & Engineering</div><p class="svc-desc">Full engineering support for hydrogen refueling stations — from concept through detailed design, ensuring compliance with European technical standards.</p></div>
+      <div class="service-card reveal d2"><div class="svc-icon">🛡️</div><div class="svc-name">Safety & Compliance</div><p class="svc-desc">Comprehensive safety assessments, ATEX zoning, risk analysis, and regulatory alignment across EU hydrogen infrastructure directives.</p></div>
+      <div class="service-card reveal d3"><div class="svc-icon">🔬</div><div class="svc-name">Technical Consulting</div><p class="svc-desc">Expert advisory on compressor selection, storage technologies, and dispenser systems for diverse hydrogen mobility applications.</p></div>
+      <div class="service-card reveal d1"><div class="svc-icon">🚌</div><div class="svc-name">Fleet Mobility Solutions</div><p class="svc-desc">Tailored hydrogen fueling strategies for bus fleets and heavy transport operators transitioning to zero-emission operations.</p></div>
+      <div class="service-card reveal d2"><div class="svc-icon">📋</div><div class="svc-name">Project Management</div><p class="svc-desc">End-to-end project oversight — coordinating contractors, permitting, stakeholders, and commissioning to deliver on time and on budget.</p></div>
+      <div class="service-card reveal d3"><div class="svc-icon">🌍</div><div class="svc-name">EU Grant Support</div><p class="svc-desc">Technical input for EU funding applications including CEF and IPCEI programs supporting hydrogen infrastructure rollout.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label reveal">Portfolio</div>
+    <h2 class="reveal d1">What we've <em>worked on</em></h2>
+    <div class="projects-grid">
+      <div class="project-card reveal d1"><div class="project-thumb">🚌</div><div class="project-body"><div class="project-tag">Public Transport</div><div class="project-name">H₂ Bus Fleet Infrastructure</div><p class="project-desc">Technical design and compliance support for a high-capacity hydrogen refueling hub serving municipal bus operators.</p></div></div>
+      <div class="project-card reveal d2"><div class="project-thumb">⛽</div><div class="project-body"><div class="project-tag">Refueling Station</div><div class="project-name">High-Pressure HRS 700 bar</div><p class="project-desc">Engineering and safety review for a 700-bar public hydrogen station including ATEX zoning and dispenser specification.</p></div></div>
+      <div class="project-card reveal d1"><div class="project-thumb">🏭</div><div class="project-body"><div class="project-tag">Industrial</div><div class="project-name">Electrolyzer Integration Study</div><p class="project-desc">Feasibility and technical study for on-site green hydrogen production connected to an existing refueling station.</p></div></div>
+      <div class="project-card reveal d2"><div class="project-thumb">🚛</div><div class="project-body"><div class="project-tag">Heavy Transport</div><div class="project-name">Long-Haul FCEV Corridor</div><p class="project-desc">Infrastructure planning for a multi-point hydrogen corridor supporting fuel cell electric trucks across Central Europe.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- EXPO -->
+<section id="expo">
+  <div class="section-inner">
+    <div class="expo-inner">
+      <div class="expo-imgs">
+        <div class="expo-box reveal d1">🔬</div>
+        <div class="expo-box reveal d2">🌿</div>
+        <div class="expo-box reveal d3">⚡</div>
+        <div class="expo-box reveal d4">🤝</div>
+      </div>
+      <div>
+        <div class="section-label reveal">Hamburg 2025</div>
+        <h2 class="reveal d1">Hydrogen Technology <em>World Expo</em></h2>
+        <p class="body-text reveal d2">In 2025, the JVS team participated in one of Europe's key hydrogen events in Hamburg. The expo provided valuable insights into the latest refueling systems, safety standards, and large-scale deployment strategies. Our presence strengthened industry connections and reaffirmed our commitment to reliable hydrogen infrastructure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- ACADEMY -->
+<section id="academy">
+  <div class="section-inner">
+    <div class="academy-grid">
+      <div>
+        <div class="section-label reveal">Education</div>
+        <h2 class="reveal d1">Hydrogen <em style="color:#6ab4e8;">Academy</em></h2>
+        <p class="body-text reveal d2">Ready to understand hydrogen beyond the basics? Our Academy breaks down hydrogen technologies, technical specifications, and system design — with clear explanations, real technical depth, and practical knowledge.</p>
+        <div class="acad-features reveal d3">
+          <div class="af"><div class="af-icon">📐</div><div><div class="af-title">Technical depth</div><div class="af-desc">System design, compressor types, storage and dispenser protocols explained clearly.</div></div></div>
+          <div class="af"><div class="af-icon">📊</div><div><div class="af-title">Real KPIs</div><div class="af-desc">The metrics that define station efficiency, uptime, and economics.</div></div></div>
+          <div class="af"><div class="af-icon">📄</div><div><div class="af-title">Regulatory framework</div><div class="af-desc">EU standards, ATEX, TPED, and national permitting made accessible.</div></div></div>
+        </div>
+        <div style="margin-top:30px;" class="reveal d4"><a href="#contact" class="btn btn-primary">Explore Academy</a></div>
+      </div>
+
+      <!-- Data panel with animated bars -->
+      <div class="data-panel reveal d2">
+        <div class="dp-corner dp-c1"></div>
+        <div class="dp-corner dp-c2"></div>
+        <div class="dp-corner dp-c3"></div>
+        <div class="dp-corner dp-c4"></div>
+        <div class="dp-title">// System — H₂ Properties</div>
+        <div class="dp-big">H<sub>2</sub></div>
+        <div class="dp-sub">Dihydrogen · Molecular weight: 2.016 g/mol</div>
+        <div class="dp-metrics">
+          <div class="dp-metric-row">
+            <span class="dp-metric-label">Pressure</span>
+            <div class="dp-bar-track"><div class="dp-bar-fill" style="width:100%;animation-delay:0.2s"></div></div>
+            <span class="dp-metric-val">700 bar</span>
+          </div>
+          <div class="dp-metric-row">
+            <span class="dp-metric-label">Energy</span>
+            <div class="dp-bar-track"><div class="dp-bar-fill" style="width:75%;animation-delay:0.4s"></div></div>
+            <span class="dp-metric-val">33 kWh/kg</span>
+          </div>
+          <div class="dp-metric-row">
+            <span class="dp-metric-label">Fill time</span>
+            <div class="dp-bar-track"><div class="dp-bar-fill" style="width:20%;animation-delay:0.6s"></div></div>
+            <span class="dp-metric-val">3–5 min</span>
+          </div>
+          <div class="dp-metric-row">
+            <span class="dp-metric-label">Pre-cool</span>
+            <div class="dp-bar-track"><div class="dp-bar-fill" style="width:55%;animation-delay:0.8s"></div></div>
+            <span class="dp-metric-val">−40°C</span>
+          </div>
+          <div class="dp-metric-row">
+            <span class="dp-metric-label">Purity</span>
+            <div class="dp-bar-track"><div class="dp-bar-fill" style="width:98%;animation-delay:1s"></div></div>
+            <span class="dp-metric-val">99.97%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-inner">
+      <div class="section-label reveal" style="justify-content:center;">Get in Touch</div>
+      <h2 class="reveal d1">Let's build the <em>hydrogen future</em> together</h2>
+      <p class="body-text reveal d2" style="margin:14px auto 36px;">Whether you're developing a new HRS, need technical validation, or want to understand hydrogen infrastructure — we're here.</p>
+      <div class="contact-card reveal d3">
+        <a href="mailto:info@jvshydrogen.eu" class="contact-email">info@jvshydrogen.eu</a>
+        <div class="contact-loc">📍 Janšákova 33, 841 07 Bratislava, Slovakia</div>
+        <a href="mailto:info@jvshydrogen.eu" class="btn btn-primary">Send a Message</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">JVS <span>Hydrogen</span></div>
+  <div class="footer-copy">© 2025 JVS Hydrogen s.r.o. All rights reserved.</div>
+</footer>
+
+<script>
+/* ============================================================
+   1. GLOBAL BACKGROUND — soft rising bubbles
+   ============================================================ */
+(function() {
+  const c = document.getElementById('bg-canvas');
+  const ctx = c.getContext('2d');
+  function resize() { c.width = window.innerWidth; c.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+
+  const bubbles = Array.from({length: 26}, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight + window.innerHeight * 0.5,
+    r: Math.random() * 38 + 5,
+    vx: (Math.random() - 0.5) * 0.2,
+    vy: -(Math.random() * 0.22 + 0.07),
+    op: Math.random() * 0.05 + 0.012
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    bubbles.forEach(b => {
+      b.x += b.vx; b.y += b.vy;
+      if (b.y + b.r < 0) { b.y = c.height + b.r; b.x = Math.random() * c.width; }
+      if (b.x < -b.r) b.x = c.width + b.r;
+      if (b.x > c.width + b.r) b.x = -b.r;
+      ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(26,111,168,${b.op})`; ctx.lineWidth = 1.2; ctx.stroke();
+      ctx.beginPath(); ctx.arc(b.x - b.r*0.28, b.y - b.r*0.28, b.r*0.2, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(106,180,232,${b.op*2})`; ctx.lineWidth = 0.6; ctx.stroke();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ============================================================
+   2. HERO CANVAS — hydrogen pipeline / flow network
+      Nodes connected by edges; glowing particles travel along them
+   ============================================================ */
+(function() {
+  const c = document.getElementById('hero-canvas');
+  const ctx = c.getContext('2d');
+
+  function resize() {
+    c.width = c.offsetWidth; c.height = c.offsetHeight;
+    initNetwork();
+  }
+
+  let nodes = [], edges = [], particles = [];
+
+  function initNetwork() {
+    nodes = []; edges = []; particles = [];
+    const W = c.width, H = c.height;
+    // Create a grid-ish network shifted to the right half
+    const cols = 7, rows = 5;
+    const marginX = W * 0.35, marginY = H * 0.12;
+    const stepX = (W * 0.58) / (cols - 1);
+    const stepY = (H * 0.76) / (rows - 1);
+
+    for (let r = 0; r < rows; r++) {
+      for (let col = 0; col < cols; col++) {
+        const jitter = (Math.random() - 0.5) * stepX * 0.45;
+        const jitterY = (Math.random() - 0.5) * stepY * 0.45;
+        nodes.push({
+          x: marginX + col * stepX + jitter,
+          y: marginY + r * stepY + jitterY,
+          r: Math.random() * 3.5 + 2,
+          pulse: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    // Edges: connect each node to nearby nodes
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < stepX * 1.55) {
+          edges.push({ a: i, b: j, len: dist });
+        }
+      }
+    }
+
+    // Particles: travel along edges
+    for (let k = 0; k < 28; k++) {
+      spawnParticle();
+    }
+  }
+
+  function spawnParticle() {
+    if (!edges.length) return;
+    const edge = edges[Math.floor(Math.random() * edges.length)];
+    particles.push({
+      edge,
+      t: Math.random(),
+      speed: (Math.random() * 0.0025 + 0.0012) * (Math.random() < 0.5 ? 1 : -1),
+      size: Math.random() * 2.5 + 1.2,
+      op: Math.random() * 0.6 + 0.3,
+      trail: []
+    });
+  }
+
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    frame++;
+
+    // Draw edges
+    edges.forEach(e => {
+      const a = nodes[e.a], b = nodes[e.b];
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = 'rgba(26,111,168,0.08)'; ctx.lineWidth = 1; ctx.stroke();
+    });
+
+    // Draw nodes
+    nodes.forEach(n => {
+      n.pulse += 0.018;
+      const pulseFactor = Math.sin(n.pulse) * 0.5 + 1;
+      // Outer glow
+      const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 3 * pulseFactor);
+      g.addColorStop(0, 'rgba(26,111,168,0.18)'); g.addColorStop(1, 'rgba(26,111,168,0)');
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 3 * pulseFactor, 0, Math.PI*2);
+      ctx.fillStyle = g; ctx.fill();
+      // Node dot
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(26,111,168,0.55)`; ctx.fill();
+      ctx.strokeStyle = `rgba(106,180,232,0.6)`; ctx.lineWidth = 0.8; ctx.stroke();
+    });
+
+    // Draw particles
+    particles.forEach((p, idx) => {
+      p.t += p.speed;
+      if (p.t > 1 || p.t < 0) {
+        // Pick a new edge that shares the endpoint
+        const oldEdge = p.edge;
+        const endNode = p.speed > 0 ? oldEdge.b : oldEdge.a;
+        const connected = edges.filter(e => (e.a === endNode || e.b === endNode) && e !== oldEdge);
+        if (connected.length) {
+          p.edge = connected[Math.floor(Math.random() * connected.length)];
+          p.t = p.speed > 0 ? 0 : 1;
+        } else {
+          p.t = p.speed > 0 ? 1 : 0;
+          p.speed *= -1;
+        }
+      }
+
+      const a = nodes[p.edge.a], b = nodes[p.edge.b];
+      const x = a.x + (b.x - a.x) * p.t;
+      const y = a.y + (b.y - a.y) * p.t;
+
+      // Trail
+      p.trail.push({x, y});
+      if (p.trail.length > 12) p.trail.shift();
+
+      if (p.trail.length > 1) {
+        for (let i = 1; i < p.trail.length; i++) {
+          const alpha = (i / p.trail.length) * p.op * 0.5;
+          ctx.beginPath();
+          ctx.moveTo(p.trail[i-1].x, p.trail[i-1].y);
+          ctx.lineTo(p.trail[i].x, p.trail[i].y);
+          ctx.strokeStyle = `rgba(106,180,232,${alpha})`;
+          ctx.lineWidth = p.size * 0.5;
+          ctx.stroke();
+        }
+      }
+
+      // Particle dot
+      const pg = ctx.createRadialGradient(x, y, 0, x, y, p.size*2.5);
+      pg.addColorStop(0, `rgba(26,111,168,${p.op})`);
+      pg.addColorStop(1, 'rgba(106,180,232,0)');
+      ctx.beginPath(); ctx.arc(x, y, p.size*2.5, 0, Math.PI*2);
+      ctx.fillStyle = pg; ctx.fill();
+      ctx.beginPath(); ctx.arc(x, y, p.size*0.7, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(26,111,168,${p.op})`; ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  // Wait for layout, then init
+  window.addEventListener('load', () => { resize(); draw(); });
+  window.addEventListener('resize', () => { setTimeout(resize, 100); });
+})();
+
+/* ============================================================
+   3. ABOUT FLOW CANVAS — particle field flowing like hydrogen gas
+   ============================================================ */
+(function() {
+  const c = document.getElementById('flow-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+
+  function setSize() {
+    c.width = c.parentElement.clientWidth;
+    c.height = Math.round(c.width * 0.75);
+    init();
+  }
+
+  const W = () => c.width, H = () => c.height;
+  let flowParticles = [];
+
+  function init() {
+    flowParticles = Array.from({length: 80}, () => makeP());
+  }
+
+  function makeP() {
+    return {
+      x: Math.random() * (c.width || 400),
+      y: Math.random() * (c.height || 300),
+      vx: (Math.random() - 0.3) * 0.8,
+      vy: -(Math.random() * 0.5 + 0.1),
+      life: Math.random(),
+      maxLife: Math.random() * 0.6 + 0.4,
+      size: Math.random() * 3 + 1,
+      hue: Math.random() * 20 + 195  // blue range
+    };
+  }
+
+  function resetP(p) {
+    p.x = Math.random() * W();
+    p.y = H() + 10;
+    p.vx = (Math.random() - 0.3) * 0.8;
+    p.vy = -(Math.random() * 0.5 + 0.15);
+    p.life = 0;
+    p.maxLife = Math.random() * 0.6 + 0.4;
+    p.size = Math.random() * 3 + 1;
+  }
+
+  // Draw a subtle hex grid overlay
+  function drawHex(ctx, w, h) {
+    const s = 34; // hex size
+    ctx.strokeStyle = 'rgba(26,111,168,0.045)'; ctx.lineWidth = 0.8;
+    for (let row = 0; row * s * 1.5 < h + s; row++) {
+      for (let col = 0; col * s * 1.732 < w + s; col++) {
+        const offsetX = (row % 2) * s * 0.866;
+        const cx2 = col * s * 1.732 + offsetX;
+        const cy2 = row * s * 1.5;
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const angle = (Math.PI / 3) * i - Math.PI / 6;
+          const px2 = cx2 + s * 0.82 * Math.cos(angle);
+          const py2 = cy2 + s * 0.82 * Math.sin(angle);
+          i === 0 ? ctx.moveTo(px2, py2) : ctx.lineTo(px2, py2);
+        }
+        ctx.closePath(); ctx.stroke();
+      }
+    }
+  }
+
+  function draw() {
+    if (!c.width) { requestAnimationFrame(draw); return; }
+    ctx.clearRect(0, 0, W(), H());
+
+    // Hex grid
+    drawHex(ctx, W(), H());
+
+    // Flowing particles
+    flowParticles.forEach(p => {
+      p.life += 0.008;
+      p.x += p.vx + Math.sin(p.y * 0.025 + p.life * 2) * 0.3;
+      p.y += p.vy;
+
+      if (p.y < -10 || p.life > p.maxLife) resetP(p);
+
+      const alpha = Math.sin((p.life / p.maxLife) * Math.PI) * 0.55;
+      const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2.5);
+      grd.addColorStop(0, `hsla(${p.hue}, 65%, 52%, ${alpha})`);
+      grd.addColorStop(1, `hsla(${p.hue}, 65%, 52%, 0)`);
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${p.hue}, 70%, 55%, ${alpha * 1.4})`; ctx.fill();
+    });
+
+    // Horizontal flow lines (like pressure lines)
+    for (let i = 0; i < 5; i++) {
+      const y = (H() / 5) * i + ((Date.now() * 0.015) % (H() / 5));
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W(), y);
+      ctx.strokeStyle = `rgba(26,111,168,${0.03 + i * 0.005})`; ctx.lineWidth = 0.5; ctx.stroke();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('load', () => { setSize(); draw(); });
+  window.addEventListener('resize', () => { setTimeout(setSize, 100); });
+})();
+
+/* ============================================================
+   4. HERO COUNTER ANIMATION
+   ============================================================ */
+function animCount(el, target, duration, suffix = '') {
+  const start = performance.now();
+  function update(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * target) + suffix;
+    if (p < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    animCount(document.getElementById('count-pressure'), 700, 1800);
+    animCount(document.getElementById('count-temp'), -40, 1600, '');
+    animCount(document.getElementById('count-energy'), 33, 1400);
+  }, 600);
+});
+
+/* ============================================================
+   5. SCROLL REVEAL
+   ============================================================ */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ============================================================
+   6. 2026 AI TREND INTERACTIONS
+   ============================================================ */
+(function () {
+  const body = document.body;
+  body.classList.add('trend-neo');
+
+  const toggle = document.getElementById('theme-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const light = body.classList.toggle('trend-light');
+      body.classList.toggle('trend-neo', !light);
+      toggle.textContent = light ? 'Light' : 'Neo';
+    });
+  }
+
+  const words = ['core architecture', 'energy backbone', 'clean infrastructure', 'industrial catalyst'];
+  const wordEl = document.getElementById('hero-rotating-word');
+  if (wordEl) {
+    let i = 0;
+    setInterval(() => {
+      i = (i + 1) % words.length;
+      wordEl.style.opacity = '0';
+      setTimeout(() => {
+        wordEl.textContent = words[i];
+        wordEl.style.opacity = '1';
+      }, 180);
+    }, 2400);
+  }
+
+  const bar = document.getElementById('scroll-progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    if (bar) bar.style.width = p + '%';
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  document.querySelectorAll('.prompt-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const text = chip.textContent.trim();
+      const mail = `mailto:info@jvshydrogen.eu?subject=${encodeURIComponent('AI Planning Request')}&body=${encodeURIComponent('Prompt: ' + text + '\n\nPlease prepare an initial technical proposal.')}`;
+      window.location.href = mail;
+    });
+  });
+
+  document.querySelectorAll('.project-card').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      if (!body.classList.contains('trend-neo')) return;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `translateY(-5px) rotateX(${(-y * 5).toFixed(2)}deg) rotateY(${(x * 6).toFixed(2)}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+    });
+  });
+})();
+</script>
+</body>
+</html>
