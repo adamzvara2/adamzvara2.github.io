@@ -1228,6 +1228,46 @@ h2.section-title .thin { font-weight: 200; }
     font-size: 10px;
   }
 }
+/* Academy layout: full-width articles, sidebar stacked above */
+.academy-layout {
+  grid-template-columns: 1fr;
+}
+
+.academy-sidebar {
+  position: static;
+  top: auto;
+}
+
+/* Academy Tools collapse button */
+.academy-collapse-btn {
+  margin-top: 10px;
+  appearance: none;
+  border: 1px solid rgba(106,180,232,0.18);
+  background: rgba(255,255,255,0.02);
+  color: #d7ecff;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.academy-collapse-btn:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(116,201,255,0.32);
+  color: #eef6ff;
+}
+
+.academy-tools.is-collapsed .academy-tools-grid {
+  display: none;
+}
+
+.academy-tools.is-collapsed {
+  padding-bottom: 12px;
+}
    
 /* ═══════════════════════════════════════════════════════
    CONTACT — with animated border
@@ -1661,7 +1701,7 @@ footer {
         </div>
          
 <!-- Academy Tools Extension -->
-    <div class="academy-tools reveal d4" id="academy-tools">
+    <div class="academy-tools reveal d4 is-collapsed" id="academy-tools">
       <div class="academy-tools-head">
         <p class="eyebrow">Academy Tools</p>
         <h3 class="academy-tools-title">Practical Hydrogen Engineering Tools</h3>
@@ -1699,12 +1739,23 @@ footer {
           >
             Electrolyzers
           </button>
-        </div>
+                </div>
+
+        <button
+          type="button"
+          class="academy-collapse-btn"
+          id="academyToolsToggle"
+          aria-expanded="false"
+          aria-controls="academyToolsBody"
+        >
+          Show tools
+        </button>
       </div>
 
 
 
-      <div class="academy-tools-grid">
+
+      <div class="academy-tools-grid" id="academyToolsBody">
        <div class="academy-tool-card academy-tab-panel is-active" id="academy-panel-calculator" role="tabpanel" aria-labelledby="academy-tab-calculator">
 
           <div class="tool-card-header">
@@ -2024,6 +2075,7 @@ footer {
             </div>
           </details>
         </div>
+         
       </div>
            
 
