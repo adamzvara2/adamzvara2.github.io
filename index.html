@@ -1659,7 +1659,188 @@ footer {
             <p>Start with the first article below. Future entries can be added as beginner, intermediate, or advanced modules.</p>
           </div>
         </div>
+         
+<!-- Academy Tools Extension -->
+    <div class="academy-tools reveal d4" id="academy-tools">
+      <div class="academy-tools-head">
+        <p class="eyebrow">Academy Tools</p>
+        <h3 class="academy-tools-title">Practical Hydrogen Engineering Tools</h3>
+        <p class="academy-tools-subtitle">
+          Quick-reference utilities for learning and early-stage engineering discussions.
+          Metric / European units only.
+        </p>
+                 
+        <div class="academy-glossary" aria-label="Abbreviations">
+          <span class="gloss-chip"><strong>LHV</strong> Lower Heating Value</span>
+          <span class="gloss-chip"><strong>HHV</strong> Higher Heating Value</span>
+          <span class="gloss-chip"><strong>Nm³</strong> Normal cubic metre</span>
+        </div>
 
+        <div class="academy-tabs" role="tablist" aria-label="Academy tools tabs">
+          <button
+            class="academy-tab-btn is-active"
+            id="academy-tab-calculator"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="academy-panel-calculator"
+            data-academy-tab="calculator"
+          >
+            Calculator
+          </button>
+          <button
+            class="academy-tab-btn"
+            id="academy-tab-electrolyzers"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="academy-panel-electrolyzers"
+            data-academy-tab="electrolyzers"
+          >
+            Electrolyzers
+          </button>
+        </div>
+      </div>
+
+
+
+      <div class="academy-tools-grid">
+       <div class="academy-tool-card academy-tab-panel is-active" id="academy-panel-calculator" role="tabpanel" aria-labelledby="academy-tab-calculator">
+
+          <div class="tool-card-header">
+            <h4>Hydrogen Conversion Calculator (EU Units)</h4>
+            <p>Convert between mass, normal volume, and energy using practical engineering defaults.</p>
+          </div>
+
+          <div class="h2-converter">
+            <div class="converter-inputs">
+              <label>
+                Input value
+                <input id="h2ConvValue" type="number" step="any" min="0" value="1" />
+              </label>
+
+              <label>
+                Unit
+                <select id="h2ConvUnit">
+                  <option value="kg">kg H₂</option>
+                  <option value="t">t H₂</option>
+                  <option value="nm3">Nm³ H₂</option>
+                  <option value="kwh_lhv">kWh (LHV)</option>
+                  <option value="mwh_lhv">MWh (LHV)</option>
+                  <option value="mj_lhv">MJ (LHV)</option>
+                  <option value="kwh_hhv">kWh (HHV)</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="converter-note">
+              Assumptions: 1 kg H₂ ≈ 11.126 Nm³, LHV ≈ 33.33 kWh/kg, HHV ≈ 39.4 kWh/kg.
+            </div>
+
+            <div class="converter-results-wrap">
+              <table class="academy-table converter-results">
+                <thead>
+                  <tr>
+                    <th>Unit</th>
+                    <th>Converted value</th>
+                  </tr>
+                </thead>
+                <tbody id="h2ConvResults">
+                  <tr><td>kg H₂</td><td>1.000</td></tr>
+                  <tr><td>t H₂</td><td>0.001</td></tr>
+                  <tr><td>Nm³ H₂</td><td>11.126</td></tr>
+                  <tr><td>kWh (LHV)</td><td>33.330</td></tr>
+                  <tr><td>MWh (LHV)</td><td>0.033</td></tr>
+                  <tr><td>MJ (LHV)</td><td>120.000</td></tr>
+                  <tr><td>kWh (HHV)</td><td>39.400</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="academy-tool-card academy-tab-panel" id="academy-panel-electrolyzers" role="tabpanel" aria-labelledby="academy-tab-electrolyzers" hidden>
+
+          <div class="tool-card-header">
+            <h4>Electrolyzer Comparison (Indicative EU Snapshot)</h4>
+            <p>High-level comparison for educational use and early feasibility discussions.</p>
+          </div>
+
+          <div class="converter-note" style="margin-bottom: 14px;">
+            Values are indicative and project-dependent (vendor, system size, BoP scope, market timing, integration concept).
+          </div>
+
+          <div class="academy-table-scroll">
+            <table class="academy-table electrolyzer-table">
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Alkaline electrolyzer</th>
+                  <th>PEM electrolyzer</th>
+                  <th>SOEC (solid oxide)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>CAPEX (€/kW, indicative)</td>
+                  <td>460-830</td>
+                  <td>740-1,290</td>
+                  <td>1,840-3,220</td>
+                </tr>
+                <tr>
+                  <td>System efficiency</td>
+                  <td>60-70% (56-47 kWh/kg H₂)</td>
+                  <td>65-75% (51-44 kWh/kg H₂)</td>
+                  <td>&gt;85% (&lt;39 kWh/kg H₂)</td>
+                </tr>
+                <tr>
+                  <td>Dynamic response range (%)</td>
+                  <td>20-100</td>
+                  <td>5-100</td>
+                  <td>30-100</td>
+                </tr>
+                <tr>
+                  <td>Load change rate</td>
+                  <td>Minutes</td>
+                  <td>Seconds</td>
+                  <td>Minutes</td>
+                </tr>
+                <tr>
+                  <td>Cold start time (minutes)</td>
+                  <td>15-60</td>
+                  <td>&lt;5</td>
+                  <td>&gt;60</td>
+                </tr>
+                <tr>
+                  <td>Operating life (hours)</td>
+                  <td>60,000-90,000</td>
+                  <td>50,000-80,000</td>
+                  <td>20,000-40,000</td>
+                </tr>
+                <tr>
+                  <td>Hydrogen purity (unrefined) (%)</td>
+                  <td>99.8-99.9</td>
+                  <td>99.99</td>
+                  <td>99.9</td>
+                </tr>
+                <tr>
+                  <td>Critical minerals used</td>
+                  <td>Nickel, Zirconium</td>
+                  <td>Platinum, Iridium</td>
+                  <td>Nickel, Zirconium, Lanthanum</td>
+                </tr>
+                <tr>
+                  <td>Technological maturity</td>
+                  <td>High</td>
+                  <td>Medium-High</td>
+                  <td>Low-Medium</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
         <div class="article-list">
           <details class="article-item" open>
             <summary>
@@ -1844,187 +2025,7 @@ footer {
           </details>
         </div>
       </div>
-           <!-- Academy Tools Extension -->
-    <div class="academy-tools reveal d4" id="academy-tools">
-      <div class="academy-tools-head">
-        <p class="eyebrow">Academy Tools</p>
-        <h3 class="academy-tools-title">Practical Hydrogen Engineering Tools</h3>
-        <p class="academy-tools-subtitle">
-          Quick-reference utilities for learning and early-stage engineering discussions.
-          Metric / European units only.
-        </p>
-                 
-        <div class="academy-glossary" aria-label="Abbreviations">
-          <span class="gloss-chip"><strong>LHV</strong> Lower Heating Value</span>
-          <span class="gloss-chip"><strong>HHV</strong> Higher Heating Value</span>
-          <span class="gloss-chip"><strong>Nm³</strong> Normal cubic metre</span>
-        </div>
-
-        <div class="academy-tabs" role="tablist" aria-label="Academy tools tabs">
-          <button
-            class="academy-tab-btn is-active"
-            id="academy-tab-calculator"
-            type="button"
-            role="tab"
-            aria-selected="true"
-            aria-controls="academy-panel-calculator"
-            data-academy-tab="calculator"
-          >
-            Calculator
-          </button>
-          <button
-            class="academy-tab-btn"
-            id="academy-tab-electrolyzers"
-            type="button"
-            role="tab"
-            aria-selected="false"
-            aria-controls="academy-panel-electrolyzers"
-            data-academy-tab="electrolyzers"
-          >
-            Electrolyzers
-          </button>
-        </div>
-      </div>
-
-
-
-      <div class="academy-tools-grid">
-       <div class="academy-tool-card academy-tab-panel is-active" id="academy-panel-calculator" role="tabpanel" aria-labelledby="academy-tab-calculator">
-
-          <div class="tool-card-header">
-            <h4>Hydrogen Conversion Calculator (EU Units)</h4>
-            <p>Convert between mass, normal volume, and energy using practical engineering defaults.</p>
-          </div>
-
-          <div class="h2-converter">
-            <div class="converter-inputs">
-              <label>
-                Input value
-                <input id="h2ConvValue" type="number" step="any" min="0" value="1" />
-              </label>
-
-              <label>
-                Unit
-                <select id="h2ConvUnit">
-                  <option value="kg">kg H₂</option>
-                  <option value="t">t H₂</option>
-                  <option value="nm3">Nm³ H₂</option>
-                  <option value="kwh_lhv">kWh (LHV)</option>
-                  <option value="mwh_lhv">MWh (LHV)</option>
-                  <option value="mj_lhv">MJ (LHV)</option>
-                  <option value="kwh_hhv">kWh (HHV)</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="converter-note">
-              Assumptions: 1 kg H₂ ≈ 11.126 Nm³, LHV ≈ 33.33 kWh/kg, HHV ≈ 39.4 kWh/kg.
-            </div>
-
-            <div class="converter-results-wrap">
-              <table class="academy-table converter-results">
-                <thead>
-                  <tr>
-                    <th>Unit</th>
-                    <th>Converted value</th>
-                  </tr>
-                </thead>
-                <tbody id="h2ConvResults">
-                  <tr><td>kg H₂</td><td>1.000</td></tr>
-                  <tr><td>t H₂</td><td>0.001</td></tr>
-                  <tr><td>Nm³ H₂</td><td>11.126</td></tr>
-                  <tr><td>kWh (LHV)</td><td>33.330</td></tr>
-                  <tr><td>MWh (LHV)</td><td>0.033</td></tr>
-                  <tr><td>MJ (LHV)</td><td>120.000</td></tr>
-                  <tr><td>kWh (HHV)</td><td>39.400</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div class="academy-tool-card academy-tab-panel" id="academy-panel-electrolyzers" role="tabpanel" aria-labelledby="academy-tab-electrolyzers" hidden>
-
-          <div class="tool-card-header">
-            <h4>Electrolyzer Comparison (Indicative EU Snapshot)</h4>
-            <p>High-level comparison for educational use and early feasibility discussions.</p>
-          </div>
-
-          <div class="converter-note" style="margin-bottom: 14px;">
-            Values are indicative and project-dependent (vendor, system size, BoP scope, market timing, integration concept).
-          </div>
-
-          <div class="academy-table-scroll">
-            <table class="academy-table electrolyzer-table">
-              <thead>
-                <tr>
-                  <th>Parameter</th>
-                  <th>Alkaline electrolyzer</th>
-                  <th>PEM electrolyzer</th>
-                  <th>SOEC (solid oxide)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>CAPEX (€/kW, indicative)</td>
-                  <td>460-830</td>
-                  <td>740-1,290</td>
-                  <td>1,840-3,220</td>
-                </tr>
-                <tr>
-                  <td>System efficiency</td>
-                  <td>60-70% (56-47 kWh/kg H₂)</td>
-                  <td>65-75% (51-44 kWh/kg H₂)</td>
-                  <td>&gt;85% (&lt;39 kWh/kg H₂)</td>
-                </tr>
-                <tr>
-                  <td>Dynamic response range (%)</td>
-                  <td>20-100</td>
-                  <td>5-100</td>
-                  <td>30-100</td>
-                </tr>
-                <tr>
-                  <td>Load change rate</td>
-                  <td>Minutes</td>
-                  <td>Seconds</td>
-                  <td>Minutes</td>
-                </tr>
-                <tr>
-                  <td>Cold start time (minutes)</td>
-                  <td>15-60</td>
-                  <td>&lt;5</td>
-                  <td>&gt;60</td>
-                </tr>
-                <tr>
-                  <td>Operating life (hours)</td>
-                  <td>60,000-90,000</td>
-                  <td>50,000-80,000</td>
-                  <td>20,000-40,000</td>
-                </tr>
-                <tr>
-                  <td>Hydrogen purity (unrefined) (%)</td>
-                  <td>99.8-99.9</td>
-                  <td>99.99</td>
-                  <td>99.9</td>
-                </tr>
-                <tr>
-                  <td>Critical minerals used</td>
-                  <td>Nickel, Zirconium</td>
-                  <td>Platinum, Iridium</td>
-                  <td>Nickel, Zirconium, Lanthanum</td>
-                </tr>
-                <tr>
-                  <td>Technological maturity</td>
-                  <td>High</td>
-                  <td>Medium-High</td>
-                  <td>Low-Medium</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+           
 
    
   </div>
