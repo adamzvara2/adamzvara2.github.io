@@ -1701,7 +1701,7 @@ footer {
         </div>
          
 <!-- Academy Tools Extension -->
-    <div class="academy-tools reveal d4" id="academy-tools">
+    <div class="academy-tools reveal d4 is-collapsed" id="academy-tools">
 
       <div class="academy-tools-head">
         <p class="eyebrow">Academy Tools</p>
@@ -2532,7 +2532,29 @@ if (s1El) {
   activate('calculator');
 })();
 
-/* ── Passive scroll performance ── */
+/* ── Academy tools collapse toggle ── */
+(function () {
+  const tools = document.getElementById('academy-tools');
+  const btn = document.getElementById('academyToolsToggle');
+  const body = document.getElementById('academyToolsBody');
+
+  if (!tools || !btn || !body) return;
+
+  function sync() {
+    const collapsed = tools.classList.contains('is-collapsed');
+    btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    btn.textContent = collapsed ? 'Show tools' : 'Hide tools';
+  }
+
+  btn.addEventListener('click', () => {
+    tools.classList.toggle('is-collapsed');
+    sync();
+  });
+
+  sync();
+})();
+
+   /* ── Passive scroll performance ── */
 document.addEventListener('scroll', () => {}, {passive: true});
 </script>
 </body>
