@@ -1933,6 +1933,19 @@ footer {
           >
             Electrolyzers
           </button>
+          <button
+  class="academy-tab-btn"
+  id="academy-tab-interactive-charts"
+  type="button"
+  role="tab"
+  aria-selected="false"
+  aria-controls="academy-panel-interactive-charts"
+  data-academy-tab="interactive-charts"
+>
+  Interactive Charts
+</button>
+
+
                 </div>
 
         <button
@@ -1942,6 +1955,7 @@ footer {
           aria-expanded="false"
           aria-controls="academyToolsBody"
         >
+           
           Show tools
         </button>
 
@@ -2097,139 +2111,147 @@ footer {
               </tbody>
             </table>
           </div>
-           <div class="at-sep">
-  <p class="at-sep-title">Interactive Engineering Charts</p>
-  <p class="at-sep-sub">Select a topic. EU / metric units only. Indicative data for learning and early feasibility discussions.</p>
-
-  <div class="at-tabs" id="atTabs" role="tablist">
-    <button class="at-tab-btn at-active" data-at-panel="at-panel-density" role="tab" aria-selected="true">Density Explorer</button>
-    <button class="at-tab-btn" data-at-panel="at-panel-lhv" role="tab" aria-selected="false">LHV vs HHV</button>
-    <button class="at-tab-btn" data-at-panel="at-panel-comp" role="tab" aria-selected="false">Compression Energy</button>
-    <button class="at-tab-btn" data-at-panel="at-panel-elec" role="tab" aria-selected="false">Electrolyzer Efficiency</button>
-  </div>
-
-  <div class="at-panel at-active" id="at-panel-density" role="tabpanel">
-    <div class="at-card">
-      <h4>Hydrogen Density Explorer</h4>
-      <p class="at-expl">Hydrogen density depends on both pressure and temperature. This tool shows how density changes, which is important for storage sizing, logistics, and refuelling station performance. Data points are from the NIST hydrogen property database.</p>
-
-      <div class="at-toggle" id="atDensityToggle">
-        <button class="at-active" id="atDensityBtnIso" type="button">Isobaric (density vs temperature)</button>
-        <button id="atDensityBtnIsot" type="button">Isothermal (density vs pressure)</button>
-      </div>
-
-      <div id="atDensityIsoControls" class="at-ctrls">
-        <div class="at-fld">
-          <label>Pressure</label>
-          <select id="atDensityPres">
-            <option value="16">16 bar</option>
-            <option value="150">150 bar</option>
-            <option value="250">250 bar</option>
-            <option value="350" selected>350 bar</option>
-          </select>
         </div>
-      </div>
+         <div
+  class="academy-tool-card academy-tab-panel"
+  id="academy-panel-interactive-charts"
+  role="tabpanel"
+  aria-labelledby="academy-tab-interactive-charts"
+  hidden
+>
+  <div class="at-sep">
+    <p class="at-sep-title">Interactive Engineering Charts</p>
+    <p class="at-sep-sub">Select a topic. EU / metric units only. Indicative data for learning and early feasibility discussions.</p>
 
-      <div id="atDensityIsotControls" class="at-ctrls" style="display:none;">
-        <div class="at-fld">
-          <label>Temperature</label>
-          <select id="atDensityTemp">
-            <option value="-40">−40 °C</option>
-            <option value="-30" selected>−30 °C</option>
-            <option value="-10">−10 °C</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="at-chart-wrap"><canvas id="atDensityCanvas"></canvas></div>
-      <div class="at-takeaway">Engineering takeaway: At high pressure, temperature changes can significantly change stored hydrogen mass. Use real-gas property data for sizing discussions.</div>
+    <div class="at-tabs" id="atTabs" role="tablist">
+      <button class="at-tab-btn at-active" data-at-panel="at-panel-density" role="tab" aria-selected="true">Density Explorer</button>
+      <button class="at-tab-btn" data-at-panel="at-panel-lhv" role="tab" aria-selected="false">LHV vs HHV</button>
+      <button class="at-tab-btn" data-at-panel="at-panel-comp" role="tab" aria-selected="false">Compression Energy</button>
+      <button class="at-tab-btn" data-at-panel="at-panel-elec" role="tab" aria-selected="false">Electrolyzer Efficiency</button>
     </div>
-  </div>
 
-  <div class="at-panel" id="at-panel-lhv" role="tabpanel">
-    <div class="at-card">
-      <h4>LHV vs HHV (Energy Content)</h4>
-      <p class="at-expl">LHV and HHV are two standard ways to express the chemical energy in hydrogen. They are used in different industries, so it helps to show both. This is fuel energy content, not guaranteed usable electricity or heat.</p>
+    <div class="at-panel at-active" id="at-panel-density" role="tabpanel">
+      <div class="at-card">
+        <h4>Hydrogen Density Explorer</h4>
+        <p class="at-expl">Hydrogen density depends on both pressure and temperature. This tool shows how density changes, which is important for storage sizing, logistics, and refuelling station performance. Data points are from the NIST hydrogen property database.</p>
 
-      <div class="at-chart-wrap"><canvas id="atLHVCanvas"></canvas></div>
-
-      <div class="at-ctrls" style="margin-top:14px;">
-        <div class="at-fld">
-          <label>Hydrogen mass (kg)</label>
-          <input type="number" id="atLHVMass" value="15" min="0.01" step="0.1">
+        <div class="at-toggle" id="atDensityToggle">
+          <button class="at-active" id="atDensityBtnIso" type="button">Isobaric (density vs temperature)</button>
+          <button id="atDensityBtnIsot" type="button">Isothermal (density vs pressure)</button>
         </div>
-      </div>
 
-      <div class="at-res">Energy (LHV): <strong id="atLHVresLHV">499.9</strong> kWh</div>
-      <div class="at-res">Energy (HHV): <strong id="atLHVresHHV">591.0</strong> kWh</div>
-      <div class="at-helper">LHV excludes water condensation heat; HHV includes it.</div>
-      <div class="at-takeaway">Engineering takeaway: LHV/HHV are fuel chemical energy values; usable electricity/heat depends on conversion technology and system losses.</div>
+        <div id="atDensityIsoControls" class="at-ctrls">
+          <div class="at-fld">
+            <label>Pressure</label>
+            <select id="atDensityPres">
+              <option value="16">16 bar</option>
+              <option value="150">150 bar</option>
+              <option value="250">250 bar</option>
+              <option value="350" selected>350 bar</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="atDensityIsotControls" class="at-ctrls" style="display:none;">
+          <div class="at-fld">
+            <label>Temperature</label>
+            <select id="atDensityTemp">
+              <option value="-40">−40 °C</option>
+              <option value="-30" selected>−30 °C</option>
+              <option value="-10">−10 °C</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="at-chart-wrap"><canvas id="atDensityCanvas"></canvas></div>
+        <div class="at-takeaway">Engineering takeaway: At high pressure, temperature changes can significantly change stored hydrogen mass. Use real-gas property data for sizing discussions.</div>
+      </div>
     </div>
-  </div>
 
-  <div class="at-panel" id="at-panel-comp" role="tabpanel">
-    <div class="at-card">
-      <h4>Compression Energy Estimator (Indicative)</h4>
-      <p class="at-expl">Compressing hydrogen needs energy and creates heat. This simplified estimator helps early feasibility discussions by showing how the required energy grows with higher final pressure. For real design, use vendor data.</p>
+    <div class="at-panel" id="at-panel-lhv" role="tabpanel">
+      <div class="at-card">
+        <h4>LHV vs HHV (Energy Content)</h4>
+        <p class="at-expl">LHV and HHV are two standard ways to express the chemical energy in hydrogen. They are used in different industries, so it helps to show both. This is fuel energy content, not guaranteed usable electricity or heat.</p>
 
-      <div class="at-ctrls">
-        <div class="at-fld">
-          <label>Inlet pressure P1 (bar)</label>
-          <input type="number" id="atCompP1" value="30" min="1" max="500" step="1">
+        <div class="at-chart-wrap"><canvas id="atLHVCanvas"></canvas></div>
+
+        <div class="at-ctrls" style="margin-top:14px;">
+          <div class="at-fld">
+            <label>Hydrogen mass (kg)</label>
+            <input type="number" id="atLHVMass" value="15" min="0.01" step="0.1">
+          </div>
         </div>
-        <div class="at-fld">
-          <label>Outlet pressure P2 (bar)</label>
-          <select id="atCompP2">
-            <option value="200">200 bar</option>
-            <option value="350" selected>350 bar</option>
-            <option value="500">500 bar</option>
-            <option value="700">700 bar</option>
-            <option value="900">900 bar</option>
-          </select>
-        </div>
-        <div class="at-fld">
-          <label>Inlet temperature T1 (°C)</label>
-          <input type="number" id="atCompT1" value="20" min="-40" max="80" step="1">
-        </div>
-        <div class="at-fld">
-          <label>Isentropic efficiency η: <span id="atCompEtaVal">0.70</span></label>
-          <input type="range" id="atCompEta" min="0.50" max="0.80" step="0.01" value="0.70">
-        </div>
+
+        <div class="at-res">Energy (LHV): <strong id="atLHVresLHV">499.9</strong> kWh</div>
+        <div class="at-res">Energy (HHV): <strong id="atLHVresHHV">591.0</strong> kWh</div>
+        <div class="at-helper">LHV excludes water condensation heat; HHV includes it.</div>
+        <div class="at-takeaway">Engineering takeaway: LHV/HHV are fuel chemical energy values; usable electricity/heat depends on conversion technology and system losses.</div>
       </div>
-
-      <div class="at-res" style="margin-bottom:10px;">
-        Estimated compression energy: <strong id="atCompResult">–</strong> kWh/kg (indicative)
-      </div>
-      <div class="at-warn" id="atCompWarn">P2 must be greater than P1. Please adjust the values.</div>
-
-      <div class="at-chart-wrap"><canvas id="atCompCanvas"></canvas></div>
-      <div class="at-disclaimer">Indicative thermodynamic estimate. Real systems depend on multi-stage compression, intercooling, gas temperature, and vendor design.</div>
-      <div class="at-takeaway">Engineering takeaway: Higher final pressure increases energy demand and thermal load. Use vendor data for final design, but this helps early feasibility discussions.</div>
     </div>
-  </div>
 
-  <div class="at-panel" id="at-panel-elec" role="tabpanel">
-    <div class="at-card">
-      <h4>Electrolyzer Electricity Use vs Load (Indicative)</h4>
-      <p class="at-expl">Electrolyzers do not always use the same electricity per kilogram at every operating point. This chart shows typical trends for system-level electricity use at different loads. Actual values depend on technology, size, and balance-of-plant.</p>
+    <div class="at-panel" id="at-panel-comp" role="tabpanel">
+      <div class="at-card">
+        <h4>Compression Energy Estimator (Indicative)</h4>
+        <p class="at-expl">Compressing hydrogen needs energy and creates heat. This simplified estimator helps early feasibility discussions by showing how the required energy grows with higher final pressure. For real design, use vendor data.</p>
 
-      <div class="at-toggle">
-        <button class="at-active" id="atElecBtnKwh" type="button">kWh/kg</button>
-        <button id="atElecBtnEff" type="button">Efficiency % (LHV)</button>
+        <div class="at-ctrls">
+          <div class="at-fld">
+            <label>Inlet pressure P1 (bar)</label>
+            <input type="number" id="atCompP1" value="30" min="1" max="500" step="1">
+          </div>
+          <div class="at-fld">
+            <label>Outlet pressure P2 (bar)</label>
+            <select id="atCompP2">
+              <option value="200">200 bar</option>
+              <option value="350" selected>350 bar</option>
+              <option value="500">500 bar</option>
+              <option value="700">700 bar</option>
+              <option value="900">900 bar</option>
+            </select>
+          </div>
+          <div class="at-fld">
+            <label>Inlet temperature T1 (°C)</label>
+            <input type="number" id="atCompT1" value="20" min="-40" max="80" step="1">
+          </div>
+          <div class="at-fld">
+            <label>Isentropic efficiency η: <span id="atCompEtaVal">0.70</span></label>
+            <input type="range" id="atCompEta" min="0.50" max="0.80" step="0.01" value="0.70">
+          </div>
+        </div>
+
+        <div class="at-res" style="margin-bottom:10px;">
+          Estimated compression energy: <strong id="atCompResult">–</strong> kWh/kg (indicative)
+        </div>
+        <div class="at-warn" id="atCompWarn">P2 must be greater than P1. Please adjust the values.</div>
+
+        <div class="at-chart-wrap"><canvas id="atCompCanvas"></canvas></div>
+        <div class="at-disclaimer">Indicative thermodynamic estimate. Real systems depend on multi-stage compression, intercooling, gas temperature, and vendor design.</div>
+        <div class="at-takeaway">Engineering takeaway: Higher final pressure increases energy demand and thermal load. Use vendor data for final design, but this helps early feasibility discussions.</div>
       </div>
+    </div>
 
-      <div class="at-chart-wrap"><canvas id="atElecCanvas"></canvas></div>
-      <div class="at-disclaimer">Indicative system-level numbers; depends on size, BoP scope, water treatment, and operating strategy.</div>
-      <div class="at-takeaway">Engineering takeaway: Part-load operation can increase specific electricity use. Utilization and operating strategy matter for economics.</div>
+    <div class="at-panel" id="at-panel-elec" role="tabpanel">
+      <div class="at-card">
+        <h4>Electrolyzer Electricity Use vs Load (Indicative)</h4>
+        <p class="at-expl">Electrolyzers do not always use the same electricity per kilogram at every operating point. This chart shows typical trends for system-level electricity use at different loads. Actual values depend on technology, size, and balance-of-plant.</p>
+
+        <div class="at-toggle">
+          <button class="at-active" id="atElecBtnKwh" type="button">kWh/kg</button>
+          <button id="atElecBtnEff" type="button">Efficiency % (LHV)</button>
+        </div>
+
+        <div class="at-chart-wrap"><canvas id="atElecCanvas"></canvas></div>
+        <div class="at-disclaimer">Indicative system-level numbers; depends on size, BoP scope, water treatment, and operating strategy.</div>
+        <div class="at-takeaway">Engineering takeaway: Part-load operation can increase specific electricity use. Utilization and operating strategy matter for economics.</div>
+      </div>
     </div>
   </div>
 </div>
 
-        </div>
-      </div>
+    </div>
     </div>
         <div class="article-list">
-          <details class="article-item" open>
+           <details class="article-item" open>
             <summary>
               <div class="article-summary-top">
                 <span class="article-index">Article 01</span>
@@ -2841,11 +2863,12 @@ if (s1El) {
 (function () {
   const buttons = Array.from(document.querySelectorAll('.academy-tab-btn'));
   const panels = {
-    calculator: document.getElementById('academy-panel-calculator'),
-    electrolyzers: document.getElementById('academy-panel-electrolyzers')
-  };
+  calculator: document.getElementById('academy-panel-calculator'),
+  electrolyzers: document.getElementById('academy-panel-electrolyzers'),
+  'interactive-charts': document.getElementById('academy-panel-interactive-charts')
+};
 
-  if (!buttons.length || !panels.calculator || !panels.electrolyzers) return;
+  if (!buttons.length || !panels.calculator || !panels.electrolyzers || !panels['interactive-charts']) return;
 
 function activate(tabName) {
   buttons.forEach(btn => {
@@ -2859,9 +2882,9 @@ function activate(tabName) {
     panel.hidden = name !== tabName;
   });
 
-  if (tabName === 'electrolyzers' && typeof window.atReinit === 'function') {
-    setTimeout(() => window.atReinit(), 80);
-  }
+  if (tabName === 'interactive-charts' && typeof window.atReinit === 'function') {
+  setTimeout(() => window.atReinit(), 80);
+}
 }
 
 
