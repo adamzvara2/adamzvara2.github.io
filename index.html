@@ -1238,6 +1238,38 @@ h2.section-title .thin { font-weight: 200; }
   top: auto;
 }
 
+/* Academy Tools collapse button */
+.academy-collapse-btn {
+  margin-top: 10px;
+  appearance: none;
+  border: 1px solid rgba(106,180,232,0.18);
+  background: rgba(255,255,255,0.02);
+  color: #d7ecff;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.academy-collapse-btn:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(116,201,255,0.32);
+  color: #eef6ff;
+}
+
+.academy-tools.is-collapsed .academy-tools-grid {
+  display: none;
+}
+
+.academy-tools.is-collapsed {
+  padding-bottom: 12px;
+}
+
+
 
    
 /* ═══════════════════════════════════════════════════════
@@ -1672,7 +1704,7 @@ footer {
         </div>
          
 <!-- Academy Tools Extension -->
-    <div class="academy-tools reveal d4" id="academy-tools">
+    <div class="academy-tools reveal d4 is-collapsed" id="academy-tools">
 
       <div class="academy-tools-head">
         <p class="eyebrow">Academy Tools</p>
@@ -1713,7 +1745,16 @@ footer {
           </button>
                 </div>
 
-   
+        <button
+          type="button"
+          class="academy-collapse-btn"
+          id="academyToolsToggle"
+          aria-expanded="false"
+          aria-controls="academyToolsBody"
+        >
+          Show tools
+        </button>
+
       </div>
 
 
@@ -2496,6 +2537,27 @@ if (s1El) {
 })();
 
 
+/* ── Academy tools collapse toggle ── */
+(function () {
+  const tools = document.getElementById('academy-tools');
+  const btn = document.getElementById('academyToolsToggle');
+  const body = document.getElementById('academyToolsBody');
+
+  if (!tools || !btn || !body) return;
+
+  function sync() {
+    const collapsed = tools.classList.contains('is-collapsed');
+    btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    btn.textContent = collapsed ? 'Show tools' : 'Hide tools';
+  }
+
+  btn.addEventListener('click', () => {
+    tools.classList.toggle('is-collapsed');
+    sync();
+  });
+
+  sync();
+})();
 
    /* ── Passive scroll performance ── */
 document.addEventListener('scroll', () => {}, {passive: true});
