@@ -1289,6 +1289,160 @@ h2.section-title .thin { font-weight: 200; }
 
 
 
+/* ── Academy Tools: tabbed interactive charts ─────────────────── */
+.at-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 20px 0 18px;
+}
+.at-tab-btn {
+  background: transparent;
+  border: 1.5px solid var(--accent, #74c9ff);
+  color: var(--accent, #74c9ff);
+  border-radius: 4px;
+  padding: 7px 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.18s, color 0.18s;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.at-tab-btn:hover,
+.at-tab-btn.at-active {
+  background: var(--accent, #74c9ff);
+  color: #fff;
+}
+.at-panel { display: none; }
+.at-panel.at-active { display: block; }
+
+.at-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 8px;
+  padding: 22px 24px 18px;
+}
+.at-card h4 {
+  font-size: 1.0rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--accent, #74c9ff);
+}
+.at-expl {
+  font-size: 0.84rem;
+  line-height: 1.58;
+  opacity: 0.75;
+  margin-bottom: 16px;
+  max-width: 680px;
+}
+.at-ctrls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-bottom: 16px;
+  align-items: flex-end;
+}
+.at-fld { display: flex; flex-direction: column; gap: 4px; }
+.at-fld label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  opacity: 0.65;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.at-fld input[type=number],
+.at-fld select {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 4px;
+  color: inherit;
+  font-size: 0.88rem;
+  padding: 6px 10px;
+  width: 145px;
+  outline: none;
+  font-family: inherit;
+}
+.at-fld input[type=range] {
+  width: 160px;
+  accent-color: var(--accent, #74c9ff);
+}
+.at-fld input:focus,
+.at-fld select:focus { border-color: var(--accent, #74c9ff); }
+
+.at-toggle {
+  display: flex;
+  border: 1.5px solid var(--accent, #74c9ff);
+  border-radius: 4px;
+  overflow: hidden;
+  width: fit-content;
+  margin-bottom: 14px;
+}
+.at-toggle button {
+  background: transparent;
+  border: none;
+  color: var(--accent, #74c9ff);
+  padding: 6px 14px;
+  font-size: 0.80rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+.at-toggle button.at-active {
+  background: var(--accent, #74c9ff);
+  color: #fff;
+}
+.at-chart-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  height: 268px;
+  margin-bottom: 10px;
+}
+.at-takeaway {
+  font-size: 0.79rem;
+  opacity: 0.60;
+  border-left: 2px solid var(--accent, #74c9ff);
+  padding-left: 10px;
+  margin: 12px 0 2px;
+  font-style: italic;
+  max-width: 640px;
+}
+.at-disclaimer {
+  font-size: 0.77rem;
+  opacity: 0.52;
+  margin-top: 8px;
+  max-width: 640px;
+}
+.at-res { font-size: 0.91rem; margin: 4px 0; }
+.at-res strong { color: var(--accent, #74c9ff); }
+.at-helper { font-size: 0.77rem; opacity: 0.58; margin-top: 4px; }
+.at-warn { color: #e76f51; font-size: 0.82rem; margin: 4px 0; display: none; }
+.at-sep {
+  margin-top: 30px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255,255,255,0.09);
+}
+.at-sep-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  opacity: 0.88;
+}
+.at-sep-sub {
+  font-size: 0.80rem;
+  opacity: 0.55;
+  margin: 0 0 0;
+}
+@media (max-width: 520px) {
+  .at-card { padding: 16px 13px 14px; }
+  .at-fld input[type=number],
+  .at-fld select { width: 120px; }
+  .at-chart-wrap { height: 210px; }
+  .at-toggle button { font-size: 0.74rem; padding: 5px 10px; }
+}
    
 /* ═══════════════════════════════════════════════════════
    CONTACT — with animated border
@@ -1943,6 +2097,134 @@ footer {
               </tbody>
             </table>
           </div>
+           <div class="at-sep">
+  <p class="at-sep-title">Interactive Engineering Charts</p>
+  <p class="at-sep-sub">Select a topic. EU / metric units only. Indicative data for learning and early feasibility discussions.</p>
+
+  <div class="at-tabs" id="atTabs" role="tablist">
+    <button class="at-tab-btn at-active" data-at-panel="at-panel-density" role="tab" aria-selected="true">Density Explorer</button>
+    <button class="at-tab-btn" data-at-panel="at-panel-lhv" role="tab" aria-selected="false">LHV vs HHV</button>
+    <button class="at-tab-btn" data-at-panel="at-panel-comp" role="tab" aria-selected="false">Compression Energy</button>
+    <button class="at-tab-btn" data-at-panel="at-panel-elec" role="tab" aria-selected="false">Electrolyzer Efficiency</button>
+  </div>
+
+  <div class="at-panel at-active" id="at-panel-density" role="tabpanel">
+    <div class="at-card">
+      <h4>Hydrogen Density Explorer</h4>
+      <p class="at-expl">Hydrogen density depends on both pressure and temperature. This tool shows how density changes, which is important for storage sizing, logistics, and refuelling station performance. Data points are from the NIST hydrogen property database.</p>
+
+      <div class="at-toggle" id="atDensityToggle">
+        <button class="at-active" id="atDensityBtnIso" type="button">Isobaric (density vs temperature)</button>
+        <button id="atDensityBtnIsot" type="button">Isothermal (density vs pressure)</button>
+      </div>
+
+      <div id="atDensityIsoControls" class="at-ctrls">
+        <div class="at-fld">
+          <label>Pressure</label>
+          <select id="atDensityPres">
+            <option value="16">16 bar</option>
+            <option value="150">150 bar</option>
+            <option value="250">250 bar</option>
+            <option value="350" selected>350 bar</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="atDensityIsotControls" class="at-ctrls" style="display:none;">
+        <div class="at-fld">
+          <label>Temperature</label>
+          <select id="atDensityTemp">
+            <option value="-40">−40 °C</option>
+            <option value="-30" selected>−30 °C</option>
+            <option value="-10">−10 °C</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="at-chart-wrap"><canvas id="atDensityCanvas"></canvas></div>
+      <div class="at-takeaway">Engineering takeaway: At high pressure, temperature changes can significantly change stored hydrogen mass. Use real-gas property data for sizing discussions.</div>
+    </div>
+  </div>
+
+  <div class="at-panel" id="at-panel-lhv" role="tabpanel">
+    <div class="at-card">
+      <h4>LHV vs HHV (Energy Content)</h4>
+      <p class="at-expl">LHV and HHV are two standard ways to express the chemical energy in hydrogen. They are used in different industries, so it helps to show both. This is fuel energy content, not guaranteed usable electricity or heat.</p>
+
+      <div class="at-chart-wrap"><canvas id="atLHVCanvas"></canvas></div>
+
+      <div class="at-ctrls" style="margin-top:14px;">
+        <div class="at-fld">
+          <label>Hydrogen mass (kg)</label>
+          <input type="number" id="atLHVMass" value="15" min="0.01" step="0.1">
+        </div>
+      </div>
+
+      <div class="at-res">Energy (LHV): <strong id="atLHVresLHV">499.9</strong> kWh</div>
+      <div class="at-res">Energy (HHV): <strong id="atLHVresHHV">591.0</strong> kWh</div>
+      <div class="at-helper">LHV excludes water condensation heat; HHV includes it.</div>
+      <div class="at-takeaway">Engineering takeaway: LHV/HHV are fuel chemical energy values; usable electricity/heat depends on conversion technology and system losses.</div>
+    </div>
+  </div>
+
+  <div class="at-panel" id="at-panel-comp" role="tabpanel">
+    <div class="at-card">
+      <h4>Compression Energy Estimator (Indicative)</h4>
+      <p class="at-expl">Compressing hydrogen needs energy and creates heat. This simplified estimator helps early feasibility discussions by showing how the required energy grows with higher final pressure. For real design, use vendor data.</p>
+
+      <div class="at-ctrls">
+        <div class="at-fld">
+          <label>Inlet pressure P1 (bar)</label>
+          <input type="number" id="atCompP1" value="30" min="1" max="500" step="1">
+        </div>
+        <div class="at-fld">
+          <label>Outlet pressure P2 (bar)</label>
+          <select id="atCompP2">
+            <option value="200">200 bar</option>
+            <option value="350" selected>350 bar</option>
+            <option value="500">500 bar</option>
+            <option value="700">700 bar</option>
+            <option value="900">900 bar</option>
+          </select>
+        </div>
+        <div class="at-fld">
+          <label>Inlet temperature T1 (°C)</label>
+          <input type="number" id="atCompT1" value="20" min="-40" max="80" step="1">
+        </div>
+        <div class="at-fld">
+          <label>Isentropic efficiency η: <span id="atCompEtaVal">0.70</span></label>
+          <input type="range" id="atCompEta" min="0.50" max="0.80" step="0.01" value="0.70">
+        </div>
+      </div>
+
+      <div class="at-res" style="margin-bottom:10px;">
+        Estimated compression energy: <strong id="atCompResult">–</strong> kWh/kg (indicative)
+      </div>
+      <div class="at-warn" id="atCompWarn">P2 must be greater than P1. Please adjust the values.</div>
+
+      <div class="at-chart-wrap"><canvas id="atCompCanvas"></canvas></div>
+      <div class="at-disclaimer">Indicative thermodynamic estimate. Real systems depend on multi-stage compression, intercooling, gas temperature, and vendor design.</div>
+      <div class="at-takeaway">Engineering takeaway: Higher final pressure increases energy demand and thermal load. Use vendor data for final design, but this helps early feasibility discussions.</div>
+    </div>
+  </div>
+
+  <div class="at-panel" id="at-panel-elec" role="tabpanel">
+    <div class="at-card">
+      <h4>Electrolyzer Electricity Use vs Load (Indicative)</h4>
+      <p class="at-expl">Electrolyzers do not always use the same electricity per kilogram at every operating point. This chart shows typical trends for system-level electricity use at different loads. Actual values depend on technology, size, and balance-of-plant.</p>
+
+      <div class="at-toggle">
+        <button class="at-active" id="atElecBtnKwh" type="button">kWh/kg</button>
+        <button id="atElecBtnEff" type="button">Efficiency % (LHV)</button>
+      </div>
+
+      <div class="at-chart-wrap"><canvas id="atElecCanvas"></canvas></div>
+      <div class="at-disclaimer">Indicative system-level numbers; depends on size, BoP scope, water treatment, and operating strategy.</div>
+      <div class="at-takeaway">Engineering takeaway: Part-load operation can increase specific electricity use. Utilization and operating strategy matter for economics.</div>
+    </div>
+  </div>
+</div>
+
         </div>
       </div>
     </div>
@@ -2565,18 +2847,24 @@ if (s1El) {
 
   if (!buttons.length || !panels.calculator || !panels.electrolyzers) return;
 
-  function activate(tabName) {
-    buttons.forEach(btn => {
-      const active = btn.dataset.academyTab === tabName;
-      btn.classList.toggle('is-active', active);
-      btn.setAttribute('aria-selected', active ? 'true' : 'false');
-    });
+function activate(tabName) {
+  buttons.forEach(btn => {
+    const active = btn.dataset.academyTab === tabName;
+    btn.classList.toggle('is-active', active);
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
 
-    Object.entries(panels).forEach(([name, panel]) => {
-      if (!panel) return;
-      panel.hidden = name !== tabName;
-    });
+  Object.entries(panels).forEach(([name, panel]) => {
+    if (!panel) return;
+    panel.hidden = name !== tabName;
+  });
+
+  if (tabName === 'electrolyzers' && typeof window.atReinit === 'function') {
+    setTimeout(() => window.atReinit(), 80);
   }
+}
+
+
 
   buttons.forEach(btn => {
     btn.addEventListener('click', () => activate(btn.dataset.academyTab));
@@ -2601,8 +2889,13 @@ if (s1El) {
   }
 
   btn.addEventListener('click', () => {
-    tools.classList.toggle('is-collapsed');
-    sync();
+  const wasCollapsed = tools.classList.contains('is-collapsed');
+  tools.classList.toggle('is-collapsed');
+  sync();
+
+  if (wasCollapsed && typeof window.atReinit === 'function') {
+      setTimeout(() => window.atReinit(), 80);
+    }
   });
 
   sync();
@@ -2611,5 +2904,365 @@ if (s1El) {
    /* ── Passive scroll performance ── */
 document.addEventListener('scroll', () => {}, {passive: true});
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  var ACCENT  = '#74c9ff';
+  var ACCENT2 = '#9edcff';
+  var ACCENT3 = '#e76f51';
+  var GRID    = 'rgba(255,255,255,0.07)';
+  var TICK    = 'rgba(255,255,255,0.50)';
+
+  function baseOpts(xLbl, yLbl) {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 260 },
+      plugins: {
+        legend: { labels: { color: TICK, font: { size: 11 } } },
+        tooltip: { mode: 'index', intersect: false }
+      },
+      scales: {
+        x: {
+          title: { display: !!xLbl, text: xLbl, color: TICK, font: { size: 11 } },
+          grid:  { color: GRID },
+          ticks: { color: TICK, font: { size: 10 }, maxRotation: 45 }
+        },
+        y: {
+          title: { display: !!yLbl, text: yLbl, color: TICK, font: { size: 11 } },
+          grid:  { color: GRID },
+          ticks: { color: TICK, font: { size: 10 } }
+        }
+      }
+    };
+  }
+
+  function initTabs() {
+    var tabs = document.querySelectorAll('#atTabs .at-tab-btn');
+    if (!tabs.length) return;
+    tabs.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        tabs.forEach(function (b) {
+          b.classList.remove('at-active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('at-active');
+        btn.setAttribute('aria-selected', 'true');
+
+        var panelId = btn.getAttribute('data-at-panel');
+        document.querySelectorAll('.at-panel').forEach(function (p) {
+          p.classList.remove('at-active');
+        });
+        var panel = document.getElementById(panelId);
+        if (panel) {
+          panel.classList.add('at-active');
+          if (panelId === 'at-panel-density')  { rebuildDensity(); }
+          if (panelId === 'at-panel-lhv')      { rebuildLHV(); }
+          if (panelId === 'at-panel-comp')     { rebuildComp(); }
+          if (panelId === 'at-panel-elec')     { rebuildElec(); }
+        }
+      });
+    });
+  }
+
+  var DD = {
+    iso: {
+      temps: [-40,-30,-20,-10,0,10,20,30,40,50,60,70,80],
+      350: [28.621,27.972,27.318,26.661,26.001,25.338,24.673,24.007,23.340,22.673,22.005,21.338,20.191],
+      250: [19.753,19.305,18.851,18.392,17.929,17.462,16.992,16.520,16.046,15.570,15.094,14.617,14.140],
+      150: [12.221,11.944,11.662,11.377,11.089,10.799,10.507,10.214,9.919,9.624,9.327,9.030,8.733],
+       16: [1.4064,1.3517,1.3003,1.2518,1.2060,1.1627,1.1215,1.0824,1.0450,1.0091,0.9746,0.9414,0.9093]
+    },
+    isot: {
+      press: [50,75,100,125,150,175,200,225,250,275,300,325,350,375,400,425],
+      '-40': [5.0338,7.4211,9.7606,12.054,14.303,16.510,18.677,20.805,22.897,24.953,26.976,28.621,30.0,31.3,32.5,33.6],
+      '-30': [4.8594,7.1647,9.4206,11.629,13.793,15.915,17.997,20.042,22.051,24.027,25.970,27.881,29.763,31.615,33.439,35.236],
+      '-10': [4.5304,6.6833,8.7880,10.847,12.862,14.835,16.769,18.664,20.522,22.344,24.132,25.885,27.607,29.296,30.956,32.586]
+    }
+  };
+  var densityMode = 'iso';
+  var densityChart = null;
+
+  function rebuildDensity() {
+    var ctx = document.getElementById('atDensityCanvas');
+    if (!ctx) return;
+    if (densityChart) { densityChart.destroy(); densityChart = null; }
+
+    var labels, data, dsLabel, xLbl;
+    if (densityMode === 'iso') {
+      var p = document.getElementById('atDensityPres').value;
+      labels  = DD.iso.temps.map(function (t) { return t + ' °C'; });
+      data    = DD.iso[p];
+      dsLabel = p + ' bar';
+      xLbl    = 'Temperature (°C)';
+    } else {
+      var t = document.getElementById('atDensityTemp').value;
+      labels  = DD.isot.press.map(function (v) { return v + ' bar'; });
+      data    = DD.isot[t];
+      dsLabel = t + ' °C';
+      xLbl    = 'Pressure (bar)';
+    }
+
+    var opts = baseOpts(xLbl, 'Density (kg/m³)');
+    densityChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: dsLabel,
+          data: data,
+          borderColor: ACCENT,
+          backgroundColor: ACCENT + '20',
+          borderWidth: 2.5,
+          pointRadius: 3,
+          fill: true,
+          tension: 0.35
+        }]
+      },
+      options: opts
+    });
+  }
+
+  function initDensity() {
+    var btnIso  = document.getElementById('atDensityBtnIso');
+    var btnIsot = document.getElementById('atDensityBtnIsot');
+    var ctrlIso = document.getElementById('atDensityIsoControls');
+    var ctrlIsot= document.getElementById('atDensityIsotControls');
+    if (!btnIso) return;
+
+    btnIso.addEventListener('click', function () {
+      densityMode = 'iso';
+      btnIso.classList.add('at-active');   btnIsot.classList.remove('at-active');
+      ctrlIso.style.display = '';          ctrlIsot.style.display = 'none';
+      rebuildDensity();
+    });
+    btnIsot.addEventListener('click', function () {
+      densityMode = 'isot';
+      btnIsot.classList.add('at-active');  btnIso.classList.remove('at-active');
+      ctrlIsot.style.display = '';         ctrlIso.style.display = 'none';
+      rebuildDensity();
+    });
+    document.getElementById('atDensityPres').addEventListener('change', rebuildDensity);
+    document.getElementById('atDensityTemp').addEventListener('change', rebuildDensity);
+    rebuildDensity();
+  }
+
+  var LHV_VAL = 33.33, HHV_VAL = 39.40;
+  var lhvChart = null;
+
+  function rebuildLHV() {
+    var ctx = document.getElementById('atLHVCanvas');
+    if (!ctx) return;
+    if (lhvChart) { lhvChart.destroy(); lhvChart = null; }
+
+    var opts = baseOpts('', 'Energy content (kWh/kg)');
+    opts.plugins.legend = { display: false };
+    lhvChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['LHV — 33.33 kWh/kg', 'HHV — 39.40 kWh/kg'],
+        datasets: [{
+          data: [LHV_VAL, HHV_VAL],
+          backgroundColor: [ACCENT + 'bb', ACCENT2 + 'bb'],
+          borderColor:      [ACCENT, ACCENT2],
+          borderWidth: 2,
+          borderRadius: 5
+        }]
+      },
+      options: opts
+    });
+  }
+
+  function updateLHV() {
+    var m = parseFloat(document.getElementById('atLHVMass').value) || 0;
+    document.getElementById('atLHVresLHV').textContent = (m * LHV_VAL).toFixed(1);
+    document.getElementById('atLHVresHHV').textContent = (m * HHV_VAL).toFixed(1);
+  }
+
+  function initLHV() {
+    var inp = document.getElementById('atLHVMass');
+    if (!inp) return;
+    inp.addEventListener('input', updateLHV);
+    rebuildLHV();
+    updateLHV();
+  }
+
+  var kK = 1.41, Rh2 = 4124;
+  var compChart = null;
+
+  function compWork(p1, p2, t1c, eta) {
+    if (p2 <= p1 || p1 <= 0 || eta <= 0) return null;
+    var T1 = t1c + 273.15;
+    var w  = (kK / (kK - 1)) * Rh2 * T1 * (Math.pow(p2 / p1, (kK - 1) / kK) - 1);
+    return (w / eta) / 3.6e6;
+  }
+
+  function rebuildComp() {
+    var ctx = document.getElementById('atCompCanvas');
+    if (!ctx) return;
+
+    var p1  = parseFloat(document.getElementById('atCompP1').value)  || 30;
+    var p2s = parseInt(document.getElementById('atCompP2').value)     || 350;
+    var t1  = parseFloat(document.getElementById('atCompT1').value)   || 20;
+    var eta = parseFloat(document.getElementById('atCompEta').value)  || 0.70;
+
+    var warn   = document.getElementById('atCompWarn');
+    var resEl  = document.getElementById('atCompResult');
+
+    if (p2s <= p1) {
+      warn.style.display = '';
+      resEl.textContent = '–';
+    } else {
+      warn.style.display = 'none';
+      var w = compWork(p1, p2s, t1, eta);
+      resEl.textContent = w !== null ? w.toFixed(2) : '–';
+    }
+
+    var xs = [], ys = [];
+    for (var p = 100; p <= 900; p += 50) {
+      xs.push(p);
+      var wv = (p > p1) ? compWork(p1, p, t1, eta) : null;
+      ys.push(wv !== null ? parseFloat(wv.toFixed(3)) : null);
+    }
+
+    if (compChart) { compChart.destroy(); compChart = null; }
+    var opts = baseOpts('Outlet pressure (bar)', 'Compression energy (kWh/kg)');
+    compChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: xs,
+        datasets: [{
+          label: 'Compression energy (kWh/kg)',
+          data: ys,
+          borderColor: ACCENT2,
+          backgroundColor: ACCENT2 + '20',
+          borderWidth: 2.5,
+          pointRadius: 2,
+          fill: true,
+          tension: 0.3,
+          spanGaps: false
+        }]
+      },
+      options: opts
+    });
+  }
+
+  function initComp() {
+    var ids = ['atCompP1', 'atCompP2', 'atCompT1', 'atCompEta'];
+    ids.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', function () {
+        if (id === 'atCompEta') {
+          document.getElementById('atCompEtaVal').textContent =
+            parseFloat(el.value).toFixed(2);
+        }
+        rebuildComp();
+      });
+      el.addEventListener('change', rebuildComp);
+    });
+    rebuildComp();
+  }
+
+  var ED = {
+    load: [10,20,40,60,80,100],
+    AEL:  [60,58,55,53,51,50],
+    PEM:  [58,56,52,50,48,47]
+  };
+  var elecMode  = 'kwh';
+  var elecChart = null;
+
+  function rebuildElec() {
+    var ctx = document.getElementById('atElecCanvas');
+    if (!ctx) return;
+    if (elecChart) { elecChart.destroy(); elecChart = null; }
+
+    var ael, pem, yLbl;
+    if (elecMode === 'kwh') {
+      ael  = ED.AEL;
+      pem  = ED.PEM;
+      yLbl = 'Specific electricity (kWh/kg H₂)';
+    } else {
+      ael  = ED.AEL.map(function (v) { return parseFloat((LHV_VAL / v * 100).toFixed(1)); });
+      pem  = ED.PEM.map(function (v) { return parseFloat((LHV_VAL / v * 100).toFixed(1)); });
+      yLbl = 'System efficiency % (LHV-based)';
+    }
+
+    var opts = baseOpts('Load (%)', yLbl);
+    elecChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ED.load.map(function (v) { return v + '%'; }),
+        datasets: [
+          {
+            label: 'Alkaline (AEL)',
+            data: ael,
+            borderColor: ACCENT,
+            backgroundColor: ACCENT + '20',
+            borderWidth: 2.5,
+            pointRadius: 4,
+            fill: false,
+            tension: 0.3
+          },
+          {
+            label: 'PEM',
+            data: pem,
+            borderColor: ACCENT2,
+            backgroundColor: ACCENT2 + '20',
+            borderWidth: 2.5,
+            pointRadius: 4,
+            fill: false,
+            tension: 0.3
+          }
+        ]
+      },
+      options: opts
+    });
+  }
+
+  function initElec() {
+    var btnKwh = document.getElementById('atElecBtnKwh');
+    var btnEff = document.getElementById('atElecBtnEff');
+    if (!btnKwh) return;
+    btnKwh.addEventListener('click', function () {
+      elecMode = 'kwh';
+      btnKwh.classList.add('at-active'); btnEff.classList.remove('at-active');
+      rebuildElec();
+    });
+    btnEff.addEventListener('click', function () {
+      elecMode = 'eff';
+      btnEff.classList.add('at-active'); btnKwh.classList.remove('at-active');
+      rebuildElec();
+    });
+    rebuildElec();
+  }
+
+  function boot() {
+    initTabs();
+    initDensity();
+    initLHV();
+    initComp();
+    initElec();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  window.atReinit = function () {
+    rebuildDensity();
+    rebuildLHV();
+    rebuildComp();
+    rebuildElec();
+  };
+
+})();
+</script>
+
 </body>
 </html>
