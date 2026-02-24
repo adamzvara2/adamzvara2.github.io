@@ -1042,6 +1042,24 @@ h2.section-title .thin { font-weight: 200; }
   font-size: 12px;
   line-height: 1.55;
 }
+   .converter-explainer {
+  display: grid;
+  gap: 8px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+  padding: 10px 12px;
+  border: 1px solid rgba(106,180,232,0.10);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.015);
+}
+
+.converter-explainer p {
+  margin: 0;
+  color: rgba(220,234,250,0.72);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 
 .converter-results-wrap,
 .academy-table-scroll {
@@ -1714,11 +1732,29 @@ footer {
           Metric / European units only.
         </p>
                  
-        <div class="academy-glossary" aria-label="Abbreviations">
-          <span class="gloss-chip"><strong>LHV</strong> Lower Heating Value</span>
-          <span class="gloss-chip"><strong>HHV</strong> Higher Heating Value</span>
-          <span class="gloss-chip"><strong>Nm³</strong> Normal cubic metre</span>
-        </div>
+       <div class="academy-glossary" aria-label="Abbreviations">
+  <span
+    class="gloss-chip"
+    title="Nm³ (normal cubic meter) refers to hydrogen gas volume at 0 °C and 1.01325 bar. Using these normal conditions, 1 kg H₂ ≈ 11.126 Nm³. If a different reference temperature is used (e.g., 15 °C), the Nm³/kg factor changes slightly."
+  >
+    <strong>Nm³</strong> Normal cubic metre
+  </span>
+
+  <span
+    class="gloss-chip"
+    title="LHV (Lower Heating Value): energy content excluding the heat that would be recovered by condensing the produced water vapour."
+  >
+    <strong>LHV</strong> Lower Heating Value
+  </span>
+
+  <span
+    class="gloss-chip"
+    title="HHV (Higher Heating Value): energy content including the heat that could be recovered if the produced water vapour is condensed."
+  >
+    <strong>HHV</strong> Higher Heating Value
+  </span>
+</div>
+
 
         <div class="academy-tabs" role="tablist" aria-label="Academy tools tabs">
           <button
@@ -1792,6 +1828,19 @@ footer {
             <div class="converter-note">
               Assumptions: 1 kg H₂ ≈ 11.126 Nm³, LHV ≈ 33.33 kWh/kg, HHV ≈ 39.4 kWh/kg.
             </div>
+             <div class="converter-explainer">
+  <p>
+    Nm³ (normal cubic meter) refers to hydrogen gas volume at 0 °C and 1.01325 bar.
+    Using these normal conditions, 1 kg H₂ ≈ 11.126 Nm³. If a different reference
+    temperature is used (e.g., 15 °C), the Nm³/kg factor changes slightly.
+  </p>
+  <p>
+    Energy values (LHV/HHV) represent the chemical energy content of hydrogen fuel.
+    They do not equal usable electricity or heat output, which depends on the conversion
+    technology (fuel cell, engine/boiler) and system losses (compression, cooling, storage).
+  </p>
+</div>
+
 
             <div class="converter-results-wrap">
               <table class="academy-table converter-results">
