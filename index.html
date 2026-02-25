@@ -1443,6 +1443,140 @@ h2.section-title .thin { font-weight: 200; }
   .at-chart-wrap { height: 210px; }
   .at-toggle button { font-size: 0.74rem; padding: 5px 10px; }
 }
+/* ── Who is this for — reader profile cards ─────────────────── */
+.lp-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 20px 0 10px;
+}
+@media (min-width: 860px) {
+  .lp-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.lp-card {
+  position: relative;
+  border: 1px solid rgba(106,180,232,0.14);
+  border-radius: 14px;
+  padding: 16px 14px 14px;
+  background: rgba(255,255,255,0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s, background 0.2s;
+  overflow: hidden;
+}
+.lp-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.lp-card--beginner::before     { background: #74c9ff; }
+.lp-card--intermediate::before { background: #9edcff; }
+.lp-card--advanced::before     { background: #e76f51; }
+
+.lp-card:hover {
+  border-color: rgba(116,201,255,0.28);
+  background: rgba(255,255,255,0.035);
+}
+
+.lp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  width: fit-content;
+}
+.lp-card--beginner .lp-badge {
+  color: #9ddfff;
+  background: rgba(116,201,255,0.10);
+}
+.lp-card--intermediate .lp-badge {
+  color: #c7efff;
+  background: rgba(158,220,255,0.10);
+}
+.lp-card--advanced .lp-badge {
+  color: #ffb39a;
+  background: rgba(231,111,81,0.10);
+}
+
+.lp-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.lp-card--beginner .lp-badge-dot { background: #74c9ff; }
+.lp-card--intermediate .lp-badge-dot { background: #9edcff; }
+.lp-card--advanced .lp-badge-dot { background: #e76f51; }
+
+.lp-card-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+  color: #edf6ff;
+}
+
+.lp-card-who {
+  font-size: 0.80rem;
+  opacity: 0.68;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.lp-card-topics {
+  list-style: none;
+  padding: 0; margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.lp-card-topics li {
+  font-size: 0.78rem;
+  opacity: 0.72;
+  padding-left: 12px;
+  position: relative;
+  line-height: 1.4;
+}
+.lp-card-topics li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  opacity: 0.45;
+}
+
+.lp-cta {
+  margin-top: auto;
+  padding-top: 2px;
+}
+.lp-cta a {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.lp-card--beginner .lp-cta a { color: #9ddfff; }
+.lp-card--intermediate .lp-cta a { color: #c7efff; }
+.lp-card--advanced .lp-cta a { color: #ffb39a; }
+.lp-cta a:hover { opacity: 1; }
+.lp-cta a::after { content: '→'; }
+
+.lp-note {
+  font-size: 0.76rem;
+  opacity: 0.48;
+  margin-top: 6px;
+}
    
 /* ═══════════════════════════════════════════════════════
    CONTACT — with animated border
@@ -1842,24 +1976,63 @@ footer {
 
     <div class="academy-layout">
       <aside class="academy-sidebar reveal d2" aria-label="Academy learning path">
-        <div class="path-tag">Learning Path</div>
-        <h3>How the Academy is organized</h3>
-        <p>Articles are grouped by difficulty so readers can build understanding step by step, from basic definitions to design tradeoffs and implementation decisions.</p>
+        <div class="path-tag">Where to start</div>
 
-        <div class="learning-path">
-          <div class="path-item">
-            <strong>Level 1 — Foundations</strong>
-            <span>Core concepts, terminology, hydrogen properties, and practical definitions without hype.</span>
-          </div>
-          <div class="path-item">
-            <strong>Level 2 — Applications</strong>
-            <span>Use-cases, station architectures, mobility workflows, and industrial deployment scenarios.</span>
-          </div>
-          <div class="path-item">
-            <strong>Level 3 — Engineering Deep Dives</strong>
-            <span>Safety, compression, storage, standards, performance, cost, and system integration decisions.</span>
-          </div>
-        </div>
+<h3>Who is this <em>for?</em></h3>
+
+<p style="font-size:0.92rem; opacity:0.70; max-width:580px; line-height:1.65; margin-bottom:0;">
+  Pick the profile that fits you best. Articles are tagged
+  <strong style="opacity:0.9;">Beginner</strong>,
+  <strong style="opacity:0.9;">Intermediate</strong>, or
+  <strong style="opacity:0.9;">Advanced</strong> — the same labels you'll see on every article card.
+</p>
+
+<div class="lp-grid">
+
+  <div class="lp-card lp-card--beginner">
+    <span class="lp-badge"><span class="lp-badge-dot"></span>Beginner</span>
+    <p class="lp-card-title">New to hydrogen — investor, municipality, or decision-maker</p>
+    <p class="lp-card-who">No engineering background needed. Focus on understanding what hydrogen actually is, where it fits, and what questions to ask.</p>
+    <ul class="lp-card-topics">
+      <li>What hydrogen is (and isn't)</li>
+      <li>Why it matters in Europe</li>
+      <li>Core terminology and units</li>
+      <li>Realistic role in decarbonisation</li>
+    </ul>
+    <div class="lp-cta"><a href="#article-01">Start with Article 01</a></div>
+  </div>
+
+  <div class="lp-card lp-card--intermediate">
+    <span class="lp-badge"><span class="lp-badge-dot"></span>Intermediate</span>
+    <p class="lp-card-title">Engineer or project manager starting with hydrogen projects</p>
+    <p class="lp-card-who">You have a technical background but are new to hydrogen-specific challenges. Focus on applications, materials, and how systems are put together.</p>
+    <ul class="lp-card-topics">
+      <li>Material selection for H₂ service</li>
+      <li>Station architectures and components</li>
+      <li>Compression, storage, and dispensing</li>
+      <li>Fleet mobility workflows</li>
+    </ul>
+    <div class="lp-cta"><a href="#article-03">Start with Article 03</a></div>
+  </div>
+
+  <div class="lp-card lp-card--advanced">
+    <span class="lp-badge"><span class="lp-badge-dot"></span>Advanced</span>
+    <p class="lp-card-title">Experienced engineer or specialist looking for deep dives</p>
+    <p class="lp-card-who">You work in hydrogen infrastructure or adjacent industries. Focus on safety studies, standards, performance, and system integration decisions.</p>
+    <ul class="lp-card-topics">
+      <li>Safety design: detection, ventilation, zoning</li>
+      <li>ATEX and EU standards in practice</li>
+      <li>Electrolyzer integration tradeoffs</li>
+      <li>Pipeline conversion and grid injection</li>
+    </ul>
+    <div class="lp-cta"><a href="#article-04">Coming soon — Article 04</a></div>
+  </div>
+
+</div>
+
+<p class="lp-note">Not sure where to start? Article 01 is written to be readable by everyone.</p>
+
+        
 
         <div class="academy-cta">
           <a href="#contact" class="btn btn-primary"><span>Suggest a Topic</span><span class="btn-arrow" aria-hidden="true">→</span></a>
@@ -2251,7 +2424,7 @@ footer {
     </div>
     </div>
         <div class="article-list">
-           <details class="article-item" open>
+           <details class="article-item" open id="article-01">
             <summary>
               <div class="article-summary-top">
                 <span class="article-index">Article 01</span>
@@ -2357,7 +2530,7 @@ footer {
               </div>
             </div>
           </details>
-          <details class="article-item">
+          <details class="article-item" id="article-03">
             <summary>
               <div class="article-summary-top">
                 <span class="article-index">Article 03</span>
@@ -2416,7 +2589,7 @@ footer {
             </div>
           </details>
 
-          <details class="article-item">
+          <details class="article-item" id="article-04">
             <summary>
               <div class="article-summary-top">
                 <span class="article-index">Article 04</span>
