@@ -2513,6 +2513,57 @@ footer {
     #academy.academy-v2 .academy-article-body p { font-size:15px; line-height:1.75; }
   }
 
+/* Fix: Academy progression + footer CTA layout */
+#academy.academy-v2 .path-flow {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  margin-top: 16px !important;
+}
+
+#academy.academy-v2 .step {
+  display: block !important;
+  border: 1px solid rgba(116,201,255,0.12) !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  background: rgba(255,255,255,0.02) !important;
+}
+
+#academy.academy-v2 .step b {
+  display: block !important;
+  margin-bottom: 4px !important;
+}
+
+#academy.academy-v2 .step span {
+  display: block !important;
+}
+
+#academy.academy-v2 .academy-cta-foot {
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-top: 24px !important;
+}
+
+#academy.academy-v2 .academy-cta-foot .btn {
+  width: auto !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 1080px) {
+  #academy.academy-v2 .path-flow {
+    grid-template-columns: 1fr !important;
+  }
+
+  #academy.academy-v2 .step:not(:last-child)::after {
+    display: none !important;
+  }
+
+  #academy.academy-v2 .academy-cta-foot {
+    grid-template-columns: 1fr !important;
+  }
+}
 
 </style>
 </head>
