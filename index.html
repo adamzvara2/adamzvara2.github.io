@@ -2416,6 +2416,47 @@ footer {
   footer { flex-direction:column; gap:12px; text-align:center; }
   .footer-right { text-align:center; }
 }
+
+  
+  #academy.academy-v2 .academy-articles-stack { display:none; margin-top:18px; }
+  #academy.academy-v2 .academy-articles-stack.is-open { display:block; }
+  #academy.academy-v2 .academy-article {
+    display:none;
+    padding: 22px;
+    scroll-margin-top: 110px;
+    border: 1px solid rgba(116,201,255,0.18);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+  }
+  #academy.academy-v2 .academy-article.active { display:block; }
+  #academy.academy-v2 .academy-article-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom: 12px; }
+  #academy.academy-v2 .academy-article-head > div { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  #academy.academy-v2 .article-level-pill { display:inline-flex; align-items:center; padding:6px 10px; border-radius:999px; background:rgba(116,201,255,0.10); border:1px solid rgba(116,201,255,0.18); color:#bfe6ff; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; }
+  #academy.academy-v2 .back-link { font-size:12px; color:#9fdcff; text-decoration:none; }
+  #academy.academy-v2 .back-link:hover { text-decoration:underline; }
+  #academy.academy-v2 .academy-article-title { font-family:'Fraunces', serif; font-size:clamp(28px, 3vw, 38px); line-height:1.15; letter-spacing:-0.03em; margin: 0 0 18px; color:#f2f7fc; max-width: 18ch; }
+  #academy.academy-v2 .academy-article-body { max-width: 78ch; }
+  #academy.academy-v2 .academy-article-body h3 { font-family:'Fraunces', serif; font-size:22px; line-height:1.25; color:#f2f7fc; margin: 26px 0 10px; }
+  #academy.academy-v2 .academy-article-body h4 { font-size:17px; line-height:1.35; color:#dff2ff; margin: 22px 0 8px; }
+  #academy.academy-v2 .academy-article-body p { color: rgba(226,238,252,0.82); font-size:15.5px; line-height:1.82; margin: 0 0 12px; }
+  #academy.academy-v2 .academy-article-body ul { margin: 8px 0 16px 18px; padding:0; display:grid; gap:8px; }
+  #academy.academy-v2 .academy-article-body li { color: rgba(226,238,252,0.82); line-height:1.75; }
+  #academy.academy-v2 .academy-article-body .article-source { margin-top: 22px; padding-top: 14px; border-top:1px solid rgba(116,201,255,0.14); }
+  #academy.academy-v2 .academy-article-body .article-source strong { display:block; margin-bottom:8px; font-size:12px; letter-spacing:1.3px; text-transform:uppercase; color:#9fdcff; }
+  #academy.academy-v2 .academy-reader-note {
+    margin-top: 10px;
+    color: rgba(220,234,250,0.62);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 720px) {
+    #academy.academy-v2 .academy-article { padding: 18px; }
+    #academy.academy-v2 .academy-article-head { align-items:flex-start; flex-direction:column; }
+    #academy.academy-v2 .academy-article-title { max-width:none; font-size:28px; }
+    #academy.academy-v2 .academy-article-body p { font-size:15px; line-height:1.75; }
+  }
+
+
 </style>
 </head>
 <body>
@@ -2867,7 +2908,7 @@ footer {
             A practical framing of hydrogen as an energy carrier, including infrastructure implications and common misconceptions.
           </p>
           <div class="article-foot">
-            <span class="article-time">8–10 min read</span>
+            <span class="article-time">5–7 min read</span>
             <a href="#article-01" class="btn btn-secondary">Read Article</a>
           </div>
         </article>
@@ -2875,7 +2916,7 @@ footer {
         <article class="article-card card-soft" id="article-02-card">
           <div class="article-top">
             <span class="article-no">Article 02</span>
-            <span class="article-status s-plan">Planned</span>
+            <span class="article-status s-published">Published</span>
           </div>
           <span class="article-level">Beginner</span>
           <h4>Why Hydrogen Matters in Europe</h4>
@@ -2883,15 +2924,15 @@ footer {
             Where hydrogen creates real value in EU decarbonisation, and where direct electrification remains the stronger path.
           </p>
           <div class="article-foot">
-            <span class="article-time">Planned</span>
-            <a href="#contact" class="btn btn-secondary">Suggest Priority</a>
+            <span class="article-time">6–8 min read</span>
+            <a href="#article-02" class="btn btn-secondary">Read Article</a>
           </div>
         </article>
 
         <article class="article-card card-soft" id="article-03-card">
           <div class="article-top">
             <span class="article-no">Article 03</span>
-            <span class="article-status s-plan">Planned</span>
+            <span class="article-status s-published">Published</span>
           </div>
           <span class="article-level">Intermediate</span>
           <h4>Material Selection for Hydrogen Service</h4>
@@ -2899,15 +2940,15 @@ footer {
             How material behavior, weld quality, and stress concentration affect long-term reliability in hydrogen systems.
           </p>
           <div class="article-foot">
-            <span class="article-time">Planned</span>
-            <a href="#contact" class="btn btn-secondary">Suggest Scope</a>
+            <span class="article-time">7–9 min read</span>
+            <a href="#article-03" class="btn btn-secondary">Read Article</a>
           </div>
         </article>
 
         <article class="article-card card-soft" id="article-04-card">
           <div class="article-top">
             <span class="article-no">Article 04</span>
-            <span class="article-status s-dev">In Development</span>
+            <span class="article-status s-published">Published</span>
           </div>
           <span class="article-level">Advanced</span>
           <h4>Hydrogen Production by Water Electrolysis Technologies</h4>
@@ -2915,8 +2956,8 @@ footer {
             Trade-offs across AWE, PEM, SOEC, and AEM with emphasis on efficiency, durability, and water quality.
           </p>
           <div class="article-foot">
-            <span class="article-time">Advanced deep dive</span>
-            <a href="#article-04" class="btn btn-secondary">Open Draft</a>
+            <span class="article-time">8–10 min read</span>
+            <a href="#article-04" class="btn btn-secondary">Read Article</a>
           </div>
         </article>
 
@@ -2953,6 +2994,395 @@ footer {
         </article>
       </div>
     </div>
+
+
+    <div class="section-block" id="published-articles">
+      <p class="sec-eyebrow">Published Reading</p>
+      <h3 class="sec-title">Full Articles</h3>
+      <p class="sec-sub">
+        Read the complete Academy articles below. Each piece is written for web reading but keeps the full technical argument intact.
+      </p>
+
+      <div class="academy-articles-stack">
+
+      <article class="academy-article card" id="article-01">
+        <div class="academy-article-head">
+          <div>
+            <span class="badge">Article 01</span>
+            <span class="article-level-pill">Beginner</span>
+          </div>
+          <a href="#academy-library" class="back-link">Back to library ↑</a>
+        </div>
+        <h3 class="academy-article-title">What Hydrogen Is (and Isn’t): A Practical Definition</h3>
+        <div class="academy-article-body">
+<p>Hydrogen is often presented as the answer to decarbonisation. That is the wrong starting point.</p>
+<p>Hydrogen is not a universal solution. It is a tool. In the right application, it can be highly valuable. In the wrong one, it adds cost, complexity, and energy losses without solving much.</p>
+<p>That is why the first useful question is not “Is hydrogen the future?” but “What exactly is hydrogen in an energy system?”</p>
+<h3>Why this matters</h3>
+<p>For engineers, municipalities, investors, and project developers, this is not just a semantic distinction.</p>
+<p>A wrong definition leads to wrong decisions:</p>
+<ul><li>using hydrogen where direct electrification would be simpler</li><li>building the wrong type of infrastructure</li></ul>
+<p>making weak or misleading sustainability claims.</p>
+<p>If the basics are unclear, the project usually becomes expensive long before it becomes useful.</p>
+<h3>The practical definition</h3>
+<p>Hydrogen is the lightest chemical element. In energy applications, however, “hydrogen” almost always means molecular hydrogen, H₂ — a colourless gas made of two hydrogen atoms.</p>
+<p>That part is simple.</p>
+<p>The more important point is this:</p>
+<p>Hydrogen is not a primary energy source. It is an energy carrier.</p>
+<p>This means hydrogen does not exist as a ready-made source of usable energy in the same way sunlight, wind, natural gas, or biomass do. To use hydrogen at scale, you first have to produce it using another energy source.</p>
+<p>In that sense, hydrogen is closer to electricity than to coal or gas.</p>
+<p>Electricity carries energy in electrical form. Hydrogen carries energy in chemical form.</p>
+<p>Both can be produced, transported, stored, and used later. But neither appears “for free” in the form we actually use in modern energy systems.</p>
+<h3>Why hydrogen gets attention</h3>
+<p>Hydrogen attracts interest for a reason. It has some real advantages.</p>
+<h4>1. High energy per kilogram</h4>
+<p>Hydrogen contains a large amount of energy relative to its mass.</p>
+<h3>LHV: about 120 MJ/kg</h3>
+<h3>HHV: about 142 MJ/kg</h3>
+<p>This is one of its strongest properties. Where mass matters, hydrogen becomes more interesting than many other energy carriers.</p>
+<p>That does not automatically make it the best option everywhere, but it explains why hydrogen is seriously considered in certain transport pathways, industrial uses, and energy storage concepts.</p>
+<h4>2. Multiple end uses</h4>
+<p>Hydrogen is not limited to one role. It can be used as:</p>
+<ul><li>a feedstock for ammonia, refining, and chemicals</li><li>a fuel in combustion systems or fuel cells</li></ul>
+<p>an energy buffer in sectors that are difficult to electrify directly.</p>
+<p>This versatility is one reason hydrogen appears in so many decarbonisation strategies.</p>
+<h3>Why hydrogen is difficult in practice</h3>
+<p>This is where many simplified discussions fall apart.</p>
+<p>Hydrogen has attractive properties, but it also creates serious technical and infrastructure challenges.</p>
+<h4>1. Low energy per litre</h4>
+<p>Hydrogen performs well by mass, but poorly by volume.</p>
+<p>As a gas, it has very low volumetric energy density unless it is:</p>
+<ul><li>compressed</li><li>liquefied, or</li></ul>
+<p>converted into another carrier such as ammonia or LOHC.</p>
+<p>This single fact shapes most of the real-world hydrogen chain.</p>
+<p>It means:</p>
+<ul><li>larger or more demanding storage systems</li><li>additional equipment such as compressors or cryogenic systems</li><li>more energy consumption before hydrogen even reaches the point of use</li></ul>
+<p>more complexity than many non-technical discussions admit.</p>
+<p>This is one of the central truths of hydrogen infrastructure:
+the challenge is not only producing hydrogen, but handling it efficiently afterwards.</p>
+<h4>2. Safety depends on engineering, not slogans</h4>
+<p>Hydrogen is flammable, like other fuels. But its behaviour differs in some important ways.</p>
+<p>For example:</p>
+<ul><li>it has a wide flammability range in air</li><li>it requires very low ignition energy</li></ul>
+<p>and because it is very light, leaks can disperse differently than heavier gases.</p>
+<p>This does not mean hydrogen is “too dangerous to use.” That is lazy thinking.</p>
+<p>It means hydrogen systems must be designed properly:</p>
+<ul><li>leak detection</li><li>ventilation</li><li>hazard zoning</li><li>ignition source control</li><li>emergency shutdown logic</li></ul>
+<p>disciplined operation and maintenance.</p>
+<p>Hydrogen safety is not about fear. It is about engineering quality.</p>
+<h3>Hydrogen is only as clean as its pathway</h3>
+<p>When someone says, “hydrogen is clean,” that statement is incomplete.</p>
+<p>The right response is: it depends on how the hydrogen is produced, processed, and delivered.</p>
+<p>Its real emissions profile depends on factors such as:</p>
+<ul><li>the production method</li><li>the carbon intensity of electricity</li><li>methane leakage upstream if natural gas is involved</li><li>compression or liquefaction energy</li></ul>
+<p>transport distance and logistics.</p>
+<p>So the more accurate statement is this:</p>
+<p>Hydrogen can enable low-carbon energy services, but only if the full chain is designed that way.</p>
+<p>That distinction matters. A project can use hydrogen and still fail to be genuinely low-carbon.</p>
+<h3>What hydrogen is not</h3>
+<p>A lot of confusion disappears once a few common misconceptions are removed.</p>
+<h3>“Hydrogen is an energy source”</h3>
+<p>It is not, at least not in the practical way people usually mean it.</p>
+<p>Hydrogen is primarily an energy carrier. You must spend energy to produce it before you can use it.</p>
+<h3>“Hydrogen always beats batteries”</h3>
+<p>It does not.</p>
+<p>Where direct electrification is practical, batteries usually win on efficiency, simplicity, and infrastructure. Hydrogen becomes more relevant where electrification is difficult, impractical, or too limiting.</p>
+<h3>“Hydrogen is too dangerous”</h3>
+<p>Also wrong.</p>
+<p>Hydrogen has different risk characteristics than gasoline or natural gas, but it can be handled safely when the system is engineered and operated properly.</p>
+<h3>“A kilogram of hydrogen equals a litre of diesel”</h3>
+<p>This comparison is misleading.</p>
+<p>Hydrogen’s strength is mainly energy per kilogram, not energy per litre. That is why storage method matters so much.</p>
+<h3>The practical takeaway</h3>
+<p>Hydrogen is best understood as a selective decarbonisation tool.</p>
+<p>It is not the right answer everywhere. It is not an excuse to avoid electrification where electrification works better. And it is not automatically green just because the word sounds clean.</p>
+<p>But in the right places — especially where direct electrification struggles — hydrogen can play a serious role.</p>
+<p>That is the useful definition:
+not miracle, not myth, but a technical option with clear strengths, clear weaknesses, and very specific use cases.</p>
+        </div>
+      </article>
+
+      <article class="academy-article card" id="article-02">
+        <div class="academy-article-head">
+          <div>
+            <span class="badge">Article 02</span>
+            <span class="article-level-pill">Beginner</span>
+          </div>
+          <a href="#academy-library" class="back-link">Back to library ↑</a>
+        </div>
+        <h3 class="academy-article-title">Why Hydrogen Matters in Europe: Decarbonisation Roles Without Exaggeration</h3>
+        <div class="academy-article-body">
+<p>Hydrogen matters in Europe, but not for the reason many headlines suggest.</p>
+<p>It does not matter because it can replace every fuel, every grid constraint, or every industrial process. It matters because Europe has a limited number of sectors where cutting emissions is difficult, electrification alone is not enough, and the cost of doing nothing is high.</p>
+<p>That is the real role of hydrogen in Europe: not universal replacement, but selective decarbonisation.</p>
+<h3>Why Europe is taking hydrogen seriously</h3>
+<p>Europe is trying to solve several problems at once:</p>
+<ul><li>reducing greenhouse gas emissions</li><li>lowering dependence on imported fossil fuels</li><li>building a more resilient energy system</li><li>keeping heavy industry competitive during decarbonisation.</li></ul>
+<p>Hydrogen sits at the intersection of all four.</p>
+<p>That does not make it the answer to everything. It makes it relevant in places where Europe has few realistic alternatives.</p>
+<h3>The core reason: some sectors need molecules, not just electrons</h3>
+<p>A large part of decarbonisation can and should happen through direct electrification. In many cases, that is the most efficient path.</p>
+<p>But not every sector runs easily on electricity alone.</p>
+<p>In Europe, hydrogen becomes valuable mainly where the system needs:</p>
+<ul><li>a chemical feedstock</li><li>high-temperature process input</li><li>fast-refuelling energy for heavy-duty use, or</li><li>storage over longer periods than batteries handle well.</li></ul>
+<p>This is the practical reason hydrogen remains on the table.</p>
+<h3>Where hydrogen fits best in Europe</h3>
+<h4>1. Replacing fossil-derived hydrogen in industry</h4>
+<p>This is one of the strongest and most immediate cases.</p>
+<p>Hydrogen is already used in Europe today, especially in:</p>
+<ul><li>oil refining</li><li>ammonia production</li><li>chemical processes</li><li>other industrial applications where hydrogen is a feedstock.</li></ul>
+<p>The problem is that much of this hydrogen is still produced from fossil fuels.</p>
+<p>Replacing that existing demand with renewable or low-carbon hydrogen can reduce emissions directly without inventing a completely new use case. The demand already exists. The industrial logic is already understood. The challenge is making the supply cleaner and economically workable.</p>
+<p>That is why this role is much stronger than many speculative hydrogen applications.</p>
+<h4>2. Supporting harder parts of industrial decarbonisation</h4>
+<p>Hydrogen may also help in selected industrial processes beyond feedstock use.</p>
+<p>This can include:</p>
+<ul><li>some high-temperature heat applications</li><li>processes where hydrogen is needed chemically, not only energetically</li><li>reduction pathways in sectors where direct electrification is technically difficult or too costly.</li></ul>
+<p>This point matters because European industry is under pressure to cut emissions without losing operational viability.</p>
+<p>Still, discipline is needed here.</p>
+<p>If direct electrification works technically and economically, it is often the better option. Hydrogen becomes more relevant when electricity alone cannot deliver the process conditions, flexibility, or chemistry required.</p>
+<h3>Heavy-duty transport: not everywhere, but in the right corridors</h3>
+<p>Hydrogen is often overstated in transport. Most of the time, that is because people discuss “transport” as if it were one category.</p>
+<p>It is not.</p>
+<p>For many passenger cars and light-duty urban uses, battery-electric systems are simpler and more efficient. That is the reality.</p>
+<p>Hydrogen becomes more interesting in selected heavy-duty applications, especially when:</p>
+<ul><li>vehicles run long hours</li><li>refuelling speed matters</li><li>downtime is expensive</li><li>routes are predictable</li><li>fleets operate on fixed corridors.</li></ul>
+<p>That is why the European approach is not “hydrogen everywhere.” It is corridor-based deployment.</p>
+<p>Under AFIR, hydrogen refuelling infrastructure is tied to specific network logic, including spacing targets on the TEN-T Core Network and technical expectations around 700 bar dispensing and station capacity. That reflects a practical idea: build hydrogen where repeatable heavy-duty demand can justify it.</p>
+<p>This is a much more credible approach than pretending hydrogen should compete in every transport segment.</p>
+<h3>Hydrogen and power systems: useful, but not magically efficient</h3>
+<p>Hydrogen also matters in Europe because the electricity system is changing.</p>
+<p>As more wind and solar enter the grid, system flexibility becomes more valuable. Hydrogen can contribute by storing energy that might later be used:</p>
+<p>after hours or days,</p>
+<p>across longer low-renewable periods,</p>
+<p>or as an input for synthetic fuels and Power-to-X pathways.</p>
+<p>This is a real role, but it needs to be stated honestly.</p>
+<p>Turning electricity into hydrogen and then back into usable energy usually involves significant losses. In pure efficiency terms, direct electrification and batteries often perform better.</p>
+<p>So hydrogen is not the first tool for every balancing problem.</p>
+<p>It becomes more relevant when the problem is not short-term storage, but duration, seasonality, or the need to convert renewable electricity into chemical energy for later use elsewhere.</p>
+<h3>Why hydrogen also matters politically in Europe</h3>
+<p>Hydrogen in Europe is not only a technical discussion. It is also a policy and industrial strategy discussion.</p>
+<p>The EU is shaping the hydrogen economy through:</p>
+<ul><li>production targets</li><li>import ambitions</li><li>electrolyser deployment goals</li><li>infrastructure planning</li><li>and certification rules for what qualifies as renewable hydrogen.</li></ul>
+<p>REPowerEU, for example, refers to the ambition of 10 million tonnes of renewable hydrogen produced in the EU and 10 million tonnes imported by 2030. Strategy discussions have also long referenced large-scale electrolyser deployment.</p>
+<p>That does not guarantee success. Targets alone do not create viable projects.</p>
+<p>But it does mean hydrogen in Europe is being pushed by a real institutional framework, not just by isolated pilot enthusiasm.</p>
+<h3>Certification is not secondary — it is central</h3>
+<p>This is one of the most underestimated parts of hydrogen projects.</p>
+<p>In Europe, claims about “renewable hydrogen” increasingly depend on regulatory definitions and traceability, especially in the RFNBO context. That includes rules around how electricity is sourced and how tightly hydrogen production is matched to renewable generation over time.</p>
+<p>The practical consequence is brutal and simple:</p>
+<p>a hydrogen project is not judged only by its electrolyser. It is judged by its full compliance logic.</p>
+<p>If the sourcing model, documentation, and certification structure are weak, the project may fail commercially or politically even if the core equipment works perfectly.</p>
+<p>That is why project developers in Europe cannot treat regulation as an afterthought.</p>
+<h3>Where hydrogen is usually not the best choice</h3>
+<p>A realistic hydrogen strategy also needs clear exclusions.</p>
+<p>Hydrogen is often a weak option for:</p>
+<ul><li>space heating in buildings where heat pumps perform well</li><li>most passenger cars</li><li>short-distance or low-utilisation transport</li><li>applications where charging is manageable and direct electrification is simpler.</li></ul>
+<p>Why?</p>
+<p>Because once production, compression, transport, and end use are counted together, hydrogen often becomes more expensive and less efficient than direct electric alternatives.</p>
+<p>This is where many hydrogen narratives lose credibility: they refuse to admit where hydrogen should not be used.</p>
+<p>Europe does not need more hydrogen hype. It needs better hydrogen selection.</p>
+<h3>The practical takeaway</h3>
+<p>Hydrogen matters in Europe because it helps solve a specific set of hard problems:</p>
+<ul><li>replacing fossil-derived hydrogen already used in industry</li><li>decarbonising selected industrial processes that need molecules, not just power</li><li>supporting some heavy-duty corridor transport uses</li><li>and providing long-duration energy system flexibility where batteries or direct electrification are not enough.</li></ul>
+<p>That is the real case for hydrogen.</p>
+<p>Not because it replaces electrification.</p>
+<p>Not because policy documents mention it.</p>
+<p>Not because every sector needs it.</p>
+<p>But because Europe has a narrow set of applications where hydrogen may be one of the few serious options available.</p>
+<p>Used there, it matters.</p>
+<p>Used everywhere, it becomes wasteful.</p>
+        </div>
+      </article>
+
+      <article class="academy-article card" id="article-03">
+        <div class="academy-article-head">
+          <div>
+            <span class="badge">Article 03</span>
+            <span class="article-level-pill">Intermediate</span>
+          </div>
+          <a href="#academy-library" class="back-link">Back to library ↑</a>
+        </div>
+        <h3 class="academy-article-title">Material Selection for Hydrogen Service at Ambient Temperature</h3>
+        <div class="academy-article-body">
+<p>When hydrogen projects fail, the root cause is not always obvious.</p>
+<p>Design teams often focus on pressure, flow rate, purity, and equipment sizing. Those are important. But long-term reliability is often decided somewhere less visible: in the material itself, in the weld, in the heat-affected zone, or in a stressed fitting that looked acceptable on paper.</p>
+<p>At ambient temperature, the main risk is often not classic corrosion. It is hydrogen-assisted damage — a group of mechanisms in which hydrogen enters a metal, reduces ductility and toughness, and helps cracks start and grow.</p>
+<h3>Why this matters</h3>
+<p>This topic matters because hydrogen damage does not have to announce itself clearly.</p>
+<p>A system can look clean, dry, and technically well specified from the outside, yet still create conditions that allow hydrogen to enter stressed metal over time. Once that happens, cracking risk increases — especially in vulnerable materials, weld regions, and local stress concentrations.</p>
+<p>That is why material selection in hydrogen service is not a checkbox exercise. It is a reliability decision.</p>
+<h3>The core issue: hydrogen can weaken metal without “visible corrosion”</h3>
+<p>One of the most important practical points is this:</p>
+<p>the most damaging species is usually atomic hydrogen, not molecular hydrogen gas (H₂).</p>
+<p>Atomic hydrogen can be absorbed into steels and diffuse through the metal. In real systems, it may form during corrosion reactions, but it can also appear when hydrogen dissociates on a surface under certain conditions. That is why hydrogen compatibility is not defined by pressure alone. Moisture, contamination, surface condition, and operating history can all affect risk.</p>
+<p>This is where weak engineering decisions begin: when teams assume that a “clean hydrogen system” is automatically a low-risk hydrogen system.</p>
+<p>It is not that simple.</p>
+<h3>What increases risk in practice</h3>
+<p>Hydrogen-assisted damage becomes more likely when three factors come together:</p>
+<ul><li>hydrogen entry</li><li>tensile stress, whether applied or residual</li></ul>
+<p>and a susceptible material structure.</p>
+<p>That combination is the real danger.</p>
+<h3>Environment matters</h3>
+<p>Moisture and certain contaminants can increase hydrogen entry because they support surface reactions that produce atomic hydrogen. A classic example is hydrogen sulphide in wet environments, which can make hydrogen entry into steels more severe by affecting surface recombination behaviour. Well-designed hydrogen systems try to avoid these conditions, but the lesson is broader: the surrounding environment can radically change the material response.</p>
+<h3>Stress matters just as much</h3>
+<p>Even a suitable material can fail if the stress state is poorly controlled.</p>
+<p>Residual stresses from welding, forming, and assembly are often part of the problem. So are local stress raisers such as threads, sharp transitions, notches, and poor geometry details. These are the places where cracking often starts.</p>
+<p>That is why hydrogen compatibility is never just a metallurgy question. It is also a design-quality and fabrication-quality question.</p>
+<h3>Material strength is not the same as material suitability</h3>
+<p>This is where engineers often fool themselves.</p>
+<p>In many applications, higher strength sounds safer. In hydrogen service, that logic can fail. For many steels, increasing strength can also increase susceptibility to hydrogen-related cracking.</p>
+<h3>So “stronger” is not automatically “better.”</h3>
+<p>What matters is not just yield strength on a datasheet, but whether the material structure, fabrication route, and actual service conditions create a crack-prone system.</p>
+<p>That is a much harder engineering question — and a much more important one.</p>
+<h3>Why microstructure and cleanliness matter</h3>
+<p>When hydrogen enters steels, damage often concentrates around microstructural weak points.</p>
+<p>Planar inclusions and non-metallic particles can act as initiation sites for cracking. If these inclusions are unfavourable in shape or distribution, cracks may link together into stepwise cracking, often described as hydrogen-induced cracking.</p>
+<p>This has a direct procurement consequence:</p>
+<p>material selection cannot stop at grade name and strength class.</p>
+<p>For some components, especially plate products and pressure-containing parts, it may be necessary to specify:</p>
+<ul><li>material quality requirements</li><li>through-thickness properties</li><li>toughness expectations</li></ul>
+<p>and fabrication controls beyond the minimum certificate language.</p>
+<p>That is what competent procurement looks like in hydrogen service.</p>
+<h3>Welds are often the weak link</h3>
+<p>This section is one of the most important in the whole article.</p>
+<p>Even if the base material is suitable, the weld region may not be.</p>
+<p>Welding changes microstructure, introduces residual stress, creates hardness gradients, and can produce local zones with different mechanical behaviour. In carbon steels, the heat-affected zone may contain regions that deform more under service loading, sometimes described as soft zones, which can concentrate strain and increase susceptibility to cracking.</p>
+<p>This leads to a blunt but necessary conclusion:</p>
+<p>a hydrogen-safe material can still become a hydrogen-risk joint.</p>
+<p>So in hydrogen service, material choice and welding practice must be treated as one engineering decision, not two separate topics. Procedure qualification, heat input control, filler choice, and fabrication consistency are not secondary details. They are part of the material strategy.</p>
+<h3>What good material selection looks like</h3>
+<p>A practical project method is to divide the system into zones by risk.</p>
+<p>Higher-attention areas usually include:</p>
+<ul><li>high-pressure sections</li><li>cyclic pressure sections</li><li>threaded or notched geometries</li><li>small-bore components</li><li>welds</li></ul>
+<p>and all transitions between different sections or stiffness levels.</p>
+<p>These areas deserve more conservative decisions.</p>
+<p>In practice, many projects use austenitic stainless steels for critical piping, instrumentation, and high-integrity small-bore components. Carbon steels can still be used in defined conditions where the applicable code allows them and where strength level, fabrication quality, and inspection discipline are tightly controlled.</p>
+<p>The right goal is not to ban one material family.
+The goal is to use each material only inside an operating envelope where its hydrogen performance is understood.</p>
+<h3>The most common mistakes</h3>
+<p>Most bad hydrogen material decisions are not exotic. They are ordinary mistakes repeated in a new environment.</p>
+<h3>Mistake 1: selecting for corrosion resistance only</h3>
+<p>At ambient temperature, many hydrogen integrity problems are mechanical and metallurgical, not classic visible corrosion. A corrosion-focused mindset alone is too shallow.</p>
+<h3>Mistake 2: trusting base material data without questioning weld performance</h3>
+<p>A good plate or pipe grade does not automatically guarantee a good welded joint.</p>
+<h3>Mistake 3: specifying higher strength “for safety”</h3>
+<p>This is one of the most dangerous simplifications. In hydrogen service, higher strength can increase cracking susceptibility in many steels.</p>
+<h3>Mistake 4: weak inspection logic</h3>
+<p>If inspection is not aligned with cyclic zones, weld regions, and critical stress locations, the project is pretending to manage risk rather than actually managing it.</p>
+<h3>A practical checklist for design and procurement</h3>
+<p>Good material selection starts with a clear operating envelope.</p>
+<p>Before selecting materials, define:</p>
+<ul><li>pressure range</li><li>pressure cycling frequency</li><li>minimum and maximum metal temperature</li><li>hydrogen purity</li><li>expected contaminants</li></ul>
+<p>and joining methods.</p>
+<p>Then identify the high-risk zones and set rules that control fabrication outcomes, especially around welds and heat-affected areas. Finally, align inspection and testing with the critical locations and the expected loading history.</p>
+<p>That is what good hydrogen material engineering looks like: not one perfect alloy, but a disciplined match between material, stress, environment, and fabrication quality.</p>
+<h3>The practical takeaway</h3>
+<p>In hydrogen service at ambient temperature, the material problem is rarely just about whether a metal is “resistant” in a general sense.</p>
+<p>The real question is whether the full system allows hydrogen to enter stressed material and whether the chosen material, weld quality, and geometry can tolerate that condition over time.</p>
+<p>That is why good material selection is never just a procurement decision.</p>
+<p>It is a design decision, a welding decision, an inspection decision, and a long-term reliability decision at the same time.</p>
+        </div>
+      </article>
+
+      <article class="academy-article card" id="article-04">
+        <div class="academy-article-head">
+          <div>
+            <span class="badge">Article 04</span>
+            <span class="article-level-pill">Advanced</span>
+          </div>
+          <a href="#academy-library" class="back-link">Back to library ↑</a>
+        </div>
+        <h3 class="academy-article-title">Hydrogen Production by Water Electrolysis: Four Technologies, Four Different Trade-Offs</h3>
+        <div class="academy-article-body">
+<p>Hydrogen is often described as a clean fuel. That description is incomplete.</p>
+<p>Hydrogen is only as clean as the way it is produced. Today, most hydrogen is still made from fossil-based pathways, while water electrolysis remains a much smaller share of total production. What makes electrolysis important is not that it magically makes hydrogen clean, but that it can produce hydrogen without direct carbon emissions when powered by low-carbon or renewable electricity.</p>
+<p>That is the real reason electrolysis matters.</p>
+<p>It also offers other advantages: high product purity, flexible operation, and the ability to connect directly to wind and solar systems. But that does not mean electrolysis is simple in practice. The chemistry is simple. The engineering is not.</p>
+<p>The basic idea is simple. The real system is not.</p>
+<p>At its core, water electrolysis splits water into hydrogen and oxygen using electricity.</p>
+<p>That sounds straightforward, but real performance depends on much more than the basic reaction. Efficiency, durability, and commercial usefulness are shaped by operating voltage, cell design, membrane or separator type, catalyst choice, temperature, and water quality.</p>
+<p>This is where weak hydrogen discussions usually fail. They talk about &#x27;electrolysis&#x27; as if it were one uniform technology. It is not.</p>
+<p>Electrolysis is a family of technologies that solve the same problem in different ways, with different costs, different operating conditions, and different failure points.</p>
+<h3>The first engineering reality: theory is not operation</h3>
+<p>At standard conditions, the reversible cell voltage for water splitting is about 1.229 V.</p>
+<p>That is the theoretical minimum.</p>
+<p>Real electrolyzers always operate above that value because the system must overcome activation losses and ohmic losses. In practice, industrial systems often operate somewhere around 1.8 to 2.6 V. As voltage rises, energy consumption rises with it, while efficiency drops.</p>
+<p>That is one of the core engineering trade-offs in electrolysis: higher operating demand usually means more electricity consumed per kilogram of hydrogen produced.</p>
+<p>And that is the real question in hydrogen production. Not whether hydrogen can be made. It obviously can. The real question is how much electricity, cost, and degradation are required to make it at useful scale.</p>
+<h3>Four technologies dominate the discussion</h3>
+<p>The main electrolysis routes are:</p>
+<ul><li>Alkaline Water Electrolysis (AWE)</li><li>Proton Exchange Membrane Electrolysis (PEM)</li><li>Solid Oxide Electrolysis Cells (SOEC)</li><li>Anion Exchange Membrane Electrolysis (AEM)</li></ul>
+<p>They all produce hydrogen. But they do not compete on equal terms.</p>
+<h4>1. Alkaline Water Electrolysis (AWE)</h4>
+<p>Alkaline electrolysis is the oldest and most established route.</p>
+<p>It typically uses a liquid alkaline electrolyte such as KOH, works at moderate temperatures, and is already proven in industrial hydrogen production. Its biggest strengths are maturity, relatively lower capital cost, and suitability for larger-scale deployment.</p>
+<p>That maturity matters. AWE is not the most elegant solution, but it is the most familiar industrially.</p>
+<p>Its weakness is also obvious: the liquid alkaline environment creates corrosion and materials challenges, and the overall system is less compact and generally less dynamic than more modern membrane-based alternatives.</p>
+<p>Verdict: AWE wins on maturity, not on sophistication.</p>
+<h4>2. Proton Exchange Membrane Electrolysis (PEM)</h4>
+<p>PEM is the technology that gets the most attention, and not without reason.</p>
+<p>It can produce very high-purity hydrogen, operate at relatively low temperatures, and achieve higher current densities than alkaline systems. It also uses a solid proton-conducting membrane instead of a liquid electrolyte, which helps make the system more compact and operationally attractive.</p>
+<p>This is why PEM is often seen as the premium option.</p>
+<p>But the price of that performance is high. PEM relies on expensive catalyst systems, especially noble metals such as platinum, iridium, and ruthenium-based materials. That makes PEM not just a technical choice, but also a materials supply and cost problem. Long-term durability remains part of the challenge as well.</p>
+<p>Verdict: PEM is high-performance, but materially expensive.</p>
+<h4>3. Solid Oxide Electrolysis Cells (SOEC)</h4>
+<p>SOEC operates in a completely different regime.</p>
+<p>Instead of low-temperature electrochemistry, it works at very high temperatures. That matters because part of the energy input can be supplied as heat rather than electricity, which gives SOEC the potential for very high efficiency. In pure thermodynamic terms, it is one of the most attractive electrolysis pathways.</p>
+<p>That sounds like the winner - until the practical problems arrive.</p>
+<p>High operating temperatures accelerate degradation, complicate startup and shutdown, and make reliable industrial deployment harder. So while SOEC may look excellent on efficiency metrics, that does not automatically make it the best real-world option.</p>
+<p>Verdict: SOEC is thermodynamically impressive, but operationally difficult.</p>
+<h4>4. Anion Exchange Membrane Electrolysis (AEM)</h4>
+<p>AEM is attractive because it tries to combine advantages from both alkaline and PEM systems.</p>
+<p>It uses a membrane architecture like PEM, but aims to reduce cost by enabling non-noble catalyst pathways. In theory, that is strategically very attractive: lower catalyst cost without giving up the benefits of a membrane-based design.</p>
+<p>The problem is that AEM is not mature enough yet.</p>
+<p>Its main weaknesses are lower membrane conductivity, weaker catalyst performance, and limited long-term durability. So while AEM is promising, it is still better described as a developing pathway than as a fully solved commercial answer.</p>
+<p>Verdict: AEM is strategically interesting, but technically unfinished.</p>
+<h3>No technology wins in everything</h3>
+<p>This is the point many bad hydrogen articles avoid.</p>
+<p>There is no universal best electrolyzer.</p>
+<p>AWE is mature and proven.</p>
+<p>PEM offers high performance and purity.</p>
+<p>SOEC has the strongest efficiency potential.</p>
+<p>AEM may reduce future catalyst cost.</p>
+<p>But every one of these advantages comes with a trade-off: corrosion and liquid electrolyte issues, noble-metal dependence, thermal degradation, or low maturity and lifetime limitations.</p>
+<p>That is the honest picture of electrolysis today.</p>
+<h3>Why catalysts and membranes matter so much</h3>
+<p>Electrolysis is not mainly limited by the basic chemistry. It is limited by the losses and stability problems around that chemistry.</p>
+<p>In PEM systems, harsh acidic operation means the catalyst environment is demanding. That is why high-performance catalysts often rely on expensive noble metals. Some materials show strong activity, others show better stability, but the core problem remains the same: the catalyst question is both a cost issue and a durability issue.</p>
+<p>In AEM systems, the ambition is different. The goal is to use cheaper catalyst families while keeping membrane-based operation. That lowers the theoretical cost pathway, but current performance still trails more mature alternatives because conductivity, catalytic performance, and durability are not yet strong enough.</p>
+<p>This pattern appears again and again in electrolysis: lower cost potential usually comes with lower maturity or lower robustness.</p>
+<h3>The water quality problem most people ignore</h3>
+<p>This is one of the strongest parts of the whole topic.</p>
+<p>A lot of simplified hydrogen discussions focus on electricity input and barely mention water chemistry. That is shallow thinking.</p>
+<p>Electrolysis does not just need water. It needs water quality that the system can tolerate.</p>
+<p>Impure water can damage performance significantly. In some systems, contaminants can foul electrodes, block membrane sites, trigger unwanted side reactions, or increase internal resistance. Chloride-containing water can create especially difficult chemical complications.</p>
+<p>The penalty is not small.</p>
+<p>Contamination can raise cell voltage sharply, which means lower efficiency, higher energy consumption, and faster degradation over time.</p>
+<p>So the childish version of the story - &#x27;just take renewable electricity and split water&#x27; - is not engineering. Real projects need water treatment, impurity control, and system design that accounts for water quality from the start.</p>
+<h3>Where the field is moving</h3>
+<p>The direction of development is clear.</p>
+<p>Future progress depends on reducing electricity demand, lowering catalyst cost, improving membrane durability, and making systems more tolerant to less-than-perfect water sources.</p>
+<p>Integrated concepts are also becoming more important, especially where electricity, hydrogen production, and water availability have to be solved together. This matters particularly in regions with strong renewable potential but limited freshwater resources.</p>
+<p>That is where electrolysis becomes more than a lab technology. It becomes a system design problem.</p>
+<h3>The practical takeaway</h3>
+<p>Water electrolysis is one of the most important hydrogen production pathways because it can connect low-carbon electricity to hydrogen production without direct process emissions.</p>
+<p>But electrolysis is not one technology and not one clean answer.</p>
+<p>It is a family of trade-offs.</p>
+<p>Alkaline is mature.</p>
+<p>PEM is high-performance.</p>
+<p>SOEC is highly efficient but thermally demanding.</p>
+<p>AEM is promising but not yet fully ready.</p>
+<p>The right choice depends on the project itself: electricity cost, hydrogen purity target, operating profile, scale, materials strategy, and water source.</p>
+<p>That is the real engineering view.</p>
+<p>The winner will not be decided by marketing language.</p>
+<p>It will be decided by which technology fits the constraints of the project best.</p>
+<div class="article-source"><strong>Source</strong><p>Hydrogen production by water electrolysis technologies: A review, by Mostafa El-Shafie.</p></div>
+        </div>
+      </article>
+      </div>
+    </div>
+
 
     <!-- 5) Full Tool Workspace -->
     <div class="section-block" id="academy-workspace">
@@ -4334,6 +4764,74 @@ document.addEventListener('scroll', () => {}, {passive: true});
     rebuildElec();
   };
 
+})();
+</script>
+
+
+<script>
+(function () {
+  const root = document.querySelector('#academy.academy-v2');
+  if (!root) return;
+
+  const articleStack = root.querySelector('.academy-articles-stack');
+  const articleCards = Array.from(root.querySelectorAll('.article-card'));
+  const articleLinks = Array.from(root.querySelectorAll('.article-card a[href^="#article-"]'));
+  const articleBackLinks = Array.from(root.querySelectorAll('.academy-article .back-link'));
+  const articles = Array.from(root.querySelectorAll('.academy-article'));
+
+  function setActiveArticle(id, updateHash) {
+    const target = id ? root.querySelector('#' + id) : null;
+    if (!articleStack) return;
+
+    articles.forEach(article => article.classList.toggle('active', article === target));
+    articleStack.classList.toggle('is-open', Boolean(target));
+
+    articleCards.forEach(card => {
+      const link = card.querySelector('a[href^="#article-"]');
+      const on = Boolean(target && link && link.getAttribute('href') === '#' + id);
+      card.classList.toggle('is-highlighted', on);
+    });
+
+    if (updateHash) {
+      const nextHash = target ? '#' + id : '#academy-library';
+      if (window.location.hash !== nextHash) {
+        history.replaceState(null, '', nextHash);
+      }
+    }
+  }
+
+  articleLinks.forEach(link => {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      const id = this.getAttribute('href').replace('#', '');
+      setActiveArticle(id, true);
+      const target = root.querySelector('#' + id);
+      if (target) {
+        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+      }
+    });
+  });
+
+  articleBackLinks.forEach(link => {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      setActiveArticle('', true);
+      const library = root.querySelector('#academy-library');
+      if (library) library.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  function syncArticleFromHash() {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && /^article-\d+$/.test(hash) && root.querySelector('#' + hash)) {
+      setActiveArticle(hash, false);
+    } else {
+      setActiveArticle('', false);
+    }
+  }
+
+  window.addEventListener('hashchange', syncArticleFromHash);
+  syncArticleFromHash();
 })();
 </script>
 
