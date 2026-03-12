@@ -1579,6 +1579,564 @@ h2.section-title .thin { font-weight: 200; }
   opacity: 0.48;
   margin-top: 6px;
 }
+
+
+   <style>
+  /* ===== Academy V2.1 ===== */
+  #academy.academy-v2 {
+    --ac-bg: #07101b;
+    --ac-card: rgba(255,255,255,0.03);
+    --ac-card-2: rgba(255,255,255,0.05);
+    --ac-border: rgba(116,201,255,0.18);
+    --ac-border-soft: rgba(116,201,255,0.10);
+    --ac-text: #e8f4ff;
+    --ac-muted: rgba(210,230,248,0.75);
+    --ac-dim: rgba(190,215,236,0.58);
+    --ac-accent: #74c9ff;
+    --ac-accent-2: #9edcff;
+    --ac-ok: #8ad3ff;
+    --ac-dev: #cfeaff;
+    --ac-plan: #b7c8d9;
+    --ac-radius: 16px;
+    --ac-shadow: 0 20px 40px rgba(0,0,0,0.24);
+  }
+
+  #academy.academy-v2 .academy-shell {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10px 22px 30px;
+  }
+
+  #academy.academy-v2 .section-block { margin-top: 34px; }
+  #academy.academy-v2 .sec-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ac-accent-2);
+    margin: 0 0 6px;
+  }
+  #academy.academy-v2 .sec-title {
+    margin: 0;
+    color: var(--ac-text);
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.15;
+  }
+  #academy.academy-v2 .sec-sub {
+    margin: 10px 0 0;
+    color: var(--ac-muted);
+    max-width: 820px;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* Card System */
+  #academy.academy-v2 .card {
+    background: linear-gradient(180deg, rgba(12,22,35,0.78), rgba(9,16,27,0.84));
+    border: 1px solid var(--ac-border-soft);
+    border-radius: var(--ac-radius);
+    box-shadow: var(--ac-shadow);
+  }
+  #academy.academy-v2 .card-soft {
+    background: var(--ac-card);
+    border: 1px solid var(--ac-border-soft);
+    border-radius: 14px;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+  }
+  #academy.academy-v2 .card-soft:hover {
+    border-color: rgba(116,201,255,0.26);
+    background: rgba(255,255,255,0.045);
+  }
+  #academy.academy-v2 .badge {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--ac-border);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #ccecff;
+  }
+  #academy.academy-v2 .btn {
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--ac-border);
+    transition: 0.2s ease;
+    cursor: pointer;
+  }
+  #academy.academy-v2 .btn-primary {
+    color: #03101a;
+    background: linear-gradient(180deg, #8fd8ff, #6ac6ff);
+  }
+  #academy.academy-v2 .btn-primary:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+  }
+  #academy.academy-v2 .btn-secondary {
+    color: var(--ac-text);
+    background: rgba(255,255,255,0.03);
+  }
+  #academy.academy-v2 .btn-secondary:hover {
+    border-color: rgba(116,201,255,0.42);
+    background: rgba(255,255,255,0.06);
+  }
+  #academy.academy-v2 .link-btn {
+    color: var(--ac-accent-2);
+    text-decoration: none;
+    font-size: 13px;
+  }
+  #academy.academy-v2 .link-btn:hover { color: #d8f2ff; }
+
+  /* 1) Hero */
+  #academy.academy-v2 .academy-hero {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 1.25fr 0.95fr;
+    padding: 22px;
+  }
+  #academy.academy-v2 .hero-copy p {
+    margin: 12px 0 0;
+    color: var(--ac-muted);
+    max-width: 700px;
+    line-height: 1.65;
+  }
+  #academy.academy-v2 .hero-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  #academy.academy-v2 .hero-panel { padding: 14px; }
+  #academy.academy-v2 .mini-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+  }
+  #academy.academy-v2 .mini-item {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--ac-border-soft);
+    background: rgba(255,255,255,0.03);
+  }
+  #academy.academy-v2 .mini-item strong {
+    display: block;
+    color: var(--ac-text);
+    margin-bottom: 3px;
+    font-size: 13px;
+  }
+  #academy.academy-v2 .mini-item span {
+    color: var(--ac-dim);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  /* 2) Tracks */
+  #academy.academy-v2 .tracks-grid {
+    margin-top: 16px;
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #academy.academy-v2 .track-card {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  #academy.academy-v2 .track-card h4 {
+    margin: 0;
+    color: #eef8ff;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  #academy.academy-v2 .track-purpose {
+    margin: 0;
+    color: var(--ac-muted);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  #academy.academy-v2 .track-list {
+    margin: 0;
+    padding: 0 0 0 16px;
+    color: var(--ac-dim);
+    font-size: 13px;
+    line-height: 1.52;
+  }
+  #academy.academy-v2 .track-card .btn { margin-top: auto; }
+
+  /* 3) Featured Tools */
+  #academy.academy-v2 .feat-tools {
+    margin-top: 16px;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #academy.academy-v2 .tool-teaser {
+    padding: 14px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+  }
+  #academy.academy-v2 .tool-teaser:hover {
+    transform: translateY(-2px);
+    border-color: rgba(116,201,255,0.28);
+  }
+  #academy.academy-v2 .tool-type {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #b8dcfa;
+  }
+  #academy.academy-v2 .tool-teaser h4 {
+    margin: 8px 0 6px;
+    color: var(--ac-text);
+    font-size: 16px;
+  }
+  #academy.academy-v2 .tool-teaser p {
+    margin: 0;
+    color: var(--ac-muted);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  #academy.academy-v2 .tool-teaser small {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--ac-accent-2);
+    font-size: 12px;
+  }
+  #academy.academy-v2 .feat-actions {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* 4) Article Library */
+  #academy.academy-v2 .library-grid {
+    margin-top: 16px;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #academy.academy-v2 .article-card {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    scroll-margin-top: 100px;
+  }
+  #academy.academy-v2 .article-card.is-highlighted {
+    border-color: rgba(116,201,255,0.36);
+    box-shadow: 0 0 0 1px rgba(116,201,255,0.18), var(--ac-shadow);
+  }
+  #academy.academy-v2 .article-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  #academy.academy-v2 .article-no {
+    color: var(--ac-accent-2);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  #academy.academy-v2 .article-status {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid;
+  }
+  #academy.academy-v2 .s-published {
+    color: var(--ac-ok);
+    border-color: rgba(138,211,255,0.4);
+    background: rgba(138,211,255,0.12);
+  }
+  #academy.academy-v2 .s-dev {
+    color: var(--ac-dev);
+    border-color: rgba(198,231,255,0.35);
+    background: rgba(198,231,255,0.08);
+  }
+  #academy.academy-v2 .s-plan {
+    color: var(--ac-plan);
+    border-color: rgba(183,200,217,0.35);
+    background: rgba(183,200,217,0.08);
+  }
+  #academy.academy-v2 .article-level {
+    display: inline-flex;
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #b9dcf7;
+  }
+  #academy.academy-v2 .article-card h4 {
+    margin: 0;
+    color: var(--ac-text);
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  #academy.academy-v2 .article-summary {
+    margin: 0;
+    color: var(--ac-muted);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  #academy.academy-v2 .article-foot {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  #academy.academy-v2 .article-time {
+    color: var(--ac-dim);
+    font-size: 12px;
+  }
+
+  /* 5) Tool Workspace */
+  #academy.academy-v2 .workspace {
+    margin-top: 16px;
+    padding: 14px;
+    scroll-margin-top: 90px;
+  }
+  #academy.academy-v2 .ws-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  #academy.academy-v2 .ws-tab {
+    border: 1px solid var(--ac-border-soft);
+    background: rgba(255,255,255,0.02);
+    color: var(--ac-muted);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  #academy.academy-v2 .ws-tab.active {
+    background: rgba(116,201,255,0.13);
+    border-color: rgba(116,201,255,0.35);
+    color: #e8f5ff;
+  }
+  #academy.academy-v2 .ws-panel { display: none; }
+  #academy.academy-v2 .ws-panel.active { display: block; }
+  #academy.academy-v2 .module {
+    border: 1px solid var(--ac-border-soft);
+    border-radius: 14px;
+    background: rgba(255,255,255,0.02);
+    padding: 12px;
+  }
+  #academy.academy-v2 .module + .module { margin-top: 12px; }
+  #academy.academy-v2 .module h4 {
+    margin: 0;
+    color: #eef8ff;
+    font-size: 16px;
+  }
+  #academy.academy-v2 .module p {
+    margin: 6px 0 0;
+    color: var(--ac-muted);
+    font-size: 13px;
+    line-height: 1.55;
+    max-width: 760px;
+  }
+  #academy.academy-v2 .tool-foot {
+    margin-top: 10px;
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3,1fr);
+    border-top: 1px solid var(--ac-border-soft);
+    padding-top: 8px;
+  }
+  #academy.academy-v2 .tool-foot div {
+    font-size: 11px;
+    color: var(--ac-dim);
+    line-height: 1.45;
+  }
+  #academy.academy-v2 .tool-foot strong {
+    display: block;
+    color: #dff1ff;
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  #academy.academy-v2 .input-grid {
+    margin-top: 10px;
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #academy.academy-v2 .field label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 11px;
+    color: var(--ac-dim);
+  }
+  #academy.academy-v2 .field input,
+  #academy.academy-v2 .field select {
+    width: 100%;
+    border: 1px solid var(--ac-border-soft);
+    border-radius: 9px;
+    background: rgba(4,10,16,0.72);
+    color: #eaf6ff;
+    padding: 8px 9px;
+    font-size: 13px;
+  }
+  #academy.academy-v2 .mini-result-grid {
+    margin-top: 10px;
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #academy.academy-v2 .mini-result {
+    border: 1px solid var(--ac-border-soft);
+    border-radius: 10px;
+    padding: 8px;
+    background: rgba(255,255,255,0.02);
+  }
+  #academy.academy-v2 .mini-result span {
+    display: block;
+    color: var(--ac-dim);
+    font-size: 10px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  #academy.academy-v2 .mini-result strong {
+    display: block;
+    margin-top: 4px;
+    color: #eef9ff;
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  #academy.academy-v2 .table-wrap {
+    margin-top: 10px;
+    overflow-x: auto;
+  }
+  #academy.academy-v2 table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 680px;
+  }
+  #academy.academy-v2 th,
+  #academy.academy-v2 td {
+    border: 1px solid var(--ac-border-soft);
+    padding: 8px;
+    font-size: 12px;
+    color: var(--ac-muted);
+  }
+  #academy.academy-v2 th {
+    color: #dff2ff;
+    text-align: left;
+    background: rgba(255,255,255,0.02);
+  }
+
+  #academy.academy-v2 .chart-tabs {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  #academy.academy-v2 .chart-btn {
+    border: 1px solid var(--ac-border-soft);
+    background: rgba(255,255,255,0.02);
+    color: var(--ac-muted);
+    padding: 6px 10px;
+    border-radius: 9px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  #academy.academy-v2 .chart-btn.active {
+    background: rgba(116,201,255,0.12);
+    border-color: rgba(116,201,255,0.35);
+    color: #eaf7ff;
+  }
+  #academy.academy-v2 .chart-wrap {
+    margin-top: 10px;
+    border: 1px solid var(--ac-border-soft);
+    border-radius: 12px;
+    padding: 10px;
+    background: rgba(255,255,255,0.02);
+  }
+  #academy.academy-v2 .chart-meta {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--ac-dim);
+    line-height: 1.5;
+  }
+
+  /* 6) Suggested Path */
+  #academy.academy-v2 .path-flow {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  #academy.academy-v2 .step {
+    position: relative;
+    padding: 12px;
+    border: 1px solid var(--ac-border-soft);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.02);
+  }
+  #academy.academy-v2 .step b {
+    display: block;
+    color: #dff2ff;
+    margin-bottom: 4px;
+    font-size: 12px;
+  }
+  #academy.academy-v2 .step span {
+    color: var(--ac-muted);
+    font-size: 13px;
+  }
+  #academy.academy-v2 .step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    width: 10px;
+    height: 1px;
+    background: rgba(116,201,255,0.26);
+  }
+
+  /* 7) CTA Footer */
+  #academy.academy-v2 .academy-cta-foot {
+    margin-top: 24px;
+    padding: 20px;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 1080px) {
+    #academy.academy-v2 .academy-hero { grid-template-columns: 1fr; }
+    #academy.academy-v2 .tracks-grid,
+    #academy.academy-v2 .feat-tools,
+    #academy.academy-v2 .library-grid { grid-template-columns: 1fr 1fr; }
+    #academy.academy-v2 .path-flow { grid-template-columns: 1fr; }
+    #academy.academy-v2 .step:not(:last-child)::after { display: none; }
+  }
+
+  @media (max-width: 720px) {
+    #academy.academy-v2 .academy-shell { padding: 6px 14px 24px; }
+    #academy.academy-v2 .tracks-grid,
+    #academy.academy-v2 .feat-tools,
+    #academy.academy-v2 .library-grid { grid-template-columns: 1fr; }
+    #academy.academy-v2 .input-grid { grid-template-columns: 1fr; }
+    #academy.academy-v2 .mini-result-grid { grid-template-columns: 1fr 1fr; }
+    #academy.academy-v2 .tool-foot { grid-template-columns: 1fr; }
+    #academy.academy-v2 .academy-cta-foot { grid-template-columns: 1fr; }
+    #academy.academy-v2 .article-foot { align-items: flex-start; flex-direction: column; }
+  }
+
    
 /* ═══════════════════════════════════════════════════════
    CONTACT — with animated border
@@ -2147,200 +2705,283 @@ footer {
 </section>
 
 <!-- ═══ ACADEMY ═══ -->
-<section id="academy" class="section" aria-labelledby="academy-heading">
-  <div class="academy-hub">
-    <div class="academy-header">
-      <p class="section-eyebrow reveal">Hydrogen Academy</p>
-      <h2 class="section-title word-reveal" id="academy-heading">
-        <span class="word"><span class="word-inner">From</span></span>
-        <span class="word thin"><span class="word-inner">fundamentals</span></span>
-        <span class="word"><span class="word-inner">to</span></span>
-        <em><span class="word"><span class="word-inner">real-world</span></span>
-        <span class="word"><span class="word-inner">engineering</span></span></em>
-      </h2>
-      <p class="body-text reveal d1">This Academy is structured as a learning progression: beginner articles first, then application-specific topics, and later deep dives into hydrogen infrastructure, safety, and system design. New articles can be added continuously without changing the section layout.</p>
-    </div>
 
-    <div class="academy-layout">
-      <aside class="academy-sidebar reveal d2" aria-label="Academy learning path">
-        <div class="path-tag">Where to start</div>
+<section id="academy" class="section academy-v2" aria-labelledby="academy-heading">
+  <div class="academy-shell">
 
-<h3>Who is this <em>for?</em></h3>
-
-<p style="font-size:0.92rem; opacity:0.70; max-width:580px; line-height:1.65; margin-bottom:0;">
-  Pick the profile that fits you best. Articles are tagged
-  <strong style="opacity:0.9;">Beginner</strong>,
-  <strong style="opacity:0.9;">Intermediate</strong>, or
-  <strong style="opacity:0.9;">Advanced</strong> — the same labels you'll see on every article card.
-</p>
-
-<div class="lp-grid">
-
-  <div class="lp-card lp-card--beginner">
-    <span class="lp-badge"><span class="lp-badge-dot"></span>Beginner</span>
-    <p class="lp-card-title">New to hydrogen — investor, municipality, or decision-maker</p>
-    <p class="lp-card-who">No engineering background needed. Focus on understanding what hydrogen actually is, where it fits, and what questions to ask.</p>
-    <ul class="lp-card-topics">
-      <li>What hydrogen is (and isn't)</li>
-      <li>Why it matters in Europe</li>
-      <li>Core terminology and units</li>
-      <li>Realistic role in decarbonisation</li>
-    </ul>
-    <div class="lp-cta"><a href="#article-01">Start with Article 01</a></div>
-  </div>
-
-  <div class="lp-card lp-card--intermediate">
-    <span class="lp-badge"><span class="lp-badge-dot"></span>Intermediate</span>
-    <p class="lp-card-title">Engineer or project manager starting with hydrogen projects</p>
-    <p class="lp-card-who">You have a technical background but are new to hydrogen-specific challenges. Focus on applications, materials, and how systems are put together.</p>
-    <ul class="lp-card-topics">
-      <li>Material selection for H₂ service</li>
-      <li>Station architectures and components</li>
-      <li>Compression, storage, and dispensing</li>
-      <li>Fleet mobility workflows</li>
-    </ul>
-    <div class="lp-cta"><a href="#article-03">Start with Article 03</a></div>
-  </div>
-
-  <div class="lp-card lp-card--advanced">
-    <span class="lp-badge"><span class="lp-badge-dot"></span>Advanced</span>
-    <p class="lp-card-title">Experienced engineer or specialist looking for deep dives</p>
-    <p class="lp-card-who">You work in hydrogen infrastructure or adjacent industries. Focus on safety studies, standards, performance, and system integration decisions.</p>
-    <ul class="lp-card-topics">
-      <li>Safety design: detection, ventilation, zoning</li>
-      <li>ATEX and EU standards in practice</li>
-      <li>Electrolyzer integration tradeoffs</li>
-      <li>Pipeline conversion and grid injection</li>
-    </ul>
-    <div class="lp-cta"><a href="#article-04">Coming soon — Article 04</a></div>
-  </div>
-
-</div>
-
-<p class="lp-note">Not sure where to start? Article 01 is written to be readable by everyone.</p>
-
-        
-
-        <div class="academy-cta">
-          <a href="#contact" class="btn btn-primary"><span>Suggest a Topic</span><span class="btn-arrow" aria-hidden="true">→</span></a>
-          <span class="mini-note">Next articles can be added as new cards in this library.</span>
-        </div>
-      </aside>
-
-      <div class="academy-library reveal d3" aria-label="Academy article library">
-        <div class="academy-library-head">
-          <div>
-            <div class="academy-library-title">Article Library</div>
-            <p>Start with the first article below. Future entries can be added as beginner, intermediate, or advanced modules.</p>
-          </div>
-        </div>
-         
-<!-- Academy Tools Extension -->
-    <div class="academy-tools reveal d4 is-collapsed" id="academy-tools">
-
-      <div class="academy-tools-head">
-        <p class="eyebrow">Academy Tools</p>
-        <h3 class="academy-tools-title">Practical Hydrogen Engineering Tools</h3>
-        <p class="academy-tools-subtitle">
-          Quick-reference utilities for learning and early-stage engineering discussions.
-          Metric / European units only.
+    <!-- 1) Academy Hero -->
+    <div class="academy-hero card">
+      <div class="hero-copy">
+        <p class="sec-eyebrow">Hydrogen Academy</p>
+        <h2 class="sec-title" id="academy-heading">From fundamentals to real-world engineering</h2>
+        <p>
+          Structured learning for decision-makers, engineers, and project teams working with hydrogen systems.
+          Start with the right level, then move into tools, applications, and real engineering trade-offs.
         </p>
-                 
-       <div class="academy-glossary" aria-label="Abbreviations">
-  <span
-    class="gloss-chip"
-    title="Nm³ (normal cubic meter) refers to hydrogen gas volume at 0 °C and 1.01325 bar. Using these normal conditions, 1 kg H₂ ≈ 11.126 Nm³. If a different reference temperature is used (e.g., 15 °C), the Nm³/kg factor changes slightly."
-  >
-    <strong>Nm³</strong> Normal cubic metre
-  </span>
-
-  <span
-    class="gloss-chip"
-    title="LHV (Lower Heating Value): energy content excluding the heat that would be recovered by condensing the produced water vapour."
-  >
-    <strong>LHV</strong> Lower Heating Value
-  </span>
-
-  <span
-    class="gloss-chip"
-    title="HHV (Higher Heating Value): energy content including the heat that could be recovered if the produced water vapour is condensed."
-  >
-    <strong>HHV</strong> Higher Heating Value
-  </span>
-</div>
-
-
-        <div class="academy-tabs" role="tablist" aria-label="Academy tools tabs">
-          <button
-            class="academy-tab-btn is-active"
-            id="academy-tab-calculator"
-            type="button"
-            role="tab"
-            aria-selected="true"
-            aria-controls="academy-panel-calculator"
-            data-academy-tab="calculator"
-          >
-            Calculator
-          </button>
-          <button
-            class="academy-tab-btn"
-            id="academy-tab-electrolyzers"
-            type="button"
-            role="tab"
-            aria-selected="false"
-            aria-controls="academy-panel-electrolyzers"
-            data-academy-tab="electrolyzers"
-          >
-            Electrolyzers
-          </button>
-          <button
-  class="academy-tab-btn"
-  id="academy-tab-interactive-charts"
-  type="button"
-  role="tab"
-  aria-selected="false"
-  aria-controls="academy-panel-interactive-charts"
-  data-academy-tab="interactive-charts"
->
-  Interactive Charts
-</button>
-
-
-                </div>
-
-        <button
-          type="button"
-          class="academy-collapse-btn"
-          id="academyToolsToggle"
-          aria-expanded="false"
-          aria-controls="academyToolsBody"
-        >
-           
-          Show tools
-        </button>
-
+        <div class="hero-actions">
+          <a href="#academy-tracks" class="btn btn-primary">Start Learning</a>
+          <a href="#academy-featured-tools" class="btn btn-secondary">Explore Tools</a>
+        </div>
       </div>
 
-
-
-
-      <div class="academy-tools-grid" id="academyToolsBody">
-       <div class="academy-tool-card academy-tab-panel is-active" id="academy-panel-calculator" role="tabpanel" aria-labelledby="academy-tab-calculator">
-
-          <div class="tool-card-header">
-            <h4>Hydrogen Conversion Calculator (EU Units)</h4>
-            <p>Convert between mass, normal volume, and energy using practical engineering defaults.</p>
+      <aside class="hero-panel card-soft" aria-label="Academy orientation dashboard">
+        <div class="mini-grid">
+          <div class="mini-item">
+            <strong>3 Levels</strong>
+            <span>Beginner, intermediate, and advanced learning tracks.</span>
           </div>
+          <div class="mini-item">
+            <strong>Tools</strong>
+            <span>Calculators, comparison tables, and interactive charts.</span>
+          </div>
+          <div class="mini-item">
+            <strong>Articles</strong>
+            <span>A growing technical library built around practical engineering questions.</span>
+          </div>
+          <div class="mini-item">
+            <strong>EU Focus</strong>
+            <span>Metric units, European context, and implementation-oriented framing.</span>
+          </div>
+        </div>
+      </aside>
+    </div>
 
-          <div class="h2-converter">
-            <div class="converter-inputs">
-              <label>
-                Input value
-                <input id="h2ConvValue" type="number" step="any" min="0" value="1" />
-              </label>
+    <!-- 2) Choose Your Track -->
+    <div class="section-block" id="academy-tracks">
+      <p class="sec-eyebrow">Where to start</p>
+      <h3 class="sec-title">Choose Your Track</h3>
+      <p class="sec-sub">
+        Pick the level that fits your background. Each track is designed to guide you into the right articles, tools, and engineering depth.
+      </p>
 
-              <label>
-                Unit
+      <div class="tracks-grid">
+        <article class="track-card card-soft">
+          <span class="badge">Beginner</span>
+          <h4>New to hydrogen — investor, municipality, or decision-maker</h4>
+          <p class="track-purpose">
+            Understand what hydrogen is, where it fits, and which questions matter early.
+          </p>
+          <ul class="track-list">
+            <li>What hydrogen is and is not</li>
+            <li>Why it matters in Europe</li>
+            <li>Core terminology and units</li>
+            <li>Realistic role in decarbonisation</li>
+          </ul>
+          <a href="#article-01-card" class="btn btn-secondary track-link">Open Beginner Track</a>
+        </article>
+
+        <article class="track-card card-soft">
+          <span class="badge">Intermediate</span>
+          <h4>Engineer or project manager starting with hydrogen projects</h4>
+          <p class="track-purpose">
+            Move from fundamentals into materials, system architecture, and practical applications.
+          </p>
+          <ul class="track-list">
+            <li>Material selection for H₂ service</li>
+            <li>Station architectures and components</li>
+            <li>Compression, storage, and dispensing</li>
+            <li>Fleet mobility workflows</li>
+          </ul>
+          <a href="#article-03-card" class="btn btn-secondary track-link">Open Intermediate Track</a>
+        </article>
+
+        <article class="track-card card-soft">
+          <span class="badge">Advanced</span>
+          <h4>Experienced engineer or specialist looking for deep dives</h4>
+          <p class="track-purpose">
+            Focus on safety, standards, performance, and integration-level decisions.
+          </p>
+          <ul class="track-list">
+            <li>Safety design and zoning</li>
+            <li>ATEX and EU standards in practice</li>
+            <li>Electrolyzer integration trade-offs</li>
+            <li>Pipeline conversion and grid injection</li>
+          </ul>
+          <a href="#article-04-card" class="btn btn-secondary track-link">Open Advanced Track</a>
+        </article>
+      </div>
+
+      <p class="sec-sub" style="margin-top:10px;font-size:13px;">
+        Not sure where to start? Article 01 is written to be readable by everyone.
+      </p>
+    </div>
+
+    <!-- 3) Featured Tools -->
+    <div class="section-block" id="academy-featured-tools">
+      <p class="sec-eyebrow">Interactive Learning</p>
+      <h3 class="sec-title">Featured Tools</h3>
+      <p class="sec-sub">
+        Use practical calculators and reference tools to connect hydrogen theory with engineering numbers.
+      </p>
+
+      <div class="feat-tools">
+        <button class="tool-teaser card-soft feature-jump" type="button" data-target-tab="calculator" data-target-module="conversion-module">
+          <span class="tool-type">Calculator</span>
+          <h4>Hydrogen Conversion Calculator</h4>
+          <p>Convert between mass, normal volume, and energy using practical engineering defaults.</p>
+          <small>Open in workspace →</small>
+        </button>
+
+        <button class="tool-teaser card-soft feature-jump" type="button" data-target-tab="electrolyzers" data-target-module="electrolyzer-module">
+          <span class="tool-type">Reference Tool</span>
+          <h4>Electrolyzer Comparison</h4>
+          <p>Compare alkaline, PEM, and SOEC technologies for early feasibility discussions.</p>
+          <small>Open in workspace →</small>
+        </button>
+
+        <button class="tool-teaser card-soft feature-jump" type="button" data-target-tab="calculator" data-target-module="output-module">
+          <span class="tool-type">New Tool</span>
+          <h4>Electrolysis Output Calculator</h4>
+          <p>Estimate hydrogen output, electricity demand, water use, and oxygen co-production.</p>
+          <small>Open in workspace →</small>
+        </button>
+      </div>
+
+      <div class="feat-actions">
+        <a href="#academy-workspace" class="btn btn-primary">Open Tools</a>
+        <button class="link-btn feature-jump" type="button" data-target-tab="charts" data-target-module="charts-module" style="background:none;border:none;padding:0;">
+          See all interactive charts
+        </button>
+      </div>
+    </div>
+
+    <!-- 4) Article Library -->
+    <div class="section-block" id="academy-library">
+      <p class="sec-eyebrow">Reading Path</p>
+      <h3 class="sec-title">Article Library</h3>
+      <p class="sec-sub">
+        Start with the published foundations, then continue into application-specific and advanced engineering topics.
+      </p>
+
+      <div class="library-grid">
+        <article class="article-card card-soft" id="article-01-card">
+          <div class="article-top">
+            <span class="article-no">Article 01</span>
+            <span class="article-status s-published">Published</span>
+          </div>
+          <span class="article-level">Beginner</span>
+          <h4>What Hydrogen Is (and Isn’t): A Practical Definition</h4>
+          <p class="article-summary">
+            A practical framing of hydrogen as an energy carrier, including infrastructure implications and common misconceptions.
+          </p>
+          <div class="article-foot">
+            <span class="article-time">8–10 min read</span>
+            <a href="#article-01" class="btn btn-secondary">Read Article</a>
+          </div>
+        </article>
+
+        <article class="article-card card-soft" id="article-02-card">
+          <div class="article-top">
+            <span class="article-no">Article 02</span>
+            <span class="article-status s-plan">Planned</span>
+          </div>
+          <span class="article-level">Beginner</span>
+          <h4>Why Hydrogen Matters in Europe</h4>
+          <p class="article-summary">
+            Where hydrogen creates real value in EU decarbonisation, and where direct electrification remains the stronger path.
+          </p>
+          <div class="article-foot">
+            <span class="article-time">Planned</span>
+            <a href="#contact" class="btn btn-secondary">Suggest Priority</a>
+          </div>
+        </article>
+
+        <article class="article-card card-soft" id="article-03-card">
+          <div class="article-top">
+            <span class="article-no">Article 03</span>
+            <span class="article-status s-plan">Planned</span>
+          </div>
+          <span class="article-level">Intermediate</span>
+          <h4>Material Selection for Hydrogen Service</h4>
+          <p class="article-summary">
+            How material behavior, weld quality, and stress concentration affect long-term reliability in hydrogen systems.
+          </p>
+          <div class="article-foot">
+            <span class="article-time">Planned</span>
+            <a href="#contact" class="btn btn-secondary">Suggest Scope</a>
+          </div>
+        </article>
+
+        <article class="article-card card-soft" id="article-04-card">
+          <div class="article-top">
+            <span class="article-no">Article 04</span>
+            <span class="article-status s-dev">In Development</span>
+          </div>
+          <span class="article-level">Advanced</span>
+          <h4>Hydrogen Production by Water Electrolysis Technologies</h4>
+          <p class="article-summary">
+            Trade-offs across AWE, PEM, SOEC, and AEM with emphasis on efficiency, durability, and water quality.
+          </p>
+          <div class="article-foot">
+            <span class="article-time">Advanced deep dive</span>
+            <a href="#article-04" class="btn btn-secondary">Open Draft</a>
+          </div>
+        </article>
+
+        <article class="article-card card-soft" id="article-05-card">
+          <div class="article-top">
+            <span class="article-no">Article 05</span>
+            <span class="article-status s-plan">Planned</span>
+          </div>
+          <span class="article-level">Advanced</span>
+          <h4>Hydrogen Safety Design in Practice</h4>
+          <p class="article-summary">
+            Detection, ventilation, zoning logic, and practical decision points for safer hydrogen infrastructure design.
+          </p>
+          <div class="article-foot">
+            <span class="article-time">Planned</span>
+            <a href="#contact" class="btn btn-secondary">Request Priority</a>
+          </div>
+        </article>
+
+        <article class="article-card card-soft" id="article-06-card">
+          <div class="article-top">
+            <span class="article-no">Article 06</span>
+            <span class="article-status s-plan">Planned</span>
+          </div>
+          <span class="article-level">Intermediate</span>
+          <h4>Compression, Storage, and Dispensing Architecture</h4>
+          <p class="article-summary">
+            How station architecture choices affect reliability, CAPEX, flexibility, and delivered hydrogen cost.
+          </p>
+          <div class="article-foot">
+            <span class="article-time">Planned</span>
+            <a href="#contact" class="btn btn-secondary">Suggest Scope</a>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- 5) Full Tool Workspace -->
+    <div class="section-block" id="academy-workspace">
+      <p class="sec-eyebrow">Engineering Utilities</p>
+      <h3 class="sec-title">Practical Hydrogen Engineering Tools</h3>
+      <p class="sec-sub">
+        Quick-reference utilities for learning and early-stage engineering discussions.
+      </p>
+
+      <div class="workspace card">
+        <div class="ws-tabs" role="tablist" aria-label="Academy workspace tabs">
+          <button class="ws-tab active" data-ws-tab="calculator" type="button" role="tab" aria-selected="true">Calculators</button>
+          <button class="ws-tab" data-ws-tab="electrolyzers" type="button" role="tab" aria-selected="false">Electrolyzers</button>
+          <button class="ws-tab" data-ws-tab="charts" type="button" role="tab" aria-selected="false">Interactive Charts</button>
+        </div>
+
+        <!-- Calculators Tab -->
+        <section class="ws-panel active" id="ws-panel-calculator" role="tabpanel">
+          <div class="module" id="conversion-module">
+            <h4>Hydrogen Conversion Calculator (EU Units)</h4>
+            <p>
+              Convert between hydrogen mass, normal volume, and energy using practical engineering defaults.
+            </p>
+
+            <div class="input-grid">
+              <div class="field">
+                <label for="h2ConvValue">Input value</label>
+                <input id="h2ConvValue" type="number" step="any" min="0" value="1">
+              </div>
+              <div class="field">
+                <label for="h2ConvUnit">Unit</label>
                 <select id="h2ConvUnit">
                   <option value="kg">kg H₂</option>
                   <option value="t">t H₂</option>
@@ -2350,628 +2991,179 @@ footer {
                   <option value="mj_lhv">MJ (LHV)</option>
                   <option value="kwh_hhv">kWh (HHV)</option>
                 </select>
-              </label>
+              </div>
             </div>
 
-            <div class="converter-note">
-              Assumptions: 1 kg H₂ ≈ 11.126 Nm³, LHV ≈ 33.33 kWh/kg, HHV ≈ 39.4 kWh/kg.
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Unit</th><th>Converted value</th></tr>
+                </thead>
+                <tbody id="h2ConvResults"></tbody>
+              </table>
             </div>
-             <div class="converter-explainer">
-  <p>
-    Nm³ (normal cubic meter) refers to hydrogen gas volume at 0 °C and 1.01325 bar.
-    Using these normal conditions, 1 kg H₂ ≈ 11.126 Nm³. If a different reference
-    temperature is used (e.g., 15 °C), the Nm³/kg factor changes slightly.
-  </p>
-  <p>
-    Energy values (LHV/HHV) represent the chemical energy content of hydrogen fuel.
-    They do not equal usable electricity or heat output, which depends on the conversion
-    technology (fuel cell, engine/boiler) and system losses (compression, cooling, storage).
-  </p>
-</div>
 
+            <div class="tool-foot">
+              <div><strong>Use Case</strong>Quick conversion checks for early engineering and feasibility discussions.</div>
+              <div><strong>Engineering Takeaway</strong>Reference conditions and energy basis must stay explicit.</div>
+              <div><strong>Indicative Only</strong>Default values are educational references, not contractual performance figures.</div>
+            </div>
+          </div>
 
-            <div class="converter-results-wrap">
-              <table class="academy-table converter-results">
+          <div class="module" id="output-module">
+            <h4>Electrolysis Output Calculator</h4>
+            <p>
+              Estimate hydrogen output, electricity demand, water requirement, and oxygen co-production from a simplified operating point.
+            </p>
+
+            <div class="input-grid">
+              <div class="field">
+                <label for="elxPower">Electrolyzer Power (kW)</label>
+                <input id="elxPower" type="number" min="1" max="100000" value="1000">
+              </div>
+              <div class="field">
+                <label for="elxHours">Operating Hours per Day (h/day)</label>
+                <input id="elxHours" type="number" min="0" max="24" step="0.5" value="24">
+              </div>
+              <div class="field">
+                <label for="elxCF">Capacity Factor (%)</label>
+                <input id="elxCF" type="number" min="1" max="100" value="100">
+              </div>
+              <div class="field">
+                <label for="elxSEC">Specific Energy Consumption (kWh/kg H₂)</label>
+                <input id="elxSEC" type="number" min="45" max="65" step="0.1" value="52">
+              </div>
+            </div>
+
+            <div class="mini-result-grid">
+              <div class="mini-result"><span>Hydrogen / Day</span><strong id="elxH2Day">0</strong></div>
+              <div class="mini-result"><span>Electricity / Day</span><strong id="elxElecDay">0</strong></div>
+              <div class="mini-result"><span>Water / Day</span><strong id="elxWaterDay">0</strong></div>
+              <div class="mini-result"><span>Oxygen / Day</span><strong id="elxO2Day">0</strong></div>
+              <div class="mini-result"><span>Hydrogen / Year</span><strong id="elxH2Year">0</strong></div>
+              <div class="mini-result"><span>Electricity / Year</span><strong id="elxElecYear">0</strong></div>
+            </div>
+
+            <div class="tool-foot">
+              <div><strong>Use Case</strong>Quick first-pass output framing for project teams and non-specialist stakeholders.</div>
+              <div><strong>Engineering Takeaway</strong>Electricity input and specific consumption dominate hydrogen production performance.</div>
+              <div><strong>Indicative Only</strong>Does not include auxiliaries, compression, or stack degradation behavior.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Electrolyzers Tab -->
+        <section class="ws-panel" id="ws-panel-electrolyzers" role="tabpanel" hidden>
+          <div class="module" id="electrolyzer-module">
+            <h4>Electrolyzer Comparison (Indicative Snapshot)</h4>
+            <p>
+              A high-level comparison for educational use and early feasibility discussions.
+            </p>
+
+            <div class="table-wrap">
+              <table>
                 <thead>
                   <tr>
-                    <th>Unit</th>
-                    <th>Converted value</th>
+                    <th>Parameter</th>
+                    <th>Alkaline electrolyzer</th>
+                    <th>PEM electrolyzer</th>
+                    <th>SOEC (solid oxide)</th>
                   </tr>
                 </thead>
-                <tbody id="h2ConvResults">
-                  <tr><td>kg H₂</td><td>1.000</td></tr>
-                  <tr><td>t H₂</td><td>0.001</td></tr>
-                  <tr><td>Nm³ H₂</td><td>11.126</td></tr>
-                  <tr><td>kWh (LHV)</td><td>33.330</td></tr>
-                  <tr><td>MWh (LHV)</td><td>0.033</td></tr>
-                  <tr><td>MJ (LHV)</td><td>120.000</td></tr>
-                  <tr><td>kWh (HHV)</td><td>39.400</td></tr>
+                <tbody>
+                  <tr><td>CAPEX (€/kW, indicative)</td><td>460–830</td><td>740–1,290</td><td>1,840–3,220</td></tr>
+                  <tr><td>System efficiency</td><td>60–70% (56–47 kWh/kg H₂)</td><td>65–75% (51–44 kWh/kg H₂)</td><td>&gt;85% (&lt;39 kWh/kg H₂)</td></tr>
+                  <tr><td>Dynamic response range (%)</td><td>20–100</td><td>5–100</td><td>30–100</td></tr>
+                  <tr><td>Load change rate</td><td>Minutes</td><td>Seconds</td><td>Minutes</td></tr>
+                  <tr><td>Cold start time (minutes)</td><td>15–60</td><td>&lt;5</td><td>&gt;60</td></tr>
+                  <tr><td>Operating life (hours)</td><td>60,000–90,000</td><td>50,000–80,000</td><td>20,000–40,000</td></tr>
+                  <tr><td>Hydrogen purity (unrefined) (%)</td><td>99.8–99.9</td><td>99.99</td><td>99.9</td></tr>
+                  <tr><td>Critical minerals used</td><td>Nickel, Zirconium</td><td>Platinum, Iridium</td><td>Nickel, Zirconium, Lanthanum</td></tr>
+                  <tr><td>Technological maturity</td><td>High</td><td>Medium–High</td><td>Low–Medium</td></tr>
                 </tbody>
               </table>
             </div>
-          </div>
-        </div>
 
-        <div class="academy-tool-card academy-tab-panel" id="academy-panel-electrolyzers" role="tabpanel" aria-labelledby="academy-tab-electrolyzers" hidden>
-
-          <div class="tool-card-header">
-            <h4>Electrolyzer Comparison (Indicative EU Snapshot)</h4>
-            <p>High-level comparison for educational use and early feasibility discussions.</p>
-          </div>
-
-          <div class="converter-note" style="margin-bottom: 14px;">
-            Values are indicative and project-dependent (vendor, system size, BoP scope, market timing, integration concept).
-          </div>
-
-          <div class="academy-table-scroll">
-            <table class="academy-table electrolyzer-table">
-              <thead>
-                <tr>
-                  <th>Parameter</th>
-                  <th>Alkaline electrolyzer</th>
-                  <th>PEM electrolyzer</th>
-                  <th>SOEC (solid oxide)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>CAPEX (€/kW, indicative)</td>
-                  <td>460-830</td>
-                  <td>740-1,290</td>
-                  <td>1,840-3,220</td>
-                </tr>
-                <tr>
-                  <td>System efficiency</td>
-                  <td>60-70% (56-47 kWh/kg H₂)</td>
-                  <td>65-75% (51-44 kWh/kg H₂)</td>
-                  <td>&gt;85% (&lt;39 kWh/kg H₂)</td>
-                </tr>
-                <tr>
-                  <td>Dynamic response range (%)</td>
-                  <td>20-100</td>
-                  <td>5-100</td>
-                  <td>30-100</td>
-                </tr>
-                <tr>
-                  <td>Load change rate</td>
-                  <td>Minutes</td>
-                  <td>Seconds</td>
-                  <td>Minutes</td>
-                </tr>
-                <tr>
-                  <td>Cold start time (minutes)</td>
-                  <td>15-60</td>
-                  <td>&lt;5</td>
-                  <td>&gt;60</td>
-                </tr>
-                <tr>
-                  <td>Operating life (hours)</td>
-                  <td>60,000-90,000</td>
-                  <td>50,000-80,000</td>
-                  <td>20,000-40,000</td>
-                </tr>
-                <tr>
-                  <td>Hydrogen purity (unrefined) (%)</td>
-                  <td>99.8-99.9</td>
-                  <td>99.99</td>
-                  <td>99.9</td>
-                </tr>
-                <tr>
-                  <td>Critical minerals used</td>
-                  <td>Nickel, Zirconium</td>
-                  <td>Platinum, Iridium</td>
-                  <td>Nickel, Zirconium, Lanthanum</td>
-                </tr>
-                <tr>
-                  <td>Technological maturity</td>
-                  <td>High</td>
-                  <td>Medium-High</td>
-                  <td>Low-Medium</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-         <div
-  class="academy-tool-card academy-tab-panel"
-  id="academy-panel-interactive-charts"
-  role="tabpanel"
-  aria-labelledby="academy-tab-interactive-charts"
-  hidden
->
-  <div class="at-sep">
-    <p class="at-sep-title">Interactive Engineering Charts</p>
-    <p class="at-sep-sub">Select a topic. EU / metric units only. Indicative data for learning and early feasibility discussions.</p>
-
-    <div class="at-tabs" id="atTabs" role="tablist">
-      <button class="at-tab-btn at-active" data-at-panel="at-panel-density" role="tab" aria-selected="true">Density Explorer</button>
-      <button class="at-tab-btn" data-at-panel="at-panel-lhv" role="tab" aria-selected="false">LHV vs HHV</button>
-      <button class="at-tab-btn" data-at-panel="at-panel-comp" role="tab" aria-selected="false">Compression Energy</button>
-      <button class="at-tab-btn" data-at-panel="at-panel-elec" role="tab" aria-selected="false">Electrolyzer Efficiency</button>
-    </div>
-
-    <div class="at-panel at-active" id="at-panel-density" role="tabpanel">
-      <div class="at-card">
-        <h4>Hydrogen Density Explorer</h4>
-        <p class="at-expl">Hydrogen density depends on both pressure and temperature. This tool shows how density changes, which is important for storage sizing, logistics, and refuelling station performance. Data points are from the NIST hydrogen property database.</p>
-
-        <div class="at-toggle" id="atDensityToggle">
-          <button class="at-active" id="atDensityBtnIso" type="button">Isobaric (density vs temperature)</button>
-          <button id="atDensityBtnIsot" type="button">Isothermal (density vs pressure)</button>
-        </div>
-
-        <div id="atDensityIsoControls" class="at-ctrls">
-          <div class="at-fld">
-            <label>Pressure</label>
-            <select id="atDensityPres">
-              <option value="16">16 bar</option>
-              <option value="150">150 bar</option>
-              <option value="250">250 bar</option>
-              <option value="350" selected>350 bar</option>
-            </select>
-          </div>
-        </div>
-
-        <div id="atDensityIsotControls" class="at-ctrls" style="display:none;">
-          <div class="at-fld">
-            <label>Temperature</label>
-            <select id="atDensityTemp">
-              <option value="-40">−40 °C</option>
-              <option value="-30" selected>−30 °C</option>
-              <option value="-10">−10 °C</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="at-chart-wrap"><canvas id="atDensityCanvas"></canvas></div>
-        <div class="at-takeaway">Engineering takeaway: At high pressure, temperature changes can significantly change stored hydrogen mass. Use real-gas property data for sizing discussions.</div>
-      </div>
-    </div>
-
-    <div class="at-panel" id="at-panel-lhv" role="tabpanel">
-      <div class="at-card">
-        <h4>LHV vs HHV (Energy Content)</h4>
-        <p class="at-expl">LHV and HHV are two standard ways to express the chemical energy in hydrogen. They are used in different industries, so it helps to show both. This is fuel energy content, not guaranteed usable electricity or heat.</p>
-
-        <div class="at-chart-wrap"><canvas id="atLHVCanvas"></canvas></div>
-
-        <div class="at-ctrls" style="margin-top:14px;">
-          <div class="at-fld">
-            <label>Hydrogen mass (kg)</label>
-            <input type="number" id="atLHVMass" value="15" min="0.01" step="0.1">
-          </div>
-        </div>
-
-        <div class="at-res">Energy (LHV): <strong id="atLHVresLHV">499.9</strong> kWh</div>
-        <div class="at-res">Energy (HHV): <strong id="atLHVresHHV">591.0</strong> kWh</div>
-        <div class="at-helper">LHV excludes water condensation heat; HHV includes it.</div>
-        <div class="at-takeaway">Engineering takeaway: LHV/HHV are fuel chemical energy values; usable electricity/heat depends on conversion technology and system losses.</div>
-      </div>
-    </div>
-
-    <div class="at-panel" id="at-panel-comp" role="tabpanel">
-      <div class="at-card">
-        <h4>Compression Energy Estimator (Indicative)</h4>
-        <p class="at-expl">Compressing hydrogen needs energy and creates heat. This simplified estimator helps early feasibility discussions by showing how the required energy grows with higher final pressure. For real design, use vendor data.</p>
-
-        <div class="at-ctrls">
-          <div class="at-fld">
-            <label>Inlet pressure P1 (bar)</label>
-            <input type="number" id="atCompP1" value="30" min="1" max="500" step="1">
-          </div>
-          <div class="at-fld">
-            <label>Outlet pressure P2 (bar)</label>
-            <select id="atCompP2">
-              <option value="200">200 bar</option>
-              <option value="350" selected>350 bar</option>
-              <option value="500">500 bar</option>
-              <option value="700">700 bar</option>
-              <option value="900">900 bar</option>
-            </select>
-          </div>
-          <div class="at-fld">
-            <label>Inlet temperature T1 (°C)</label>
-            <input type="number" id="atCompT1" value="20" min="-40" max="80" step="1">
-          </div>
-          <div class="at-fld">
-            <label>Isentropic efficiency η: <span id="atCompEtaVal">0.70</span></label>
-            <input type="range" id="atCompEta" min="0.50" max="0.80" step="0.01" value="0.70">
-          </div>
-        </div>
-
-        <div class="at-res" style="margin-bottom:10px;">
-          Estimated compression energy: <strong id="atCompResult">–</strong> kWh/kg (indicative)
-        </div>
-        <div class="at-warn" id="atCompWarn">P2 must be greater than P1. Please adjust the values.</div>
-
-        <div class="at-chart-wrap"><canvas id="atCompCanvas"></canvas></div>
-        <div class="at-disclaimer">Indicative thermodynamic estimate. Real systems depend on multi-stage compression, intercooling, gas temperature, and vendor design.</div>
-        <div class="at-takeaway">Engineering takeaway: Higher final pressure increases energy demand and thermal load. Use vendor data for final design, but this helps early feasibility discussions.</div>
-      </div>
-    </div>
-
-    <div class="at-panel" id="at-panel-elec" role="tabpanel">
-      <div class="at-card">
-        <h4>Electrolyzer Electricity Use vs Load (Indicative)</h4>
-        <p class="at-expl">Electrolyzers do not always use the same electricity per kilogram at every operating point. This chart shows typical trends for system-level electricity use at different loads. Actual values depend on technology, size, and balance-of-plant.</p>
-
-        <div class="at-toggle">
-          <button class="at-active" id="atElecBtnKwh" type="button">kWh/kg</button>
-          <button id="atElecBtnEff" type="button">Efficiency % (LHV)</button>
-        </div>
-
-        <div class="at-chart-wrap"><canvas id="atElecCanvas"></canvas></div>
-        <div class="at-disclaimer">Indicative system-level numbers; depends on size, BoP scope, water treatment, and operating strategy.</div>
-        <div class="at-takeaway">Engineering takeaway: Part-load operation can increase specific electricity use. Utilization and operating strategy matter for economics.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    </div>
-    </div>
-        <div class="article-list">
-           <details class="article-item" open id="article-01">
-            <summary>
-              <div class="article-summary-top">
-                <span class="article-index">Article 01</span>
-                <span class="article-chevron" aria-hidden="true">▶</span>
-              </div>
-              <h3 class="article-title">What Hydrogen Is (and Isn’t): A Practical Definition</h3>
-              <div class="article-meta">
-                <span class="meta-pill level-beginner">Beginner</span>
-                <span class="meta-pill">Foundation</span>
-                <span class="meta-pill">8–10 min read</span>
-              </div>
-            </summary>
-            <div class="article-body">
-              <div class="article-body-inner">
-                <p>Hydrogen is often discussed as a major part of the energy transition, but it is also frequently described in ways that are either too simplified or overly optimistic. A practical definition helps investors, municipalities, and engineers evaluate projects with realistic expectations.</p>
-
-                <div class="article-callout"><strong>Practical context:</strong> In energy and industrial applications, “hydrogen” almost always means <strong>molecular hydrogen (H₂)</strong> — a colorless gas made of two hydrogen atoms. In practice, you handle H₂ in pipelines, vessels, compressors, and dispensers, not isolated hydrogen atoms.</div>
-
-                <h4>Why this matters</h4>
-                <p>Understanding what hydrogen is (and is not) directly impacts project feasibility, infrastructure decisions, and the credibility of sustainability claims. A clear definition helps determine where hydrogen creates real value and where direct electrification may be the better route.</p>
-                <ul>
-                  <li><strong>Project feasibility:</strong> identifying where hydrogen solves a real operational problem.</li>
-                  <li><strong>Infrastructure choices:</strong> production, storage, compression, delivery, and safety architecture.</li>
-                  <li><strong>Sustainability claims:</strong> understanding what “green” hydrogen actually depends on.</li>
-                </ul>
-
-                <h4>The core definition</h4>
-                <p>The most important point is that hydrogen is <strong>not a primary energy source</strong>. It is mainly an <strong>energy carrier</strong>, which means it stores and transports energy that originally comes from somewhere else.</p>
-                <p>If hydrogen is produced by electrolysis, the primary input is electricity. If it is produced from natural gas, the primary input is the chemical energy in the gas (plus additional energy for processing, and in some cases capture and compression steps).</p>
-                <p>A useful analogy is electricity: it is also an energy carrier. Hydrogen is similar, except it stores energy in chemical form and can be transported, stored, and used later.</p>
-
-                <h4>What makes hydrogen attractive</h4>
-                <p>Hydrogen can carry a lot of energy per unit mass. Using the lower heating value (LHV), hydrogen contains about <strong>120 MJ/kg</strong>, and using the higher heating value (HHV), about <strong>142 MJ/kg</strong>. This high mass-based energy content makes hydrogen relevant in applications where weight matters or where energy must be stored and moved in molecular form.</p>
-                <p>It is also versatile in end use: hydrogen can be used as a <strong>feedstock</strong> (chemicals, refining), as a <strong>fuel</strong> (combustion or fuel cells), and as an <strong>energy buffer</strong> for harder-to-electrify sectors.</p>
-
-                <h4>What makes hydrogen challenging (and why infrastructure matters)</h4>
-                <p>Hydrogen is extremely light, so its <strong>volumetric energy density is low</strong> under normal conditions. To store useful quantities, hydrogen usually needs to be compressed (e.g. hundreds of bar), liquefied (LH₂), or converted into another carrier such as ammonia or LOHC.</p>
-                <p>This single fact drives much of real-world hydrogen complexity: more equipment, higher CAPEX, additional energy losses, and larger footprints than many people initially expect.</p>
-                <p>Safety is another key engineering topic. Hydrogen has a wide flammability range in air and a low ignition energy compared with many fuels, which means systems must be deliberately engineered for leak prevention and controlled response. In practice that includes ventilation, leak detection, hazardous area classification, ignition source control, material compatibility, and emergency shutdown logic.</p>
-
-                <h4>Hydrogen is not one thing: the pathway matters</h4>
-                <p>When someone says “hydrogen is clean,” the correct response is: <strong>it depends on how it is produced and delivered</strong>. Emissions and energy use vary based on production route, electricity carbon intensity, upstream methane emissions (for fossil-based pathways), compression or liquefaction energy, and transport logistics.</p>
-                <p>A more precise statement is: hydrogen can <strong>enable</strong> low-carbon energy services <strong>if</strong> the full pathway is designed and operated accordingly.</p>
-
-                <h4>Common misconceptions (practical corrections)</h4>
-                <ul>
-                  <li><strong>“Hydrogen is an energy source”</strong> → In most energy-system contexts, it is primarily an energy carrier.</li>
-                  <li><strong>“Hydrogen always beats batteries”</strong> → Batteries often win when direct electrification is feasible and efficiency matters most.</li>
-                  <li><strong>“Hydrogen is too dangerous to use”</strong> → Hydrogen has different hazard characteristics, but it can be handled safely with proper engineering and operational discipline.</li>
-                  <li><strong>“Hydrogen is automatically clean”</strong> → Climate impact depends on the full production and delivery chain.</li>
-                </ul>
-
-                <h4>Practical conclusion</h4>
-                <p>Hydrogen is a flexible energy carrier and industrial molecule with strong value in specific applications, but it also comes with real engineering constraints driven by storage, safety, and the energy cost of production and delivery. When projects are designed around those facts, hydrogen solutions can be technically solid and credible.</p>
-
-                <div class="article-footer-note">Academy Track: Foundations · Topic 01 · Suitable for investors, municipalities, and engineers starting with hydrogen strategy</div>
-              </div>
+            <div class="tool-foot">
+              <div><strong>Use Case</strong>Initial technology screening for planning conversations and option shortlisting.</div>
+              <div><strong>Engineering Takeaway</strong>Efficiency, flexibility, cost, and maturity must be weighed together.</div>
+              <div><strong>Indicative Only</strong>Actual values vary by vendor package, BoP scope, region, and timing.</div>
             </div>
-          </details>
-          <details class="article-item">
-            <summary>
-              <div class="article-summary-top">
-                <span class="article-index">Article 02</span>
-                <span class="article-chevron" aria-hidden="true">▶</span>
-              </div>
-              <h3 class="article-title">Why Hydrogen Matters in Europe: Decarbonisation Roles Without Exaggeration</h3>
-              <div class="article-meta">
-                <span class="meta-pill level-beginner">Beginner</span>
-                <span class="meta-pill">Strategy</span>
-                <span class="meta-pill">EU Context</span>
-              </div>
-            </summary>
-            <div class="article-body">
-              <div class="article-body-inner">
-                <p>Hydrogen is not a solution for every problem and it does not replace electrification. In Europe, hydrogen matters because it can reduce emissions in <strong>specific sectors</strong> where other options are difficult, expensive, or slow to scale.</p>
+          </div>
+        </section>
 
-                <div class="article-callout"><strong>Practical framing:</strong> Hydrogen is most valuable when it solves a defined decarbonisation problem better than the alternatives — not when it is treated as a universal replacement for electricity.</div>
+        <!-- Charts Tab -->
+        <section class="ws-panel" id="ws-panel-charts" role="tabpanel" hidden>
+          <div class="module" id="charts-module">
+            <h4>Interactive Engineering Charts</h4>
+            <p>
+              Reference trends for learning and early design discussions using metric units and simplified indicative values.
+            </p>
 
-                <h4>Why Europe focuses on hydrogen (practical reasons)</h4>
-                <ul>
-                  <li><strong>Difficult-to-electrify sectors:</strong> industrial feedstocks, some high-temperature heat processes, selected heavy-duty transport use-cases, and long-duration/seasonal storage concepts.</li>
-                  <li><strong>Energy security and resilience:</strong> hydrogen is part of EU thinking on reducing fossil import dependence and strengthening system flexibility.</li>
-                  <li><strong>Deployment policy and targets:</strong> EU plans and regulations already shape real investment pathways, including production and infrastructure targets.</li>
-                </ul>
-                <p>Hydrogen is not always the best option, but in some areas it may be one of the few scalable options available within EU decarbonisation timelines.</p>
-
-                <h4>Where hydrogen fits best in Europe</h4>
-                <p><strong>Role A — Replacing fossil-derived hydrogen in industry (strong case):</strong> Hydrogen is already used in refining, ammonia, and other industrial processes. Replacing fossil-derived hydrogen with renewable or low-carbon hydrogen can deliver direct, measurable emissions reductions when the production pathway is clearly defined.</p>
-                <p><strong>Role B — Industrial decarbonisation beyond feedstock (selective case):</strong> Hydrogen can support some high-temperature heat applications and processes where a molecule is needed for chemical reasons (for example as a reducing agent). Where direct electrification is technically feasible and affordable, it often remains the first choice.</p>
-                <p><strong>Role C — Heavy-duty mobility and corridor refuelling (specific case):</strong> Hydrogen can make sense when vehicles operate long hours, require fast refuelling, and follow predictable routes. This is especially relevant for corridor-based deployment strategies.</p>
-                <p><strong>Role D — Long-duration storage and system balancing (limited but important):</strong> Hydrogen can support renewable-heavy grids through longer-duration flexibility and Power-to-X pathways, even though round-trip efficiency is usually lower than direct electrification or batteries.</p>
-
-                <h4>Where hydrogen is usually not the best option</h4>
-                <p>Hydrogen is often not the preferred solution for space heating in many EU regions, most passenger cars, or short-distance low-utilisation applications where charging infrastructure and charging time are manageable. In those cases, direct electrification often wins on efficiency, simplicity, and delivered energy cost.</p>
-
-                <h4>EU credibility rules: definitions and certification matter</h4>
-                <p>In Europe, claims about “renewable hydrogen” increasingly depend on compliance with EU definitions and certification pathways (including RFNBO-related requirements). For project developers, this means electricity sourcing strategy and documentation can be just as important as electrolyser technology selection.</p>
-
-                <h4>Practical summary</h4>
-                <p>Hydrogen matters in Europe because it can reduce emissions where industry needs a molecule, support selected difficult-to-electrify use-cases, and contribute to flexibility in a more renewable power system. It is most credible and valuable when applied to the right problems with clear technical and regulatory framing.</p>
-
-                <div class="article-footer-note">Academy Track: Foundations / Strategy · Topic 02 · Focus on realistic EU decarbonisation roles</div>
-              </div>
+            <div class="chart-tabs">
+              <button class="chart-btn active" data-chart="density" type="button">Density vs Pressure</button>
+              <button class="chart-btn" data-chart="efficiency" type="button">Specific Energy vs Load</button>
+              <button class="chart-btn" data-chart="compression" type="button">Compression Energy</button>
             </div>
-          </details>
-          <details class="article-item" id="article-03">
-            <summary>
-              <div class="article-summary-top">
-                <span class="article-index">Article 03</span>
-                <span class="article-chevron" aria-hidden="true">▶</span>
-              </div>
-              <h3 class="article-title">Material Selection for Hydrogen Service at Ambient Temperature</h3>
-              <div class="article-meta">
-                <span class="meta-pill level-intermediate">Intermediate</span>
-                <span class="meta-pill">Materials</span>
-                <span class="meta-pill">Engineering</span>
-              </div>
-            </summary>
-            <div class="article-body">
-              <div class="article-body-inner">
-                <p>In hydrogen projects, it is easy to focus on pressure, flow rate, and purity. In practice, long-term reliability is often decided by <strong>material selection</strong> — especially for pressure-containing parts, valves, fittings, and welded joints.</p>
 
-                <div class="article-callout"><strong>Key engineering point:</strong> At ambient temperature, the main concern is often not classic corrosion, but <strong>hydrogen-assisted damage</strong> — mechanisms where hydrogen entering a metal reduces ductility/toughness and supports crack initiation or growth.</div>
-
-                <h4>The core concept: hydrogen can weaken metals without visible corrosion</h4>
-                <p>Many problematic mechanisms start with <strong>atomic hydrogen</strong>, not molecular hydrogen (H₂). Atomic hydrogen can be absorbed by steels and diffuse through the metal. This means hydrogen service risk depends not only on pressure, but also on moisture, contaminants, surface condition, and operating behavior.</p>
-                <p>A system can appear clean and dry externally while still creating conditions that increase hydrogen entry into stressed metal — and therefore long-term cracking risk.</p>
-
-                <h4>What increases risk in practice</h4>
-                <p>Hydrogen-assisted damage becomes more likely when three factors combine: <strong>hydrogen entry</strong>, <strong>tensile stress</strong> (applied or residual), and a <strong>susceptible material structure</strong>.</p>
-                <ul>
-                  <li><strong>Environment:</strong> moisture and contaminants can support surface reactions that increase hydrogen entry.</li>
-                  <li><strong>Stress state:</strong> residual welding stresses, forming stresses, and stress concentrators (threads, sharp transitions) often become crack initiation sites.</li>
-                  <li><strong>Material condition:</strong> microstructure, inclusions, hardness gradients, and fabrication quality strongly influence susceptibility.</li>
-                </ul>
-
-                <h4>Steel cleanliness and microstructure matter</h4>
-                <p>In steels, microstructural features and non-metallic inclusions can act as crack initiation points. That is why material selection cannot be reduced to “pick a yield strength.” For some components, procurement requirements related to material quality and through-thickness performance may be just as important as strength and impact toughness.</p>
-
-                <h4>Welds and heat-affected zones: common weak points</h4>
-                <p>Weld regions require special attention because welding modifies microstructure, creates hardness gradients, and introduces residual stress. Even if the base material is acceptable, the weld and heat-affected zone can become the weak link in hydrogen service.</p>
-                <p>In practice, material compatibility and welding practice must be treated as a single engineering decision: procedure qualification, heat input control, filler selection, and fabrication consistency can be as important as the nominal material grade.</p>
-
-                <h4>What good selection looks like (project method)</h4>
-                <p>A practical method is to divide the system into risk zones. High-pressure sections, cyclic sections, threaded/notched geometries, small-bore components, and welded transitions should be treated as high-attention areas.</p>
-                <p>Many projects use <strong>austenitic stainless steels</strong> for critical piping, instrumentation, and high-integrity small-bore components. Carbon steels can also be used in defined conditions when code requirements, strength levels, fabrication quality, and inspection practices are appropriately controlled.</p>
-
-                <h4>Common mistakes to avoid</h4>
-                <ul>
-                  <li>Choosing materials based on corrosion resistance alone while ignoring hydrogen-assisted cracking mechanisms.</li>
-                  <li>Assuming base material performance automatically guarantees weld/joint performance.</li>
-                  <li>Specifying higher strength “for safety” without considering increased susceptibility in many steels.</li>
-                  <li>Using a weak inspection strategy for welded and cyclically loaded areas.</li>
-                </ul>
-
-                <h4>Practical checklist for design and procurement notes</h4>
-                <p>Define the operating envelope first: pressure range, cycle frequency, minimum/maximum metal temperature, hydrogen purity, expected contaminants, and joining methods. Then identify high-risk zones and set fabrication and inspection rules that match those risks.</p>
-                <p>Material selection becomes much more reliable when it is tied to service conditions, weld quality control, and the loading history of the component — not only to a material grade on paper.</p>
-
-                <div class="article-footer-note">Academy Track: Engineering Fundamentals · Topic 03 · Materials selection, welds, and hydrogen service reliability</div>
-              </div>
+            <div class="chart-wrap">
+              <svg id="academyMiniChart" viewBox="0 0 600 220" width="100%" height="220" aria-label="Interactive engineering chart">
+                <rect x="0" y="0" width="600" height="220" fill="transparent"></rect>
+                <g stroke="rgba(116,201,255,0.15)">
+                  <line x1="50" y1="20" x2="50" y2="190"></line>
+                  <line x1="50" y1="190" x2="560" y2="190"></line>
+                </g>
+                <polyline id="academyChartLine" fill="none" stroke="#74c9ff" stroke-width="3" points=""></polyline>
+              </svg>
+              <div id="academyChartMeta" class="chart-meta"></div>
             </div>
-          </details>
 
-          <details class="article-item" id="article-04">
-  <summary>
-    <div class="article-summary-top">
-      <span class="article-index">Article 04</span>
-      <span class="article-chevron" aria-hidden="true">▶</span>
-    </div>
-    <h3 class="article-title">Hydrogen Production by Water Electrolysis Technologies</h3>
-    <div class="article-meta">
-      <span class="meta-pill level-advanced">Advanced</span>
-      <span class="meta-pill">Electrolysis</span>
-      <span class="meta-pill">Engineering</span>
-    </div>
-  </summary>
-
-  <div class="article-body">
-    <div class="article-body-inner">
-       <div class="electrolysis-calc-card" id="electrolysisCalc">
-  <div class="elx-head">
-    <h4>Electrolysis Output Calculator</h4>
-    <p>
-      Estimate hydrogen output, electricity demand, water consumption, and oxygen co-production from a water electrolyzer.
-    </p>
-  </div>
-
-  <p class="elx-intro">
-    Water electrolysis converts electrical energy into hydrogen and oxygen. Actual output depends strongly on power input,
-    operating time, and specific energy consumption.
-  </p>
-
-  <div class="elx-inputs">
-    <div class="elx-input">
-      <label for="elxPowerInput">Electrolyzer Power <span>kW</span></label>
-      <input id="elxPowerRange" type="range" min="1" max="100000" step="1" value="1000">
-      <input id="elxPowerInput" type="number" min="1" max="100000" step="1" value="1000">
-      <p id="elxPowerHelper" class="elx-helper">Equivalent: 1 MW</p>
-    </div>
-
-    <div class="elx-input">
-      <label for="elxHoursInput">Operating Hours per Day <span>h/day</span></label>
-      <input id="elxHoursRange" type="range" min="0" max="24" step="0.5" value="24">
-      <input id="elxHoursInput" type="number" min="0" max="24" step="0.5" value="24">
-    </div>
-
-    <div class="elx-input">
-      <label for="elxCFInput">Capacity Factor <span>%</span></label>
-      <input id="elxCFRange" type="range" min="1" max="100" step="1" value="100">
-      <input id="elxCFInput" type="number" min="1" max="100" step="1" value="100">
-      <p class="elx-helper">Represents how consistently the system operates over time.</p>
-    </div>
-
-    <div class="elx-input">
-      <label for="elxSECInput">Specific Energy Consumption <span>kWh/kg H₂</span></label>
-      <input id="elxSECRange" type="range" min="45" max="65" step="0.1" value="52">
-      <input id="elxSECInput" type="number" min="45" max="65" step="0.1" value="52">
-      <p class="elx-helper">Lower values indicate a more electricity-efficient electrolyzer.</p>
-      <p class="elx-helper dim">Typical electrolysis systems often fall within a broad range depending on technology and operating conditions.</p>
-    </div>
-  </div>
-
-  <div class="elx-results">
-    <div class="elx-result"><span>Hydrogen Output per Hour</span><strong id="elxH2Hour">0</strong><em>kg/h</em></div>
-    <div class="elx-result"><span>Hydrogen Output per Day</span><strong id="elxH2Day">0</strong><em>kg/day</em></div>
-    <div class="elx-result"><span>Hydrogen Output per Year</span><strong id="elxH2Year">0</strong><em>kg/year</em></div>
-    <div class="elx-result"><span>Electricity Use per Day</span><strong id="elxElecDay">0</strong><em>kWh/day</em></div>
-    <div class="elx-result"><span>Electricity Use per Year</span><strong id="elxElecYear">0</strong><em>kWh/year</em></div>
-    <div class="elx-result"><span>Water Required per Day</span><strong id="elxWaterDay">0</strong><em>L/day</em></div>
-    <div class="elx-result"><span>Water Required per Year</span><strong id="elxWaterYear">0</strong><em>L/year</em></div>
-    <div class="elx-result"><span>Oxygen Co-Produced per Day</span><strong id="elxO2Day">0</strong><em>kg/day</em></div>
-    <div class="elx-result"><span>Oxygen Co-Produced per Year</span><strong id="elxO2Year">0</strong><em>kg/year</em></div>
-  </div>
-
-  <div class="elx-quick">
-    <h5>Quick Interpretation</h5>
-    <p id="elxInsight1"></p>
-    <p id="elxInsight2"></p>
-    <p id="elxInsight3"></p>
-  </div>
-
-  <div class="elx-flow">
-    <span>Electricity + Water</span>
-    <b>→</b>
-    <span class="mid">Electrolyzer</span>
-    <b>→</b>
-    <span>Hydrogen + Oxygen</span>
-  </div>
-
-  <details class="elx-notes">
-    <summary>How These Estimates Work</summary>
-    <ul>
-      <li>This is a simplified engineering calculator intended for educational use.</li>
-      <li>Actual hydrogen production depends on real system efficiency, stack losses, auxiliaries, and operating conditions.</li>
-      <li>Water quality matters in real electrolysis systems and may require purification.</li>
-      <li>Oxygen is shown as a co-product based on ideal stoichiometric estimation.</li>
-    </ul>
-  </details>
-
-  <button type="button" id="elxResetBtn" class="elx-reset">Reset to Defaults</button>
-</div>
-
-      <p>Hydrogen is often presented as a clean fuel, but that claim only holds when the production pathway is clean as well. Today, most global hydrogen still comes from fossil-based routes, while electrolysis accounts for only a small share. Water electrolysis matters because it can produce hydrogen without direct carbon emissions when powered by renewable electricity, while also offering high product purity and flexible operation.</p>
-
-      <p>At its core, electrolysis is simple: electricity splits water into hydrogen and oxygen. In practice, however, performance depends on thermodynamics, cell design, membrane choice, catalyst cost, operating temperature, and water quality. Those variables decide whether an electrolyzer is efficient, durable, and commercially useful.</p>
-
-      <div class="article-callout"><strong>Practical framing:</strong> Electrolysis is not one technology but a family of trade-offs. The “best” option depends on project constraints: electricity price, required purity, operating profile, scale, and water source.</div>
-
-      <h4>The basic electrochemical principle</h4>
-      <p>In an electrolyzer, water is decomposed through two half-reactions. At standard conditions, the overall reversible cell voltage is approximately <strong>1.229 V</strong>.</p>
-      <p><strong>Overall reaction:</strong> H<sub>2</sub>O → H<sub>2</sub> + 1/2 O<sub>2</sub></p>
-      <p><strong>Anode (acidic):</strong> H<sub>2</sub>O → 2H<sup>+</sup> + 1/2 O<sub>2</sub> + 2e<sup>-</sup></p>
-      <p><strong>Cathode (acidic):</strong> 2H<sup>+</sup> + 2e<sup>-</sup> → H<sub>2</sub></p>
-      <p>Real cell voltage is always higher than reversible voltage because activation and ohmic losses must be overcome:</p>
-      <p><code>U_cell = U_rev + U_act + U_ohm</code></p>
-      <p>Industrial systems commonly operate around <strong>1.8 to 2.6 V</strong>. As voltage rises, specific electricity consumption rises and efficiency falls, which is a central design trade-off.</p>
-
-      <h4>Four main electrolysis technologies</h4>
-      <p><strong>1) Alkaline water electrolysis (AWE):</strong> Mature and widely used, typically with 20–30% KOH, around 65–100 °C. Strong for large-scale deployment and relatively lower CAPEX. Typical weakness is corrosion/materials stress from liquid alkaline operation.</p>
-      <p><strong>2) Proton exchange membrane electrolysis (PEM):</strong> High-purity hydrogen and high current density at ~70–90 °C with solid membrane architecture. Main trade-off is cost and critical-material dependency (Pt, Ir, Ru) plus durability pressure.</p>
-      <p><strong>3) Solid oxide electrolysis cells (SOEC):</strong> High-temperature operation (~900–1000 °C) enables excellent efficiency potential because part of energy comes as heat. Trade-off is harsh degradation environment, slower startup, and harder industrial reliability.</p>
-      <p><strong>4) Anion exchange membrane electrolysis (AEM):</strong> Promising low-cost path with non-noble catalysts and membrane architecture. Current limitations include lower membrane conductivity, lower catalyst activity, and lifetime constraints.</p>
-
-      <h4>Quick comparison</h4>
-      <div class="academy-table-scroll">
-        <table class="academy-table">
-          <thead>
-            <tr>
-              <th>Technology</th>
-              <th>Typical temperature</th>
-              <th>Typical cell voltage</th>
-              <th>Maturity</th>
-              <th>Main strength</th>
-              <th>Main weakness</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Alkaline (AWE)</td>
-              <td>65–100 °C</td>
-              <td>1.8–2.4 V</td>
-              <td>Mature</td>
-              <td>Proven lower-cost large-scale use</td>
-              <td>Corrosion and liquid-electrolyte issues</td>
-            </tr>
-            <tr>
-              <td>PEM</td>
-              <td>70–90 °C</td>
-              <td>1.8–2.2 V</td>
-              <td>Commercial</td>
-              <td>Very high purity, high current density</td>
-              <td>Expensive noble-metal catalysts</td>
-            </tr>
-            <tr>
-              <td>SOEC</td>
-              <td>900–1000 °C</td>
-              <td>0.95–1.3 V</td>
-              <td>R&amp;D</td>
-              <td>Highest efficiency potential</td>
-              <td>High-temperature degradation/startup limits</td>
-            </tr>
-            <tr>
-              <td>AEM</td>
-              <td>50–70 °C</td>
-              <td>1.8–2.2 V</td>
-              <td>R&amp;D</td>
-              <td>Lower-cost catalyst pathway</td>
-              <td>Lower conductivity and limited lifetime</td>
-            </tr>
-          </tbody>
-        </table>
+            <div class="tool-foot">
+              <div><strong>Use Case</strong>Conceptual trend checking before vendor-specific modeling.</div>
+              <div><strong>Engineering Takeaway</strong>Operating point and boundary conditions materially influence outcomes.</div>
+              <div><strong>Indicative Only</strong>Charts simplify complex behavior and do not replace detailed design data.</div>
+            </div>
+          </div>
+        </section>
       </div>
-
-      <h4>Why catalysts and membranes matter</h4>
-      <p>Performance limits are strongly connected to catalyst and membrane behavior. In PEM, acidic conditions require highly active and stable noble-metal systems (especially for OER), increasing cost pressure. In AEM, non-noble pathways are attractive economically, but present-day performance and durability still lag PEM in many cases.</p>
-
-      <h4>The water quality problem many articles skip</h4>
-      <p>Electrolysis is not only an electricity problem. Water chemistry directly affects efficiency and lifetime. Impurities can foul electrodes, occupy membrane sites, increase resistance, and trigger side reactions. In chloride-rich water, additional reaction risks appear. In practical systems, water treatment strategy is often as important as stack selection.</p>
-
-      <h4>Where development is heading</h4>
-      <p>Progress depends on reducing specific electricity use, cutting catalyst cost, improving membrane durability, and increasing tolerance to lower-grade water. Integrated concepts (renewables + electrolysis + water purification + storage/use) are especially relevant where renewable resources are strong but freshwater is constrained.</p>
-
-      <h4>Practical conclusion</h4>
-      <p>Electrolysis can be a credible low-carbon hydrogen route, but only when engineering trade-offs are handled realistically. AWE is mature, PEM is high-performance, SOEC is thermodynamically attractive but operationally difficult, and AEM is strategically promising but not yet fully mature.</p>
-
-      <div class="article-footer-note">Academy Track: Engineering Deep Dive · Topic 04 · Electrolysis technology trade-offs in real project conditions</div>
-      <div class="article-footer-note">Source: Mostafa El-Shafie, “Hydrogen production by water electrolysis technologies: A review”.</div>
     </div>
-  </div>
-</details>
 
-        </div>
-         
+    <!-- 6) Suggested Learning Path -->
+    <div class="section-block" id="academy-path">
+      <p class="sec-eyebrow">Progression</p>
+      <h3 class="sec-title">Suggested Learning Path</h3>
+      <p class="sec-sub">
+        Move from concepts to applications, then into equipment, safety, and project-level engineering decisions.
+      </p>
+
+      <div class="path-flow">
+        <div class="step"><b>01 Foundations</b><span>Core definitions, role of hydrogen, and unit literacy.</span></div>
+        <div class="step"><b>02 Applications</b><span>Where hydrogen fits in practical EU decarbonisation pathways.</span></div>
+        <div class="step"><b>03 System Components</b><span>Electrolyzers, compression, storage, and delivery architecture.</span></div>
+        <div class="step"><b>04 Safety &amp; Standards</b><span>Detection, zoning, materials behavior, and compliance framing.</span></div>
+        <div class="step"><b>05 Advanced Integration</b><span>Grid coupling, industrial interfaces, and project-level trade-offs.</span></div>
       </div>
-           
+    </div>
 
-   
+    <!-- 7) CTA Footer -->
+    <div class="academy-cta-foot card">
+      <div>
+        <h3 class="sec-title" style="font-size:28px;">Want a topic covered next?</h3>
+        <p class="sec-sub" style="margin-top:8px;">
+          The Academy is designed to grow continuously. Suggest the next article, tool, or engineering topic.
+        </p>
+      </div>
+      <a href="#contact" class="btn btn-primary">Suggest a Topic</a>
+    </div>
+
   </div>
 </section>
+
+
+
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" class="section section-alt" aria-labelledby="contact-heading">
 
 
 <!-- ═══ CONTACT ═══ -->
@@ -2998,6 +3190,7 @@ footer {
   </div>
 </section>
 
+   </style>
 <!-- ═══ FOOTER ═══ -->
 <footer role="contentinfo">
   <div class="footer-logo">
@@ -3554,14 +3747,7 @@ if (s1El) {
   unitEl.addEventListener("change", render);
   render();
 })();
-/* ── Academy tools tabs ── */
-(function () {
-  const buttons = Array.from(document.querySelectorAll('.academy-tab-btn'));
-  const panels = {
-  calculator: document.getElementById('academy-panel-calculator'),
-  electrolyzers: document.getElementById('academy-panel-electrolyzers'),
-  'interactive-charts': document.getElementById('academy-panel-interactive-charts')
-};
+
 
   if (!buttons.length || !panels.calculator || !panels.electrolyzers || !panels['interactive-charts']) return;
 
@@ -3592,34 +3778,240 @@ function activate(tabName) {
 })();
 
 
-/* ── Academy tools collapse toggle ── */
-(function () {
-  const tools = document.getElementById('academy-tools');
-  const btn = document.getElementById('academyToolsToggle');
-  const body = document.getElementById('academyToolsBody');
 
-  if (!tools || !btn || !body) return;
-
-  function sync() {
-    const collapsed = tools.classList.contains('is-collapsed');
-    btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-    btn.textContent = collapsed ? 'Show tools' : 'Hide tools';
-  }
-
-  btn.addEventListener('click', () => {
-  const wasCollapsed = tools.classList.contains('is-collapsed');
-  tools.classList.toggle('is-collapsed');
-  sync();
-
-  if (wasCollapsed && typeof window.atReinit === 'function') {
-      setTimeout(() => window.atReinit(), 80);
-    }
-  });
 
   sync();
 })();
 
-   /* ── Passive scroll performance ── */
+   /* ── Academy V2.1 workspace + featured jumps + mini chart ── */
+(function () {
+  const root = document.querySelector('#academy.academy-v2');
+  if (!root) return;
+
+  function fmt(v) {
+    const abs = Math.abs(v);
+    let max = 3;
+    if (abs >= 1000) max = 0;
+    else if (abs >= 100) max = 1;
+    return new Intl.NumberFormat('en-US', { maximumFractionDigits: max }).format(v);
+  }
+
+  function clamp(v, min, max) {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return min;
+    return Math.min(max, Math.max(min, n));
+  }
+
+  function flashCard(el) {
+    if (!el) return;
+    el.classList.add('is-highlighted');
+    setTimeout(() => el.classList.remove('is-highlighted'), 1800);
+  }
+
+  const wsTabs = Array.from(root.querySelectorAll('.ws-tab'));
+  const wsPanels = {
+    calculator: root.querySelector('#ws-panel-calculator'),
+    electrolyzers: root.querySelector('#ws-panel-electrolyzers'),
+    charts: root.querySelector('#ws-panel-charts')
+  };
+
+  function activateWorkspace(tab) {
+    wsTabs.forEach(btn => {
+      const on = btn.dataset.wsTab === tab;
+      btn.classList.toggle('active', on);
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+
+    Object.keys(wsPanels).forEach(key => {
+      const panel = wsPanels[key];
+      if (!panel) return;
+      const show = key === tab;
+      panel.classList.toggle('active', show);
+      panel.hidden = !show;
+    });
+  }
+
+  wsTabs.forEach(btn => {
+    btn.addEventListener('click', () => activateWorkspace(btn.dataset.wsTab));
+  });
+
+  const featureJumps = Array.from(root.querySelectorAll('.feature-jump'));
+  const workspace = root.querySelector('#academy-workspace');
+
+  featureJumps.forEach(btn => {
+    btn.addEventListener('click', function () {
+      const targetTab = this.dataset.targetTab;
+      const targetModuleId = this.dataset.targetModule;
+
+      activateWorkspace(targetTab);
+      if (workspace) workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      setTimeout(() => {
+        const module = root.querySelector('#' + targetModuleId);
+        flashCard(module);
+        if (module) module.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 260);
+    });
+  });
+
+  const trackLinks = Array.from(root.querySelectorAll('.track-link'));
+  trackLinks.forEach(link => {
+    link.addEventListener('click', function () {
+      const href = this.getAttribute('href');
+      const target = href ? root.querySelector(href) : null;
+      if (!target) return;
+      setTimeout(() => flashCard(target), 350);
+    });
+  });
+
+  // Conversion calculator
+  const convValue = root.querySelector('#h2ConvValue');
+  const convUnit = root.querySelector('#h2ConvUnit');
+  const convResults = root.querySelector('#h2ConvResults');
+
+  const C = { nm3PerKg: 11.126, lhvKwhPerKg: 33.33, hhvKwhPerKg: 39.4 };
+
+  function calcKg(value, unit) {
+    if (unit === 'kg') return value;
+    if (unit === 't') return value * 1000;
+    if (unit === 'nm3') return value / C.nm3PerKg;
+    if (unit === 'kwh_lhv') return value / C.lhvKwhPerKg;
+    if (unit === 'mwh_lhv') return (value * 1000) / C.lhvKwhPerKg;
+    if (unit === 'mj_lhv') return value / 120;
+    if (unit === 'kwh_hhv') return value / C.hhvKwhPerKg;
+    return value;
+  }
+
+  function renderConvV2() {
+    if (!convResults || !convValue || !convUnit) return;
+    const v = Math.max(0, Number(convValue.value || 0));
+    const kg = calcKg(v, convUnit.value);
+
+    const rows = [
+      ['kg H₂', kg],
+      ['t H₂', kg / 1000],
+      ['Nm³ H₂', kg * C.nm3PerKg],
+      ['kWh (LHV)', kg * C.lhvKwhPerKg],
+      ['MWh (LHV)', (kg * C.lhvKwhPerKg) / 1000],
+      ['MJ (LHV)', kg * 120],
+      ['kWh (HHV)', kg * C.hhvKwhPerKg]
+    ];
+
+    convResults.innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td>${fmt(r[1])}</td></tr>`).join('');
+  }
+
+  if (convValue && convUnit) {
+    convValue.addEventListener('input', renderConvV2);
+    convUnit.addEventListener('change', renderConvV2);
+    renderConvV2();
+  }
+
+  // Electrolysis output calculator
+  const elx = {
+    p: root.querySelector('#elxPower'),
+    h: root.querySelector('#elxHours'),
+    cf: root.querySelector('#elxCF'),
+    sec: root.querySelector('#elxSEC'),
+    h2d: root.querySelector('#elxH2Day'),
+    h2y: root.querySelector('#elxH2Year'),
+    ed: root.querySelector('#elxElecDay'),
+    ey: root.querySelector('#elxElecYear'),
+    wd: root.querySelector('#elxWaterDay'),
+    od: root.querySelector('#elxO2Day')
+  };
+
+  function renderElxV2() {
+    if (!elx.p || !elx.h || !elx.cf || !elx.sec) return;
+
+    const power = clamp(elx.p.value, 1, 100000);
+    const hours = clamp(elx.h.value, 0, 24);
+    const cf = clamp(elx.cf.value, 1, 100);
+    const sec = clamp(elx.sec.value, 45, 65);
+
+    elx.p.value = power;
+    elx.h.value = hours;
+    elx.cf.value = cf;
+    elx.sec.value = sec;
+
+    const electricityPerDay_kWh = power * hours * (cf / 100);
+    const hydrogenPerDay_kg = electricityPerDay_kWh / sec;
+    const hydrogenPerYear_kg = hydrogenPerDay_kg * 365;
+    const waterPerDay_L = hydrogenPerDay_kg * 9;
+    const oxygenPerDay_kg = hydrogenPerDay_kg * 8;
+    const electricityPerYear_kWh = electricityPerDay_kWh * 365;
+
+    if (elx.h2d) elx.h2d.textContent = `${fmt(hydrogenPerDay_kg)} kg/day`;
+    if (elx.h2y) elx.h2y.textContent = `${fmt(hydrogenPerYear_kg)} kg/year`;
+    if (elx.ed) elx.ed.textContent = `${fmt(electricityPerDay_kWh)} kWh/day`;
+    if (elx.ey) elx.ey.textContent = `${fmt(electricityPerYear_kWh)} kWh/year`;
+    if (elx.wd) elx.wd.textContent = `${fmt(waterPerDay_L)} L/day`;
+    if (elx.od) elx.od.textContent = `${fmt(oxygenPerDay_kg)} kg/day`;
+  }
+
+  [elx.p, elx.h, elx.cf, elx.sec].forEach(input => {
+    if (!input) return;
+    input.addEventListener('input', renderElxV2);
+    input.addEventListener('change', renderElxV2);
+  });
+  renderElxV2();
+
+  // Mini chart
+  const chartBtns = Array.from(root.querySelectorAll('.chart-btn'));
+  const chartLine = root.querySelector('#academyChartLine');
+  const chartMeta = root.querySelector('#academyChartMeta');
+
+  const chartData = {
+    density: {
+      points: [8, 11, 14, 17, 20, 23, 26, 28],
+      x: ['50', '100', '150', '200', '250', '300', '350', '400 bar'],
+      y: 'Density (kg/m³)',
+      note: 'At high pressure, density gain is non-linear. Real-gas behavior matters for storage sizing.'
+    },
+    efficiency: {
+      points: [58, 55, 52, 50, 49, 48, 47],
+      x: ['20', '40', '50', '60', '70', '80', '100% load'],
+      y: 'kWh/kg H₂',
+      note: 'Specific energy consumption often improves toward nominal load, but system-level behavior varies by technology.'
+    },
+    compression: {
+      points: [1.1, 1.7, 2.4, 3.0, 3.8, 4.6, 5.5],
+      x: ['100', '200', '300', '400', '500', '700', '900 bar'],
+      y: 'kWh/kg',
+      note: 'Compression energy rises strongly with outlet pressure and materially affects delivered hydrogen cost.'
+    }
+  };
+
+  function toPolyline(data) {
+    const min = Math.min.apply(null, data);
+    const max = Math.max.apply(null, data);
+    const left = 58, right = 552, top = 24, bottom = 186;
+
+    return data.map((v, i) => {
+      const x = left + (i * (right - left) / (data.length - 1));
+      const y = bottom - ((v - min) / ((max - min) || 1)) * (bottom - top);
+      return `${x},${y}`;
+    }).join(' ');
+  }
+
+  function renderChart(name) {
+    const cfg = chartData[name];
+    if (!cfg || !chartLine || !chartMeta) return;
+
+    chartLine.setAttribute('points', toPolyline(cfg.points));
+    chartMeta.textContent = `${cfg.y} trend by operating condition (${cfg.x.join(' / ')}). ${cfg.note}`;
+
+    chartBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.chart === name);
+    });
+  }
+
+  chartBtns.forEach(btn => btn.addEventListener('click', () => renderChart(btn.dataset.chart)));
+  renderChart('density');
+
+  activateWorkspace('calculator');
+})();
+
+      /* ── Passive scroll performance ── */
 document.addEventListener('scroll', () => {}, {passive: true});
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
