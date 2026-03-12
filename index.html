@@ -2592,21 +2592,110 @@ footer {
           </details>
 
           <details class="article-item" id="article-04">
-            <summary>
-              <div class="article-summary-top">
-                <span class="article-index">Article 04</span>
-                <span class="article-chevron" aria-hidden="true">▶</span>
-              </div>
-              <h3 class="article-title">Hydrogen Safety Design in Practice: Detection, Ventilation, and Hazard Zoning</h3>
-              <div class="article-meta">
-                <span class="meta-pill level-advanced">Advanced</span>
-                <span class="meta-pill">Planned</span>
-              </div>
-            </summary>
-            <div class="article-coming">
-              <p>Advanced engineering article planned for later in the Academy series with a focus on practical design logic, not hype or fear-based framing.</p>
-            </div>
-          </details>
+  <summary>
+    <div class="article-summary-top">
+      <span class="article-index">Article 04</span>
+      <span class="article-chevron" aria-hidden="true">▶</span>
+    </div>
+    <h3 class="article-title">Hydrogen Production by Water Electrolysis Technologies</h3>
+    <div class="article-meta">
+      <span class="meta-pill level-advanced">Advanced</span>
+      <span class="meta-pill">Electrolysis</span>
+      <span class="meta-pill">Engineering</span>
+    </div>
+  </summary>
+
+  <div class="article-body">
+    <div class="article-body-inner">
+      <p>Hydrogen is often presented as a clean fuel, but that claim only holds when the production pathway is clean as well. Today, most global hydrogen still comes from fossil-based routes, while electrolysis accounts for only a small share. Water electrolysis matters because it can produce hydrogen without direct carbon emissions when powered by renewable electricity, while also offering high product purity and flexible operation.</p>
+
+      <p>At its core, electrolysis is simple: electricity splits water into hydrogen and oxygen. In practice, however, performance depends on thermodynamics, cell design, membrane choice, catalyst cost, operating temperature, and water quality. Those variables decide whether an electrolyzer is efficient, durable, and commercially useful.</p>
+
+      <div class="article-callout"><strong>Practical framing:</strong> Electrolysis is not one technology but a family of trade-offs. The “best” option depends on project constraints: electricity price, required purity, operating profile, scale, and water source.</div>
+
+      <h4>The basic electrochemical principle</h4>
+      <p>In an electrolyzer, water is decomposed through two half-reactions. At standard conditions, the overall reversible cell voltage is approximately <strong>1.229 V</strong>.</p>
+      <p><strong>Overall reaction:</strong> H<sub>2</sub>O → H<sub>2</sub> + 1/2 O<sub>2</sub></p>
+      <p><strong>Anode (acidic):</strong> H<sub>2</sub>O → 2H<sup>+</sup> + 1/2 O<sub>2</sub> + 2e<sup>-</sup></p>
+      <p><strong>Cathode (acidic):</strong> 2H<sup>+</sup> + 2e<sup>-</sup> → H<sub>2</sub></p>
+      <p>Real cell voltage is always higher than reversible voltage because activation and ohmic losses must be overcome:</p>
+      <p><code>U_cell = U_rev + U_act + U_ohm</code></p>
+      <p>Industrial systems commonly operate around <strong>1.8 to 2.6 V</strong>. As voltage rises, specific electricity consumption rises and efficiency falls, which is a central design trade-off.</p>
+
+      <h4>Four main electrolysis technologies</h4>
+      <p><strong>1) Alkaline water electrolysis (AWE):</strong> Mature and widely used, typically with 20–30% KOH, around 65–100 °C. Strong for large-scale deployment and relatively lower CAPEX. Typical weakness is corrosion/materials stress from liquid alkaline operation.</p>
+      <p><strong>2) Proton exchange membrane electrolysis (PEM):</strong> High-purity hydrogen and high current density at ~70–90 °C with solid membrane architecture. Main trade-off is cost and critical-material dependency (Pt, Ir, Ru) plus durability pressure.</p>
+      <p><strong>3) Solid oxide electrolysis cells (SOEC):</strong> High-temperature operation (~900–1000 °C) enables excellent efficiency potential because part of energy comes as heat. Trade-off is harsh degradation environment, slower startup, and harder industrial reliability.</p>
+      <p><strong>4) Anion exchange membrane electrolysis (AEM):</strong> Promising low-cost path with non-noble catalysts and membrane architecture. Current limitations include lower membrane conductivity, lower catalyst activity, and lifetime constraints.</p>
+
+      <h4>Quick comparison</h4>
+      <div class="academy-table-scroll">
+        <table class="academy-table">
+          <thead>
+            <tr>
+              <th>Technology</th>
+              <th>Typical temperature</th>
+              <th>Typical cell voltage</th>
+              <th>Maturity</th>
+              <th>Main strength</th>
+              <th>Main weakness</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alkaline (AWE)</td>
+              <td>65–100 °C</td>
+              <td>1.8–2.4 V</td>
+              <td>Mature</td>
+              <td>Proven lower-cost large-scale use</td>
+              <td>Corrosion and liquid-electrolyte issues</td>
+            </tr>
+            <tr>
+              <td>PEM</td>
+              <td>70–90 °C</td>
+              <td>1.8–2.2 V</td>
+              <td>Commercial</td>
+              <td>Very high purity, high current density</td>
+              <td>Expensive noble-metal catalysts</td>
+            </tr>
+            <tr>
+              <td>SOEC</td>
+              <td>900–1000 °C</td>
+              <td>0.95–1.3 V</td>
+              <td>R&amp;D</td>
+              <td>Highest efficiency potential</td>
+              <td>High-temperature degradation/startup limits</td>
+            </tr>
+            <tr>
+              <td>AEM</td>
+              <td>50–70 °C</td>
+              <td>1.8–2.2 V</td>
+              <td>R&amp;D</td>
+              <td>Lower-cost catalyst pathway</td>
+              <td>Lower conductivity and limited lifetime</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Why catalysts and membranes matter</h4>
+      <p>Performance limits are strongly connected to catalyst and membrane behavior. In PEM, acidic conditions require highly active and stable noble-metal systems (especially for OER), increasing cost pressure. In AEM, non-noble pathways are attractive economically, but present-day performance and durability still lag PEM in many cases.</p>
+
+      <h4>The water quality problem many articles skip</h4>
+      <p>Electrolysis is not only an electricity problem. Water chemistry directly affects efficiency and lifetime. Impurities can foul electrodes, occupy membrane sites, increase resistance, and trigger side reactions. In chloride-rich water, additional reaction risks appear. In practical systems, water treatment strategy is often as important as stack selection.</p>
+
+      <h4>Where development is heading</h4>
+      <p>Progress depends on reducing specific electricity use, cutting catalyst cost, improving membrane durability, and increasing tolerance to lower-grade water. Integrated concepts (renewables + electrolysis + water purification + storage/use) are especially relevant where renewable resources are strong but freshwater is constrained.</p>
+
+      <h4>Practical conclusion</h4>
+      <p>Electrolysis can be a credible low-carbon hydrogen route, but only when engineering trade-offs are handled realistically. AWE is mature, PEM is high-performance, SOEC is thermodynamically attractive but operationally difficult, and AEM is strategically promising but not yet fully mature.</p>
+
+      <div class="article-footer-note">Academy Track: Engineering Deep Dive · Topic 04 · Electrolysis technology trade-offs in real project conditions</div>
+      <div class="article-footer-note">Source: Mostafa El-Shafie, “Hydrogen production by water electrolysis technologies: A review”.</div>
+    </div>
+  </div>
+</details>
+
         </div>
          
       </div>
