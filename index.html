@@ -925,6 +925,29 @@ h2.section-title .thin { font-weight: 200; }
 .article-footer-note { margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(106,180,232,0.16); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(176, 206, 234, 0.62); }
 .article-coming { padding: 14px 16px; }
 .article-coming p { color: rgba(214,230,248,0.66); font-size: 13px; line-height: 1.6; }
+.article-close-wrap {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(106,180,232,0.16);
+}
+
+.article-close-btn {
+  appearance: none;
+  border: 1px solid rgba(106,180,232,0.22);
+  background: rgba(255,255,255,0.03);
+  color: #dff1ff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+}
+
+.article-close-btn:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(116,201,255,0.35);
+}
+
 @media (max-width: 1100px) { .academy-layout { grid-template-columns: 1fr; } .academy-sidebar { position: static; top: auto; } }
 
 /* ═══════════════════════════════════════════════════════
@@ -3099,6 +3122,9 @@ the challenge is not only producing hydrogen, but handling it efficiently afterw
 <p>But in the right places — especially where direct electrification struggles — hydrogen can play a serious role.</p>
 <p>That is the useful definition:
 not miracle, not myth, but a technical option with clear strengths, clear weaknesses, and very specific use cases.</p>
+           <div class="article-close-wrap">
+  <button type="button" class="article-close-btn">Close article</button>
+</div>
         </div>
       </article>
 
@@ -3633,7 +3659,23 @@ The goal is to use each material only inside an operating envelope where its hyd
 ═══════════════════════════════════════════════════════ -->
 
    <script>
-'use strict';
+      'use strict';
+  document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.article-close-btn');
+  if (!btn) return;
+
+  const article = btn.closest('.academy-article');
+  if (!article) return;
+
+  article.style.display = 'none';
+
+  const backLink = article.querySelector('.back-link');
+  if (backLink) {
+    const target = document.querySelector(backLink.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
+
       /* ── Article 04 Electrolysis Output Calculator ── */
 (function () {
   const card = document.getElementById("electrolysisCalc");
