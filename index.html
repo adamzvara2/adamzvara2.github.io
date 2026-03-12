@@ -3166,10 +3166,6 @@ footer {
 
 <!-- ═══ CONTACT ═══ -->
 <section id="contact" class="section section-alt" aria-labelledby="contact-heading">
-
-
-<!-- ═══ CONTACT ═══ -->
-<section id="contact" class="section section-alt" aria-labelledby="contact-heading">
   <div class="contact-wrap">
     <p class="section-eyebrow reveal" style="justify-content:center">Get in Touch</p>
     <h2 class="section-title word-reveal" id="contact-heading" style="margin-bottom:16px">
@@ -3192,7 +3188,6 @@ footer {
   </div>
 </section>
 
-   </style>
 <!-- ═══ FOOTER ═══ -->
 <footer role="contentinfo">
   <div class="footer-logo">
@@ -3751,41 +3746,7 @@ if (s1El) {
 })();
 
 
-  if (!buttons.length || !panels.calculator || !panels.electrolyzers || !panels['interactive-charts']) return;
-
-function activate(tabName) {
-  buttons.forEach(btn => {
-    const active = btn.dataset.academyTab === tabName;
-    btn.classList.toggle('is-active', active);
-    btn.setAttribute('aria-selected', active ? 'true' : 'false');
-  });
-
-  Object.entries(panels).forEach(([name, panel]) => {
-    if (!panel) return;
-    panel.hidden = name !== tabName;
-  });
-
-  if (tabName === 'interactive-charts' && typeof window.atReinit === 'function') {
-  setTimeout(() => window.atReinit(), 80);
-}
-}
-
-
-
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => activate(btn.dataset.academyTab));
-  });
-
-  activate('calculator');
-})();
-
-
-
-
-  sync();
-})();
-
-   /* ── Academy V2.1 workspace + featured jumps + mini chart ── */
+  /* ── Academy V2.1 workspace + featured jumps + mini chart ── */
 (function () {
   const root = document.querySelector('#academy.academy-v2');
   if (!root) return;
