@@ -947,6 +947,40 @@ h2.section-title .thin { font-weight: 200; }
   background: rgba(255,255,255,0.06);
   border-color: rgba(116,201,255,0.35);
 }
+.academy-article-body {
+  max-height: 12000px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-height .45s ease, opacity .25s ease, padding .25s ease, margin .25s ease;
+}
+
+.academy-article.is-collapsed .academy-article-body {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  pointer-events: none;
+}
+
+.article-reopen-btn {
+  appearance: none;
+  border: 1px solid rgba(106,180,232,0.22);
+  background: rgba(255,255,255,0.03);
+  color: #dff1ff;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.article-reopen-btn:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(116,201,255,0.35);
+}
+
 
 @media (max-width: 1100px) { .academy-layout { grid-template-columns: 1fr; } .academy-sidebar { position: static; top: auto; } }
 
@@ -3218,6 +3252,10 @@ not miracle, not myth, but a technical option with clear strengths, clear weakne
 <p>But because Europe has a narrow set of applications where hydrogen may be one of the few serious options available.</p>
 <p>Used there, it matters.</p>
 <p>Used everywhere, it becomes wasteful.</p>
+           <div class="article-close-wrap">
+  <button type="button" class="article-close-btn">Close article</button>
+</div>
+
         </div>
       </article>
 
@@ -3308,6 +3346,10 @@ The goal is to use each material only inside an operating envelope where its hyd
 <p>The real question is whether the full system allows hydrogen to enter stressed material and whether the chosen material, weld quality, and geometry can tolerate that condition over time.</p>
 <p>That is why good material selection is never just a procurement decision.</p>
 <p>It is a design decision, a welding decision, an inspection decision, and a long-term reliability decision at the same time.</p>
+           <div class="article-close-wrap">
+  <button type="button" class="article-close-btn">Close article</button>
+</div>
+
         </div>
       </article>
 
@@ -3404,6 +3446,10 @@ The goal is to use each material only inside an operating envelope where its hyd
 <p>The winner will not be decided by marketing language.</p>
 <p>It will be decided by which technology fits the constraints of the project best.</p>
 <div class="article-source"><strong>Source</strong><p>Hydrogen production by water electrolysis technologies: A review, by Mostafa El-Shafie.</p></div>
+           <div class="article-close-wrap">
+  <button type="button" class="article-close-btn">Close article</button>
+</div>
+
         </div>
       </article>
       </div>
@@ -3660,21 +3706,64 @@ The goal is to use each material only inside an operating envelope where its hyd
 
    <script>
       'use strict';
-  document.addEventListener('click', function (e) {
-  const btn = e.target.closest('.article-close-btn');
-  if (!btn) return;
-
-  const article = btn.closest('.academy-article');
-  if (!article) return;
-
-  article.style.display = 'none';
-
-  const backLink = article.querySelector('.back-link');
-  if (backLink) {
-    const target = document.querySelector(backLink.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  (function () {
+  function setCollapsed(article, collapsed) {
+    article.classList.toggle('is-collapsed', collapsed);
+    const reopenBtn = article.querySelector('.article-reopen-btn');
+    if (reopenBtn) reopenBtn.hidden = !collapsed;
   }
-});
+
+  function ensureReopenButtons() {
+    document.querySelectorAll('.academy-article').forEach(article => {
+      const head = article.querySelector('.academy-article-head');
+      if (!head) return;
+
+      if (!head.querySelector('.article-reopen-btn')) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'article-reopen-btn';
+        btn.textContent = 'Reopen';
+        btn.hidden = true;
+        head.appendChild(btn);
+      }
+    });
+  }
+
+  function expandFromHash() {
+    const id = (window.location.hash || '').replace('#', '');
+    if (!id) return;
+    const article = document.getElementById(id);
+    if (!article || !article.classList.contains('academy-article')) return;
+    setCollapsed(article, false);
+  }
+
+  document.addEventListener('click', function (e) {
+    const closeBtn = e.target.closest('.article-close-btn');
+    if (closeBtn) {
+      const article = closeBtn.closest('.academy-article');
+      if (!article) return;
+      setCollapsed(article, true);
+
+      const head = article.querySelector('.academy-article-head');
+      if (head) head.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+
+    const reopenBtn = e.target.closest('.article-reopen-btn');
+    if (reopenBtn) {
+      const article = reopenBtn.closest('.academy-article');
+      if (!article) return;
+      setCollapsed(article, false);
+
+      const body = article.querySelector('.academy-article-body');
+      if (body) body.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  ensureReopenButtons();
+  expandFromHash();
+  window.addEventListener('hashchange', expandFromHash);
+})();
 
       /* ── Article 04 Electrolysis Output Calculator ── */
 (function () {
