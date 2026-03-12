@@ -1590,6 +1590,191 @@ h2.section-title .thin { font-weight: 200; }
   position:relative; overflow:hidden;
   box-shadow: 0 8px 40px var(--glow);
 }
+   /* Electrolysis calculator (Article 04) */
+#article-04 .article-body-inner::after { content: ""; display: block; clear: both; }
+
+.electrolysis-calc-card {
+  margin: 18px 0 22px;
+  border: 1px solid rgba(116,201,255,0.18);
+  border-radius: 16px;
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(10,18,30,0.9), rgba(9,15,24,0.92));
+  box-shadow: 0 18px 36px rgba(0,0,0,0.28);
+}
+
+@media (min-width: 1100px) {
+  .electrolysis-calc-card {
+    float: right;
+    width: min(460px, 46%);
+    margin: 6px 0 16px 24px;
+    position: sticky;
+    top: 92px;
+  }
+}
+
+.elx-head h4 {
+  margin: 0 0 6px;
+  color: #eaf6ff;
+  font-size: 19px;
+}
+.elx-head p, .elx-intro {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(220,236,250,0.82);
+}
+
+.elx-inputs { display: grid; gap: 11px; margin-top: 10px; }
+.elx-input {
+  border: 1px solid rgba(116,201,255,0.12);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(255,255,255,0.02);
+}
+.elx-input label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #e6f3ff;
+  margin-bottom: 8px;
+}
+.elx-input label span { color: rgba(186,220,247,0.75); }
+
+.elx-input input[type="range"] {
+  width: 100%;
+  margin-bottom: 8px;
+  accent-color: #74c9ff;
+}
+.elx-input input[type="number"] {
+  width: 100%;
+  border: 1px solid rgba(116,201,255,0.22);
+  border-radius: 10px;
+  background: rgba(5,10,16,0.75);
+  color: #e9f6ff;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+.elx-helper {
+  margin: 7px 0 0;
+  font-size: 11px;
+  color: rgba(188,218,244,0.72);
+  line-height: 1.45;
+}
+.elx-helper.dim { color: rgba(188,218,244,0.54); }
+
+.elx-results {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0,1fr));
+  gap: 8px;
+}
+@media (min-width: 620px) {
+  .elx-results { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+.elx-result {
+  border: 1px solid rgba(116,201,255,0.12);
+  border-radius: 10px;
+  padding: 9px;
+  background: rgba(255,255,255,0.02);
+}
+.elx-result span {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(184,217,246,0.72);
+}
+.elx-result strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 19px;
+  color: #f2f9ff;
+}
+.elx-result em {
+  font-style: normal;
+  font-size: 11px;
+  color: rgba(185,218,246,0.76);
+}
+
+.elx-quick {
+  margin-top: 12px;
+  border: 1px solid rgba(116,201,255,0.18);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(116,201,255,0.07);
+}
+.elx-quick h5 {
+  margin: 0 0 7px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #d9f0ff;
+}
+.elx-quick p {
+  margin: 0 0 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #e7f4ff;
+}
+
+.elx-flow {
+  margin-top: 11px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: rgba(197,226,249,0.83);
+}
+.elx-flow span {
+  border: 1px solid rgba(116,201,255,0.14);
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: rgba(255,255,255,0.02);
+}
+.elx-flow .mid {
+  border-color: rgba(116,201,255,0.3);
+  background: rgba(116,201,255,0.12);
+}
+.elx-flow b { color: rgba(170,210,242,0.72); }
+
+.elx-notes {
+  margin-top: 11px;
+  border: 1px solid rgba(116,201,255,0.12);
+  border-radius: 10px;
+  padding: 9px 10px;
+  background: rgba(255,255,255,0.02);
+}
+.elx-notes summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: #dff1ff;
+}
+.elx-notes ul {
+  margin: 8px 0 0 16px;
+  padding: 0;
+  color: rgba(201,229,250,0.8);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.elx-reset {
+  margin-top: 11px;
+  border: 1px solid rgba(116,201,255,0.22);
+  border-radius: 10px;
+  background: rgba(116,201,255,0.09);
+  color: #e9f6ff;
+  padding: 8px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.elx-reset:hover {
+  background: rgba(116,201,255,0.16);
+  border-color: rgba(116,201,255,0.4);
+  transform: translateY(-1px);
+}
+
 /* Animated gradient border */
 .contact-card::before {
   content:''; position:absolute; inset:-2px; border-radius:26px; z-index:-1;
@@ -2607,6 +2792,89 @@ footer {
 
   <div class="article-body">
     <div class="article-body-inner">
+       <div class="electrolysis-calc-card" id="electrolysisCalc">
+  <div class="elx-head">
+    <h4>Electrolysis Output Calculator</h4>
+    <p>
+      Estimate hydrogen output, electricity demand, water consumption, and oxygen co-production from a water electrolyzer.
+    </p>
+  </div>
+
+  <p class="elx-intro">
+    Water electrolysis converts electrical energy into hydrogen and oxygen. Actual output depends strongly on power input,
+    operating time, and specific energy consumption.
+  </p>
+
+  <div class="elx-inputs">
+    <div class="elx-input">
+      <label for="elxPowerInput">Electrolyzer Power <span>kW</span></label>
+      <input id="elxPowerRange" type="range" min="1" max="100000" step="1" value="1000">
+      <input id="elxPowerInput" type="number" min="1" max="100000" step="1" value="1000">
+      <p id="elxPowerHelper" class="elx-helper">Equivalent: 1 MW</p>
+    </div>
+
+    <div class="elx-input">
+      <label for="elxHoursInput">Operating Hours per Day <span>h/day</span></label>
+      <input id="elxHoursRange" type="range" min="0" max="24" step="0.5" value="24">
+      <input id="elxHoursInput" type="number" min="0" max="24" step="0.5" value="24">
+    </div>
+
+    <div class="elx-input">
+      <label for="elxCFInput">Capacity Factor <span>%</span></label>
+      <input id="elxCFRange" type="range" min="1" max="100" step="1" value="100">
+      <input id="elxCFInput" type="number" min="1" max="100" step="1" value="100">
+      <p class="elx-helper">Represents how consistently the system operates over time.</p>
+    </div>
+
+    <div class="elx-input">
+      <label for="elxSECInput">Specific Energy Consumption <span>kWh/kg H₂</span></label>
+      <input id="elxSECRange" type="range" min="45" max="65" step="0.1" value="52">
+      <input id="elxSECInput" type="number" min="45" max="65" step="0.1" value="52">
+      <p class="elx-helper">Lower values indicate a more electricity-efficient electrolyzer.</p>
+      <p class="elx-helper dim">Typical electrolysis systems often fall within a broad range depending on technology and operating conditions.</p>
+    </div>
+  </div>
+
+  <div class="elx-results">
+    <div class="elx-result"><span>Hydrogen Output per Hour</span><strong id="elxH2Hour">0</strong><em>kg/h</em></div>
+    <div class="elx-result"><span>Hydrogen Output per Day</span><strong id="elxH2Day">0</strong><em>kg/day</em></div>
+    <div class="elx-result"><span>Hydrogen Output per Year</span><strong id="elxH2Year">0</strong><em>kg/year</em></div>
+    <div class="elx-result"><span>Electricity Use per Day</span><strong id="elxElecDay">0</strong><em>kWh/day</em></div>
+    <div class="elx-result"><span>Electricity Use per Year</span><strong id="elxElecYear">0</strong><em>kWh/year</em></div>
+    <div class="elx-result"><span>Water Required per Day</span><strong id="elxWaterDay">0</strong><em>L/day</em></div>
+    <div class="elx-result"><span>Water Required per Year</span><strong id="elxWaterYear">0</strong><em>L/year</em></div>
+    <div class="elx-result"><span>Oxygen Co-Produced per Day</span><strong id="elxO2Day">0</strong><em>kg/day</em></div>
+    <div class="elx-result"><span>Oxygen Co-Produced per Year</span><strong id="elxO2Year">0</strong><em>kg/year</em></div>
+  </div>
+
+  <div class="elx-quick">
+    <h5>Quick Interpretation</h5>
+    <p id="elxInsight1"></p>
+    <p id="elxInsight2"></p>
+    <p id="elxInsight3"></p>
+  </div>
+
+  <div class="elx-flow">
+    <span>Electricity + Water</span>
+    <b>→</b>
+    <span class="mid">Electrolyzer</span>
+    <b>→</b>
+    <span>Hydrogen + Oxygen</span>
+  </div>
+
+  <details class="elx-notes">
+    <summary>How These Estimates Work</summary>
+    <ul>
+      <li>This is a simplified engineering calculator intended for educational use.</li>
+      <li>Actual hydrogen production depends on real system efficiency, stack losses, auxiliaries, and operating conditions.</li>
+      <li>Water quality matters in real electrolysis systems and may require purification.</li>
+      <li>Oxygen is shown as a co-product based on ideal stoichiometric estimation.</li>
+    </ul>
+  </details>
+
+  <button type="button" id="elxResetBtn" class="elx-reset">Reset to Defaults</button>
+</div>
+
       <p>Hydrogen is often presented as a clean fuel, but that claim only holds when the production pathway is clean as well. Today, most global hydrogen still comes from fossil-based routes, while electrolysis accounts for only a small share. Water electrolysis matters because it can produce hydrogen without direct carbon emissions when powered by renewable electricity, while also offering high product purity and flexible operation.</p>
 
       <p>At its core, electrolysis is simple: electricity splits water into hydrogen and oxygen. In practice, however, performance depends on thermodynamics, cell design, membrane choice, catalyst cost, operating temperature, and water quality. Those variables decide whether an electrolyzer is efficient, durable, and commercially useful.</p>
@@ -2743,8 +3011,171 @@ footer {
 <!-- ═══════════════════════════════════════════════════════
      SCRIPTS
 ═══════════════════════════════════════════════════════ -->
-<script>
+
+   <script>
 'use strict';
+      /* ── Article 04 Electrolysis Output Calculator ── */
+(function () {
+  const card = document.getElementById("electrolysisCalc");
+  if (!card) return;
+
+  const defaults = {
+    power_kW: 1000,
+    operatingHoursPerDay: 24,
+    capacityFactor: 100,
+    specificEnergyConsumption: 52
+  };
+
+  const limits = {
+    power_kW: { min: 1, max: 100000 },
+    operatingHoursPerDay: { min: 0, max: 24 },
+    capacityFactor: { min: 1, max: 100 },
+    specificEnergyConsumption: { min: 45, max: 65 }
+  };
+
+  const el = {
+    powerRange: document.getElementById("elxPowerRange"),
+    powerInput: document.getElementById("elxPowerInput"),
+    hoursRange: document.getElementById("elxHoursRange"),
+    hoursInput: document.getElementById("elxHoursInput"),
+    cfRange: document.getElementById("elxCFRange"),
+    cfInput: document.getElementById("elxCFInput"),
+    secRange: document.getElementById("elxSECRange"),
+    secInput: document.getElementById("elxSECInput"),
+    powerHelper: document.getElementById("elxPowerHelper"),
+    resetBtn: document.getElementById("elxResetBtn"),
+
+    h2Hour: document.getElementById("elxH2Hour"),
+    h2Day: document.getElementById("elxH2Day"),
+    h2Year: document.getElementById("elxH2Year"),
+    elecDay: document.getElementById("elxElecDay"),
+    elecYear: document.getElementById("elxElecYear"),
+    waterDay: document.getElementById("elxWaterDay"),
+    waterYear: document.getElementById("elxWaterYear"),
+    o2Day: document.getElementById("elxO2Day"),
+    o2Year: document.getElementById("elxO2Year"),
+
+    insight1: document.getElementById("elxInsight1"),
+    insight2: document.getElementById("elxInsight2"),
+    insight3: document.getElementById("elxInsight3")
+  };
+
+  function clamp(v, min, max) {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return min;
+    return Math.min(max, Math.max(min, n));
+  }
+
+  function formatSmart(value) {
+    const abs = Math.abs(value);
+    let maxFrac = 2;
+    if (abs >= 1000) maxFrac = 0;
+    else if (abs >= 100) maxFrac = 1;
+    return new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: maxFrac
+    }).format(value);
+  }
+
+  function getInputs() {
+    return {
+      power_kW: clamp(el.powerInput.value, limits.power_kW.min, limits.power_kW.max),
+      operatingHoursPerDay: clamp(el.hoursInput.value, limits.operatingHoursPerDay.min, limits.operatingHoursPerDay.max),
+      capacityFactor: clamp(el.cfInput.value, limits.capacityFactor.min, limits.capacityFactor.max),
+      specificEnergyConsumption: clamp(el.secInput.value, limits.specificEnergyConsumption.min, limits.specificEnergyConsumption.max)
+    };
+  }
+
+  function setInputs(v) {
+    el.powerInput.value = v.power_kW;
+    el.powerRange.value = v.power_kW;
+    el.hoursInput.value = v.operatingHoursPerDay;
+    el.hoursRange.value = v.operatingHoursPerDay;
+    el.cfInput.value = v.capacityFactor;
+    el.cfRange.value = v.capacityFactor;
+    el.secInput.value = v.specificEnergyConsumption;
+    el.secRange.value = v.specificEnergyConsumption;
+  }
+
+  function calculate(v) {
+    const electricityPerDay_kWh = v.power_kW * v.operatingHoursPerDay * (v.capacityFactor / 100);
+    const hydrogenPerDay_kg = electricityPerDay_kWh / v.specificEnergyConsumption;
+    const hydrogenPerHour_kg = v.operatingHoursPerDay === 0 ? 0 : hydrogenPerDay_kg / v.operatingHoursPerDay;
+    const hydrogenPerYear_kg = hydrogenPerDay_kg * 365;
+
+    const waterPerDay_L = hydrogenPerDay_kg * 9;
+    const waterPerYear_L = hydrogenPerYear_kg * 9;
+
+    const oxygenPerDay_kg = hydrogenPerDay_kg * 8;
+    const oxygenPerYear_kg = hydrogenPerYear_kg * 8;
+
+    const electricityPerYear_kWh = electricityPerDay_kWh * 365;
+
+    return {
+      electricityPerDay_kWh,
+      electricityPerYear_kWh,
+      hydrogenPerDay_kg,
+      hydrogenPerHour_kg,
+      hydrogenPerYear_kg,
+      waterPerDay_L,
+      waterPerYear_L,
+      oxygenPerDay_kg,
+      oxygenPerYear_kg
+    };
+  }
+
+  function render() {
+    const v = getInputs();
+    setInputs(v);
+    const r = calculate(v);
+
+    el.h2Hour.textContent = formatSmart(r.hydrogenPerHour_kg);
+    el.h2Day.textContent = formatSmart(r.hydrogenPerDay_kg);
+    el.h2Year.textContent = formatSmart(r.hydrogenPerYear_kg);
+
+    el.elecDay.textContent = formatSmart(r.electricityPerDay_kWh);
+    el.elecYear.textContent = formatSmart(r.electricityPerYear_kWh);
+
+    el.waterDay.textContent = formatSmart(r.waterPerDay_L);
+    el.waterYear.textContent = formatSmart(r.waterPerYear_L);
+
+    el.o2Day.textContent = formatSmart(r.oxygenPerDay_kg);
+    el.o2Year.textContent = formatSmart(r.oxygenPerYear_kg);
+
+    const powerMW = v.power_kW >= 1000 ? (v.power_kW / 1000) : 0;
+    el.powerHelper.textContent = powerMW ? `Equivalent: ${formatSmart(powerMW)} MW` : "Equivalent: below 1 MW";
+
+    el.insight1.textContent = `At this operating point, the electrolyzer would produce approximately ${formatSmart(r.hydrogenPerDay_kg)} kg of hydrogen per day.`;
+    el.insight2.textContent = `This output would require roughly ${formatSmart(r.waterPerDay_L)} litres of purified water per day.`;
+    el.insight3.textContent = `Electricity demand remains the dominant input, at approximately ${formatSmart(r.electricityPerYear_kWh)} kWh per year.`;
+  }
+
+  function bindPair(rangeEl, inputEl) {
+    rangeEl.addEventListener("input", function () {
+      inputEl.value = rangeEl.value;
+      render();
+    });
+    inputEl.addEventListener("input", function () {
+      rangeEl.value = inputEl.value;
+      render();
+    });
+    inputEl.addEventListener("change", render);
+  }
+
+  bindPair(el.powerRange, el.powerInput);
+  bindPair(el.hoursRange, el.hoursInput);
+  bindPair(el.cfRange, el.cfInput);
+  bindPair(el.secRange, el.secInput);
+
+  el.resetBtn.addEventListener("click", function () {
+    setInputs(defaults);
+    render();
+  });
+
+  setInputs(defaults);
+  render();
+})();
+
 
 /* ── Theme toggle ── */
 const html = document.documentElement;
