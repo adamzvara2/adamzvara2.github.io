@@ -2566,6 +2566,56 @@ footer {
 }
 
 </style>
+   <style>
+/* Emergency fix: Academy path + CTA */
+#academy.academy-v2 #academy-path .path-flow{
+  display:grid !important;
+  grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  gap:10px !important;
+  margin-top:16px !important;
+}
+#academy.academy-v2 #academy-path .step{
+  display:block !important;
+  border:1px solid rgba(116,201,255,0.12) !important;
+  border-radius:12px !important;
+  padding:12px !important;
+  background:rgba(255,255,255,0.02) !important;
+}
+#academy.academy-v2 #academy-path .step b{
+  display:block !important;
+  margin-bottom:4px !important;
+  color:#dff2ff !important;
+  font-size:12px !important;
+}
+#academy.academy-v2 #academy-path .step span{
+  display:block !important;
+  color:rgba(226,238,252,0.82) !important;
+  font-size:13px !important;
+  line-height:1.55 !important;
+}
+
+#academy.academy-v2 .academy-cta-foot{
+  display:grid !important;
+  grid-template-columns:1fr auto !important;
+  align-items:center !important;
+  gap:12px !important;
+  margin-top:24px !important;
+}
+#academy.academy-v2 .academy-cta-foot .btn{
+  width:auto !important;
+  white-space:nowrap !important;
+}
+
+@media (max-width:1080px){
+  #academy.academy-v2 #academy-path .path-flow{
+    grid-template-columns:1fr !important;
+  }
+  #academy.academy-v2 .academy-cta-foot{
+    grid-template-columns:1fr !important;
+  }
+}
+</style>
+
 </head>
 <body>
 
