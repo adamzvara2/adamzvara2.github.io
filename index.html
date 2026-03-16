@@ -2038,6 +2038,46 @@ h2.section-title .thin { font-weight: 200; }
   max-width: 78ch;
   padding-top: 16px;
 }
+   #academy.academy-v2 .standard-body--media {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 22px;
+  align-items: start;
+}
+
+#academy.academy-v2 .standard-copy {
+  min-width: 0;
+}
+
+#academy.academy-v2 .standard-media {
+  margin: 0;
+  position: sticky;
+  top: 96px;
+}
+
+#academy.academy-v2 .standard-media img {
+  width: 100%;
+  display: block;
+  border-radius: 18px;
+  border: 1px solid rgba(116,201,255,0.14);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+  opacity: 0.92;
+}
+
+@media (max-width: 980px) {
+  #academy.academy-v2 .standard-body--media {
+    grid-template-columns: 1fr;
+  }
+
+  #academy.academy-v2 .standard-media {
+    position: static;
+  }
+
+  #academy.academy-v2 .standard-media img {
+    max-width: 640px;
+  }
+}
+
 
 #academy.academy-v2 .standard-body h4 {
   font-family: 'Fraunces', serif;
@@ -4066,7 +4106,8 @@ The goal is to use each material only inside an operating envelope where its hyd
         <span>HRS Standards</span>
       </button>
       <div class="standard-panel" id="standards-hrs-panel" hidden>
-        <div class="standard-body">
+       <div class="standard-body standard-body--media">
+          <div class="standard-copy">
           <h4>1. What HRS standards cover</h4>
           <p>
             Hydrogen refueling stations are defined by a combination of station design rules, fueling protocols, nozzle compatibility requirements, hydrogen quality specifications, and approval frameworks. Together, these standards make hydrogen refueling safe, interoperable, and repeatable across real projects.
@@ -4087,13 +4128,20 @@ The goal is to use each material only inside an operating envelope where its hyd
             These standards define whether an HRS can be approved, whether it can refuel vehicles correctly, whether the hydrogen quality is acceptable, and whether the station can scale from pilot use to real infrastructure deployment.
           </p>
           <div class="article-source">
-             <strong>Source</strong>
-             <p>NOW GmbH / RCS – Hydrogen Refueling Stations.</p>
-          </div>
+  <strong>Source</strong>
+  <p>NOW GmbH / RCS – Hydrogen Refueling Stations.</p>
+</div>
 
-        </div>
-      </div>
-    </article>
+</div>
+
+<aside class="standard-media">
+  <img src="assets/HRS_station.png" alt="Hydrogen refueling station used as visual support for HRS standards section" loading="lazy">
+</aside>
+
+</div>
+</div>
+</article>
+
 
     <article class="standard-item card-soft">
       <button type="button" class="standard-toggle" aria-expanded="false" aria-controls="standards-transport-panel">
