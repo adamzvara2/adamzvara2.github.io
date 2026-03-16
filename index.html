@@ -1938,11 +1938,57 @@ h2.section-title .thin { font-weight: 200; }
   }
 
   /* 5) Tool Workspace */
+    #academy.academy-v2 .workspace-toggle-wrap {
+  margin-top: 18px;
+}
+
+#academy.academy-v2 .workspace-toggle {
+  width: 100%;
+  appearance: none;
+  border: 1px solid rgba(106,180,232,0.18);
+  background: rgba(255,255,255,0.03);
+  color: #eaf6ff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+#academy.academy-v2 .workspace-toggle:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(116,201,255,0.34);
+}
+
+#academy.academy-v2 .workspace-toggle span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#academy.academy-v2 .workspace-toggle span::before {
+  content: "+";
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(116,201,255,0.24);
+  color: #8fd8ff;
+  font-size: 16px;
+  line-height: 1;
+}
+
+#academy.academy-v2 .workspace-toggle[aria-expanded="true"] span::before {
+  content: "-";
+}
   #academy.academy-v2 .workspace {
     margin-top: 16px;
     padding: 14px;
     scroll-margin-top: 90px;
   }
+
   #academy.academy-v2 .ws-tabs {
     display: flex;
     gap: 8px;
@@ -3800,13 +3846,20 @@ The goal is to use each material only inside an operating envelope where its hyd
 
     <!-- 5) Full Tool Workspace -->
     <div class="section-block" id="academy-workspace">
-      <p class="sec-eyebrow">Engineering Utilities</p>
-      <h3 class="sec-title">Practical Hydrogen Engineering Tools</h3>
-      <p class="sec-sub">
-        Quick-reference utilities for learning and early-stage engineering discussions.
-      </p>
+  <p class="sec-eyebrow">Engineering Utilities</p>
+  <h3 class="sec-title">Practical Hydrogen Engineering Tools</h3>
+  <p class="sec-sub">
+    Quick-reference utilities for learning and early-stage engineering discussions.
+  </p>
 
-      <div class="workspace card">
+  <div class="workspace-toggle-wrap">
+    <button type="button" class="workspace-toggle" aria-expanded="false" aria-controls="academy-workspace-panel">
+      <span>Show Practical Hydrogen Engineering Tools</span>
+    </button>
+  </div>
+
+  <div class="workspace card" id="academy-workspace-panel" hidden>
+
         <div class="ws-tabs" role="tablist" aria-label="Academy workspace tabs">
           <button class="ws-tab active" data-ws-tab="calculator" type="button" role="tab" aria-selected="true">Calculators</button>
           <button class="ws-tab" data-ws-tab="electrolyzers" type="button" role="tab" aria-selected="false">Electrolyzers</button>
@@ -4084,6 +4137,26 @@ The goal is to use each material only inside an operating envelope where its hyd
   expandFromHash();
   window.addEventListener('hashchange', expandFromHash);
 })();
+
+      (function () {
+  const toggle = document.querySelector('.workspace-toggle');
+  const panel = document.getElementById('academy-workspace-panel');
+  if (!toggle || !panel) return;
+
+  toggle.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+    panel.hidden = expanded;
+
+    const label = toggle.querySelector('span');
+    if (label) {
+      label.textContent = expanded
+        ? 'Show Practical Hydrogen Engineering Tools'
+        : 'Hide Practical Hydrogen Engineering Tools';
+    }
+  });
+})();
+
 
 (function () {
   const toggle = document.querySelector('#article04-tool .article-tool-toggle');
