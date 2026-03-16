@@ -2035,41 +2035,40 @@ h2.section-title .thin { font-weight: 200; }
 }
 
 #academy.academy-v2 .standard-body {
-  max-width: 78ch;
   padding-top: 16px;
+  max-width: none;
 }
-  #academy.academy-v2 .standard-body--media {
+
+#academy.academy-v2 .standard-body--media {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 700px;
-  gap: 40px;
+  grid-template-columns: minmax(0, 1fr) minmax(560px, 680px);
+  gap: 42px;
   align-items: start;
 }
 
 #academy.academy-v2 .standard-copy {
   min-width: 0;
-  max-width: 84ch;
+  max-width: 78ch;
 }
 
 #academy.academy-v2 .standard-media {
   margin: 0;
+  justify-self: end;
+  width: 100%;
+  max-width: 680px;
   position: sticky;
   top: 96px;
-  justify-self: end;
-  width: 700px;
 }
 
 #academy.academy-v2 .standard-media img {
   width: 100%;
   display: block;
-  border-radius: 26px;
+  border-radius: 24px;
   border: 1px solid rgba(116,201,255,0.06);
   box-shadow: 0 14px 34px rgba(0,0,0,0.10);
-  opacity: 0.46;
-  filter: saturate(0.72) brightness(1.2);
+  opacity: 0.42;
+  filter: saturate(0.72) brightness(1.22);
 }
-
-
-
 
 @media (max-width: 1180px) {
   #academy.academy-v2 .standard-body--media {
@@ -2080,9 +2079,10 @@ h2.section-title .thin { font-weight: 200; }
   #academy.academy-v2 .standard-media {
     position: static;
     justify-self: start;
-    width: 100%;
     max-width: 820px;
   }
+}
+
 
   #academy.academy-v2 .standard-media img {
     max-width: 100%;
@@ -4117,40 +4117,40 @@ The goal is to use each material only inside an operating envelope where its hyd
         <span>HRS Standards</span>
       </button>
       <div class="standard-panel" id="standards-hrs-panel" hidden>
-       <div class="standard-body standard-body--media">
-          <div class="standard-copy">
-          <h4>1. What HRS standards cover</h4>
-          <p>
-            Hydrogen refueling stations are defined by a combination of station design rules, fueling protocols, nozzle compatibility requirements, hydrogen quality specifications, and approval frameworks. Together, these standards make hydrogen refueling safe, interoperable, and repeatable across real projects.
-          </p>
+  <div class="standard-body standard-body--media">
+    <div class="standard-copy">
+      <h4>1. What HRS standards cover</h4>
+      <p>
+        Hydrogen refueling stations are defined by a combination of station design rules, fueling protocols, nozzle compatibility requirements, hydrogen quality specifications, and approval frameworks. Together, these standards make hydrogen refueling safe, interoperable, and repeatable across real projects.
+      </p>
 
-          <h4>2. Key standards</h4>
-          <ul>
-            <li><strong>ISO 19880 series</strong> — core international framework for gaseous hydrogen refueling stations.</li>
-            <li><strong>ISO 17268</strong> — requirements for hydrogen refueling connection devices, including nozzle and receptacle compatibility.</li>
-            <li><strong>SAE J2601</strong> — fueling protocol for compressed gaseous hydrogen, including limits for pressure, temperature, and fill rate.</li>
-            <li><strong>ISO 13984</strong> — key reference for liquid hydrogen fueling systems and station-to-vehicle interface.</li>
-            <li><strong>ISO 14687</strong> — hydrogen fuel quality standard defining purity and impurity limits.</li>
-            <li><strong>EIGA TB 43</strong> — guidance on secondary identification of hydrogen vehicles at the dispenser to reduce fueling misuse and related risk.</li>
-          </ul>
+      <h4>2. Key standards</h4>
+      <ul>
+        <li><strong>ISO 19880 series</strong> — core international framework for gaseous hydrogen refueling stations.</li>
+        <li><strong>ISO 17268</strong> — requirements for hydrogen refueling connection devices, including nozzle and receptacle compatibility.</li>
+        <li><strong>SAE J2601</strong> — fueling protocol for compressed gaseous hydrogen, including limits for pressure, temperature, and fill rate.</li>
+        <li><strong>ISO 13984</strong> — key reference for liquid hydrogen fueling systems and station-to-vehicle interface.</li>
+        <li><strong>ISO 14687</strong> — hydrogen fuel quality standard defining purity and impurity limits.</li>
+        <li><strong>EIGA TB 43</strong> — guidance on secondary identification of hydrogen vehicles at the dispenser to reduce fueling misuse and related risk.</li>
+      </ul>
 
-          <h4>3. Why they matter</h4>
-          <p>
-            These standards define whether an HRS can be approved, whether it can refuel vehicles correctly, whether the hydrogen quality is acceptable, and whether the station can scale from pilot use to real infrastructure deployment.
-          </p>
-          <div class="article-source">
-  <strong>Source</strong>
-  <p>NOW GmbH / RCS – Hydrogen Refueling Stations.</p>
+      <h4>3. Why they matter</h4>
+      <p>
+        These standards define whether an HRS can be approved, whether it can refuel vehicles correctly, whether the hydrogen quality is acceptable, and whether the station can scale from pilot use to real infrastructure deployment.
+      </p>
+
+      <div class="article-source">
+        <strong>Source</strong>
+        <p>NOW GmbH / RCS – Hydrogen Refueling Stations.</p>
+      </div>
+    </div>
+
+    <aside class="standard-media">
+      <img src="assets/HRS_station.png" alt="Hydrogen refueling station used as visual support for HRS standards section" loading="lazy">
+    </aside>
+  </div>
 </div>
 
-</div>
-
-<aside class="standard-media">
-  <img src="assets/HRS_station.png" alt="Hydrogen refueling station used as visual support for HRS standards section" loading="lazy">
-</aside>
-
-</div>
-</div>
 </article>
 
 
