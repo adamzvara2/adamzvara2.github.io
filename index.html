@@ -1988,6 +1988,89 @@ h2.section-title .thin { font-weight: 200; }
     padding: 14px;
     scroll-margin-top: 90px;
   }
+   #academy.academy-v2 .standards-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+#academy.academy-v2 .standard-item {
+  overflow: hidden;
+}
+
+#academy.academy-v2 .standard-toggle {
+  width: 100%;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #eef7ff;
+  padding: 18px 20px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+#academy.academy-v2 .standard-toggle span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#academy.academy-v2 .standard-toggle span::after {
+  content: "+";
+  font-size: 22px;
+  line-height: 1;
+  color: #8fd8ff;
+  flex-shrink: 0;
+}
+
+#academy.academy-v2 .standard-toggle[aria-expanded="true"] span::after {
+  content: "-";
+}
+
+#academy.academy-v2 .standard-panel {
+  border-top: 1px solid rgba(116,201,255,0.12);
+  padding: 0 20px 20px;
+}
+
+#academy.academy-v2 .standard-body {
+  max-width: 78ch;
+  padding-top: 16px;
+}
+
+#academy.academy-v2 .standard-body h4 {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  line-height: 1.25;
+  color: #f2f7fc;
+  margin: 0 0 10px;
+}
+
+#academy.academy-v2 .standard-body h4 + p,
+#academy.academy-v2 .standard-body ul + h4 {
+  margin-top: 18px;
+}
+
+#academy.academy-v2 .standard-body p {
+  color: rgba(226,238,252,0.82);
+  font-size: 15px;
+  line-height: 1.8;
+  margin: 0 0 12px;
+}
+
+#academy.academy-v2 .standard-body ul {
+  margin: 8px 0 16px 18px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+#academy.academy-v2 .standard-body li {
+  color: rgba(226,238,252,0.82);
+  line-height: 1.7;
+}
+
 
   #academy.academy-v2 .ws-tabs {
     display: flex;
@@ -3970,20 +4053,91 @@ The goal is to use each material only inside an operating envelope where its hyd
       </div>
       <a href="#contact" class="btn btn-primary">Suggest a Topic</a>
     </div>
-   <div class="section-block" id="standards">
+  <div class="section-block" id="standards">
   <p class="sec-eyebrow">Codes and Compliance</p>
   <h3 class="sec-title">Hydrogen Standards</h3>
   <p class="sec-sub">
-    A dedicated section for hydrogen-related standards, technical codes, and compliance topics across design, safety, storage, transport, and refueling infrastructure.
+    Explore hydrogen-related standards by topic. Open a category to view its scope, key standards, and practical relevance.
   </p>
 
-  <div class="card">
-    <p class="body-text" style="max-width: 78ch; margin-bottom: 14px;">
-      This section will cover the most important standards and regulatory frameworks relevant to hydrogen projects in practice.
-    </p>
-    <p class="body-text" style="max-width: 78ch;">
-      Detailed technical content and standard-specific guidance will be added here later.
-    </p>
+  <div class="standards-list">
+    <article class="standard-item card-soft">
+      <button type="button" class="standard-toggle" aria-expanded="false" aria-controls="standards-hrs-panel">
+        <span>HRS Standards</span>
+      </button>
+      <div class="standard-panel" id="standards-hrs-panel" hidden>
+        <div class="standard-body">
+          <h4>1. What HRS standards cover</h4>
+          <p>
+            Hydrogen refueling stations are defined by a combination of station design rules, fueling protocols, nozzle compatibility requirements, hydrogen quality specifications, and approval frameworks. Together, these standards make hydrogen refueling safe, interoperable, and repeatable across real projects.
+          </p>
+
+          <h4>2. Key standards</h4>
+          <ul>
+            <li><strong>ISO 19880 series</strong> — core international framework for gaseous hydrogen refueling stations.</li>
+            <li><strong>ISO 17268</strong> — requirements for hydrogen refueling connection devices, including nozzle and receptacle compatibility.</li>
+            <li><strong>SAE J2601</strong> — fueling protocol for compressed gaseous hydrogen, including limits for pressure, temperature, and fill rate.</li>
+            <li><strong>ISO 13984</strong> — key reference for liquid hydrogen fueling systems and station-to-vehicle interface.</li>
+            <li><strong>ISO 14687</strong> — hydrogen fuel quality standard defining purity and impurity limits.</li>
+            <li><strong>EIGA TB 43</strong> — guidance on secondary identification of hydrogen vehicles at the dispenser to reduce fueling misuse and related risk.</li>
+          </ul>
+
+          <h4>3. Why they matter</h4>
+          <p>
+            These standards define whether an HRS can be approved, whether it can refuel vehicles correctly, whether the hydrogen quality is acceptable, and whether the station can scale from pilot use to real infrastructure deployment.
+          </p>
+          <div class="article-source">
+             <strong>Source</strong>
+             <p>NOW GmbH / RCS – Hydrogen Refueling Stations.</p>
+          </div>
+
+        </div>
+      </div>
+    </article>
+
+    <article class="standard-item card-soft">
+      <button type="button" class="standard-toggle" aria-expanded="false" aria-controls="standards-transport-panel">
+        <span>Transport Standards</span>
+      </button>
+      <div class="standard-panel" id="standards-transport-panel" hidden>
+        <div class="standard-body">
+          <p>Detailed content for hydrogen transport standards will be added here later.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="standard-item card-soft">
+      <button type="button" class="standard-toggle" aria-expanded="false" aria-controls="standards-storage-panel">
+        <span>Storage Standards</span>
+      </button>
+      <div class="standard-panel" id="standards-storage-panel" hidden>
+        <div class="standard-body">
+          <p>Detailed content for hydrogen storage standards will be added here later.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="standard-item card-soft">
+      <button type="button" class="standard-toggle" aria-expanded="false" aria-controls="standards-safety-panel">
+        <span>Safety Standards</span>
+      </button>
+      <div class="standard-panel" id="standards-safety-panel" hidden>
+        <div class="standard-body">
+          <p>Detailed content for hydrogen safety standards will be added here later.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="standard-item card-soft">
+      <button type="button" class="standard-toggle" aria-expanded="false" aria-controls="standards-production-panel">
+        <span>Production Standards</span>
+      </button>
+      <div class="standard-panel" id="standards-production-panel" hidden>
+        <div class="standard-body">
+          <p>Detailed content for hydrogen production standards will be added here later.</p>
+        </div>
+      </div>
+    </article>
   </div>
 </div>
 
@@ -4097,8 +4251,9 @@ The goal is to use each material only inside an operating envelope where its hyd
   expandFromHash();
   window.addEventListener('hashchange', expandFromHash);
 })();
-
-      (function () {
+      
+      
+(function () {
   const toggle = document.querySelector('.workspace-toggle');
   const panel = document.getElementById('academy-workspace-panel');
   if (!toggle || !panel) return;
@@ -4114,6 +4269,31 @@ The goal is to use each material only inside an operating envelope where its hyd
         ? 'Show Practical Hydrogen Engineering Tools'
         : 'Hide Practical Hydrogen Engineering Tools';
     }
+  });
+})();
+(function () {
+  const toggles = document.querySelectorAll('.standard-toggle');
+  if (!toggles.length) return;
+
+  toggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      const panelId = toggle.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : null;
+      if (!panel) return;
+
+      toggles.forEach(otherToggle => {
+        const otherPanelId = otherToggle.getAttribute('aria-controls');
+        const otherPanel = otherPanelId ? document.getElementById(otherPanelId) : null;
+        otherToggle.setAttribute('aria-expanded', 'false');
+        if (otherPanel) otherPanel.hidden = true;
+      });
+
+      if (!isExpanded) {
+        toggle.setAttribute('aria-expanded', 'true');
+        panel.hidden = false;
+      }
+    });
   });
 })();
 
