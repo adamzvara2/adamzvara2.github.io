@@ -2046,6 +2046,11 @@ h2.section-title .thin { font-weight: 200; }
   align-items: start;
 }
 
+#academy.academy-v2 .standard-body--framework {
+  grid-template-columns: minmax(0, 1fr) minmax(430px, 560px);
+  gap: 32px;
+}
+
 #academy.academy-v2 .standard-copy {
   min-width: 0;
   max-width: 78ch;
@@ -2070,6 +2075,43 @@ h2.section-title .thin { font-weight: 200; }
   filter: saturate(0.72) brightness(1.22);
 }
 
+#academy.academy-v2 .standard-media--diagram {
+  position: sticky;
+  top: 96px;
+  padding: 16px;
+  border-radius: 28px;
+  border: 1px solid rgba(116,201,255,0.12);
+  background:
+    radial-gradient(circle at top, rgba(116,201,255,0.14), transparent 56%),
+    linear-gradient(180deg, rgba(8,24,40,0.92), rgba(5,16,27,0.88));
+  box-shadow: 0 16px 36px rgba(0,0,0,0.16);
+  backdrop-filter: blur(10px);
+}
+
+#academy.academy-v2 .standard-media-kicker {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(116,201,255,0.16);
+  background: rgba(116,201,255,0.08);
+  color: #dff3ff;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#academy.academy-v2 .standard-media--diagram img {
+  border-radius: 18px;
+  border: 1px solid rgba(116,201,255,0.10);
+  background: linear-gradient(180deg, #eaf5fd, #dcecf8);
+  padding: 14px;
+  opacity: 1;
+  filter: none;
+  box-shadow: 0 10px 24px rgba(2,10,18,0.18);
+}
+
 @media (max-width: 1180px) {
   #academy.academy-v2 .standard-body--media {
     grid-template-columns: 1fr;
@@ -2080,6 +2122,10 @@ h2.section-title .thin { font-weight: 200; }
     position: static;
     justify-self: start;
     max-width: 820px;
+  }
+
+  #academy.academy-v2 .standard-body--framework {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -4117,7 +4163,7 @@ The goal is to use each material only inside an operating envelope where its hyd
         <span>Hydrogen Safety Standards &#8212; Framework Overview</span>
       </button>
       <div class="standard-panel" id="standards-framework-panel" hidden>
-        <div class="standard-body">
+        <div class="standard-body standard-body--media standard-body--framework">
           <div class="standard-copy" id="standards-framework-overview">
             <h4>Hydrogen Safety Standards: The Framework Behind Every Project</h4>
 
@@ -4142,6 +4188,9 @@ The goal is to use each material only inside an operating envelope where its hyd
             </ul>
             <p>
               Each layer addresses different risks. Together, they form a complete safety structure.
+            </p>
+            <p>
+              The diagram on the right gives a quick map of how hydrogen standardization is distributed across ISO, IEC, CEN, and CENELEC domains, from cross-cutting safety topics to mobility, industry, production, and transmission.
             </p>
 
             <h4>Core Standardization Bodies</h4>
@@ -4200,6 +4249,11 @@ The goal is to use each material only inside an operating envelope where its hyd
               <p>Yang, Y. et al. Development of Standards for Hydrogen Safety, 2020</p>
             </div>
           </div>
+
+          <figure class="standard-media standard-media--diagram">
+            <div class="standard-media-kicker">Standards Landscape</div>
+            <img src="assets/standards/safety-standards-source-blue-crop-soft.png" alt="Overview diagram of ISO, IEC and European hydrogen safety standardization domains" loading="lazy">
+          </figure>
         </div>
       </div>
     </article>
